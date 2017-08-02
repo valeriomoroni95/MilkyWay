@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>MilkyWay</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,8 +54,8 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>Â©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                  <h1><i class="fa fa-paw"></i> MilkyWay</h1>
+                  <p>©2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
                 </div>
               </div>
             </form>
@@ -66,6 +66,12 @@
           <section class="login_content">
             <form>
               <h1>Create Account</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Name" required="" />
+              </div>
+              <div>
+                <input type="text" class="form-control" placeholder="Surname" required="" />
+              </div>
               <div>
                 <input type="text" class="form-control" placeholder="Username" required="" />
               </div>
@@ -90,8 +96,8 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>Â©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                  <h1><i class="fa fa-paw"></i>MilkyWay</h1>
+                  <p>©2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
                 </div>
               </div>
             </form>
