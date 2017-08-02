@@ -1,7 +1,7 @@
 package controller;
 
 import boundary.LoginBean;
-import dao.UtenteDao;
+import dao.UserDao;
 import entity.User;
 
 public class LoginController {
@@ -37,7 +37,7 @@ public class LoginController {
 
 	  
 	    public User login(String username, String password) {
-	        user = UserDao.findByNameAndPassword(username, password);
+	        //user = UserDao.findByNameAndPassword(username, password);
 	        return user;
 	        
 	    }
@@ -46,8 +46,8 @@ public class LoginController {
 	    	this.user = null;
 	    	lb.setUsername("");
 	    	lb.setPassword("");
-	    	lb.setNome("");
-	    	lb.setCognome("");
+	    	lb.setName("");
+	    	lb.setSurname("");
 	    	lb.removeFound();
 	    }
 }

@@ -6,8 +6,8 @@ import controller.LoginController;
 public class LoginBean {
 	private String username;
 	private String password;
-	private String nome;
-	private String cognome;
+	private String name;
+	private String surname;
 	private User found;
 	private String email;
 	private boolean isadmin;
@@ -37,20 +37,20 @@ public class LoginBean {
 		return this.password;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String nome) {
+		this.name = name;
 	}
 
-	public String getNome() {
-		return this.nome;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setCognome(String cogn) {
-		this.cognome = cogn;
+	public void setSurname(String cogn) {
+		this.surname = surname;
 	}
 
-	public String getCognome() {
-		return this.cognome;
+	public String getSurname() {
+		return this.surname;
 	}
 	
 	public void setEmail(String email) {
@@ -76,8 +76,8 @@ public class LoginBean {
 		LoginController controller = LoginController.getInstance(this);
 		found = controller.login(this.username, this.password);
 		if(found != null) {
-			this.nome = found.getNome();
-			this.cognome = found.getCognome();
+			this.name = found.getName();
+			this.surname = found.getSurname();
 			res2 = true;
 		}
 		
