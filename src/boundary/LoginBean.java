@@ -1,13 +1,14 @@
 package boundary;
 
-import entity.Utente;
+import entity.User;
+import controller.LoginController;
 
 public class LoginBean {
 	private String username;
 	private String password;
 	private String nome;
 	private String cognome;
-	private Utente found;
+	private User found;
 	private String email;
 	private boolean isadmin;
 

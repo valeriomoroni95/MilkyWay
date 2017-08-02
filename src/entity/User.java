@@ -1,6 +1,6 @@
 package entity;
 
-public interface Utente {
+public interface User {
 	public String getNome();
 	public String getCognome();
 	public int getTipo();
