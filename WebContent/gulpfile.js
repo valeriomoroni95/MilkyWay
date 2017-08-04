@@ -50,6 +50,7 @@ gulp.task('browser-sync', function() {
 gulp.task('watch', function() {
   // Watch .html files
   gulp.watch('production/*.html', browserSync.reload);
+    gulp.watch('production/*.jsp', browserSync.reload);
   // Watch .js files
   gulp.watch('src/js/*.js', ['scripts']);
   // Watch .scss files

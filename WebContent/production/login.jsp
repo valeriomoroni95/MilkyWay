@@ -39,8 +39,7 @@
                 <input type="password" class="form-control" placeholder="Password" required="" />
               </div>
               <div>
-                <a class="btn btn-default submit" href="index.html">Log in</a>
-                <a class="reset_pass" href="#">Lost your password?</a>
+                <input type="submit" class="btn btn-default submit" value="Login">
               </div>
 
               <div class="clearfix"></div>
@@ -55,7 +54,7 @@
 
                 <div>
                   <h1><i class="fa fa-paw"></i> MilkyWay</h1>
-                  <p>©2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
+                  <p>ï¿½2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
                 </div>
               </div>
             </form>
@@ -83,7 +82,7 @@
               </div>
               <div>
                 <!-- <a class="btn btn-default submit" href="index.html">Submit</a> -->
-                <input class="btn btn-default submit" type="submit" value="submit">  
+                <input class="btn btn-default submit" type="submit" value="Register">  
               </div>
 
               <div class="clearfix"></div>
@@ -98,7 +97,7 @@
 
                 <div>
                   <h1><i class="fa fa-paw"></i>MilkyWay</h1>
-                  <p>©2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
+                  <p>ï¿½2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
                 </div>
               </div>
             </form>
