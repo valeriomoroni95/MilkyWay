@@ -8,8 +8,11 @@ public class Satellite {
 	private Date satelliteStart;
 	private Date satelliteEnd;
 	
-	public Satellite() {
-		
+	public Satellite(int satelliteId, String satelliteName, Date satelliteStart, Date satelliteEnd) {
+		this.satelliteId = satelliteId;
+		this.satelliteName = satelliteName;
+		this.satelliteStart = satelliteStart;
+		this.satelliteEnd = satelliteEnd;
 	}
 	
 	public int getSatelliteId() {
