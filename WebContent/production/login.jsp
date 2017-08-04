@@ -82,7 +82,8 @@
                 <input type="password" class="form-control" placeholder="Password" required="" />
               </div>
               <div>
-                <a class="btn btn-default submit" href="index.html">Submit</a>
+                <!-- <a class="btn btn-default submit" href="index.html">Submit</a> -->
+                <input class="btn btn-default submit" type="submit" value="submit">  
               </div>
 
               <div class="clearfix"></div>
