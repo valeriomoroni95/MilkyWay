@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.SQLException;
+
 import boundary.LoginBean;
 import dao.UserDao;
 import entity.User;
@@ -37,7 +39,11 @@ public class LoginController {
 
 	  
 	    public User login(String username, String password) {
-	        //user = UserDao.findByNameAndPassword(username, password);
+	        try {
+				user = UserDao.findByNameAndPassword(username, password);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	        return user;
 	        
 	    }

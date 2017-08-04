@@ -14,21 +14,21 @@ import entity.User;
 
 public class UserDao {
 
-	private DataSource dataSource;
+	private static DataSource dataSource;
 	
 	//Constructor
 	public UserDao(){
 		dataSource = new DataSource();
 	}
 	
-	public User findByNameAndPassword (String username, String password) throws SQLException {
+	public static User findByNameAndPassword (String username, String password) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		User u = null;
 		try {
 			String select = "SELECT user_id, name, surname, is_admin, mail password FROM user  where user_id = '"
                     + username + "' AND password = '" + password + "';";
-			connection = this.dataSource.getConnection();
+			connection = dataSource.getConnection();
 			statement = connection.prepareStatement(select);
 			ResultSet rs = statement.executeQuery();
 			if (rs == null)
