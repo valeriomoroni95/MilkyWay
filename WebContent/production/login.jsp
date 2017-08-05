@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>MilkyWay</title>
-
-    <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- Animate.css -->
-    <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
-  </head>
-
+  <%@ include file="parts/head.jsp"  %>
   <body class="login">
     <div>
       <a class="hiddenanchor" id="signup"></a>
@@ -61,28 +40,38 @@
           </section>
         </div>
 
-        <div id="register" class="animate form registration_form">
+        <div id="register" class="animate form registration_form" novalidate>
           <section class="login_content">
-            <form>
+            <form action="" method="post" novalidate>
               <h1>Create Account</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Name" required="" />
+              <div class="form-group">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required="required"/>                
               </div>
-              <div>
-                <input type="text" class="form-control" placeholder="Surname" required="" />
+              <div class="form-group">
+                <input type="text" class="form-control" name="surname" placeholder="Surname" required="required"/>
               </div>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+              <div class="form-group">
+                <input type="text" class="form-control" name="username" placeholder="Username"  required="required"/>
               </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
+              <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Email" required="required" />
               </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+              
+              <div class="form-group">
+              	<input type="email" class="form-control" name="confirm_email" placeholder="Confirm Email"  required="required">
               </div>
-              <div>
+              
+              <div class="form-group">
+                <input type="password" class="form-control" name="password" placeholder="Password" required="required" />
+              </div>
+              
+              <div class="form-group">
+                <input type="password" class="form-control" name="confirm_password" placeholder="Password" required="required" />
+              </div>
+              
+              <div class="form-group">
                 <!-- <a class="btn btn-default submit" href="index.html">Submit</a> -->
-                <input class="btn btn-default submit" type="submit" value="Register">  
+                <input class="btn btn-default submit" type="submit" value="Register">
               </div>
 
               <div class="clearfix"></div>
@@ -105,5 +94,8 @@
         </div>
       </div>
     </div>
+    
+    <%@ include file="parts/scripts.jsp" %>
+    
   </body>
 </html>
