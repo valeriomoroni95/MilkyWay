@@ -70,7 +70,6 @@
               </div>
               
               <div class="form-group">
-                <!-- <a class="btn btn-default submit" href="index.html">Submit</a> -->
                 <input class="btn btn-default submit" type="submit" value="Register">
               </div>
 
@@ -94,8 +93,6 @@
         </div>
       </div>
     </div>
-    
     <%@ include file="parts/scripts.jsp" %>
-    
   </body>
 </html>
