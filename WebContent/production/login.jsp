@@ -1,4 +1,27 @@
+<%@page import="boundary.LoginBean"%>
+<%@page import="boundary.RegistrationBean" %>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
+
+<jsp:useBean id="loginBean" scope="session" class="boundary.LoginBean" />
+<jsp:useBean id="registrationBean" scope="session" class="boundary.RegistrationBean" />
+
+<jsp:setProperty name="loginBean" property="*" />
+<jsp:setProperty name="registrationBean" property="*" />
+
+<% 
+	if(request.getParameter("log")!=null){
+		if(loginBean.validate()){
+%>
+	<!-- <jsp:forward page="Menu.jsp"/> ci sarà la pagina di menù principale se loggato con successo -->		
+<%
+		}
+	}
+%>
+
 <html lang="en">
   <%@ include file="parts/head.jsp"  %>
   <body class="login">
@@ -18,7 +41,7 @@
                 <input type="password" class="form-control" placeholder="Password" required="required" />
               </div>
               <div>
-                <input type="submit" class="btn btn-default submit" value="Login">
+                <input name="log" type="submit" class="btn btn-default submit" value="Login">
               </div>
 
               <div class="clearfix"></div>
@@ -71,7 +94,7 @@
               </div>
 
               <div class="form-group">
-                <input class="btn btn-default submit" type="submit" value="Register">
+                <input name="reg" class="btn btn-default submit" type="submit" value="Register">
               </div>
 
               <div class="clearfix"></div>

@@ -1,5 +1,6 @@
 package boundary;
 
+import controller.RegistrationController;
 
 public class RegistrationBean {
 	private String usernamereg;
@@ -47,22 +48,13 @@ public class RegistrationBean {
 		this.emailreg = emailreg;
 	}
 	
-	/*public boolean validate(){
+	public boolean validate(){
 		
 		
 		if(this.usernamereg.equals("")|| this.namereg.equals("") || this.surnamereg.equals("")
 			|| this.passwordreg.equals("") || !this.passwordreg.equals(this.repasswordreg)|| this.emailreg.equals("")){
 			return false;
 		}
-		if(!this.emailreg.contains("@") || !this.emailreg.contains(".")){
-			return false;
-			
-		}
-		
-		if(this.passwordreg.length() < 9){
-			return false;
-		}
-		
 		
 		//controlla che nel database non ci sia un utente con lo stesso nome e stesso tipo 
 		RegistrationController controller = RegistrationController.getInstance();
@@ -72,6 +64,6 @@ public class RegistrationBean {
 		}
 		
 		return true;
-	}*/
+	}
 	
 }
