@@ -283,6 +283,10 @@ if (typeof NProgress != 'undefined') {
 //jQuery validation
 $(document).ready(function () {
 
+	jQuery.validator.addMethod("noSpace", function(value, element) { 
+		 return value.indexOf(" ") < 0 && value != ""; 
+		   }, "No space please and don't leave it empty");
+	
     $('#register form').validate({
         rules:{
             name:{
@@ -293,7 +297,8 @@ $(document).ready(function () {
             },
             username:{
             		required: true,
-            		minlength: 6
+            		minlength: 6,
+            		noSpace: true
             },
             email:{
             		required: true,
@@ -305,12 +310,14 @@ $(document).ready(function () {
             },
             password:{
             		required: true,
-            		minlength: 6
+            		minlength: 6,
+            		noSpace: true
             },
             confirm_password:{
             		required: true,
             		equalTo: "#password",
-            		minlength: 6
+            		minlength: 6,
+            		noSpace: true
             		
             }
         }
