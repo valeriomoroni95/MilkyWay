@@ -12,10 +12,10 @@
             <form>
               <h1>Login Form</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" placeholder="Username" required="required" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" placeholder="Password" required="required" />
               </div>
               <div>
                 <input type="submit" class="btn btn-default submit" value="Login">
@@ -86,7 +86,7 @@
 
                 <div>
                   <h1><i class="fa fa-paw"></i>MilkyWay</h1>
-                  <p>�2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
+                  <p>&copy;2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
                 </div>
               </div>
             </form>
