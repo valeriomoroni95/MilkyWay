@@ -33,7 +33,7 @@
 
                 <div>
                   <h1><i class="fa fa-paw"></i> MilkyWay</h1>
-                  <p>�2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
+                  <p>&copy;2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
                 </div>
               </div>
             </form>
