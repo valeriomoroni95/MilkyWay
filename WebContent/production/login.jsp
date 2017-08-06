@@ -1,5 +1,5 @@
 <%@page import="boundary.LoginBean"%>
-<%@page import="boundary.RegistrationBean" %>
+<%@page import="boundary.SignUpBean" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 
 <jsp:useBean id="loginBean" scope="session" class="boundary.LoginBean" />
-<jsp:useBean id="registrationBean" scope="session" class="boundary.RegistrationBean" />
+<jsp:useBean id="registrationBean" scope="session" class="boundary.SignUpBean" />
 
 <jsp:setProperty name="loginBean" property="*" />
 <jsp:setProperty name="registrationBean" property="*" />
