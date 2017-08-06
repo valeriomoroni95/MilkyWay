@@ -68,6 +68,7 @@ public class LoginBean {
 	public boolean validate() {
 
 		LoginController controller = LoginController.getInstance(this);
+		
 		found = controller.login(this.username, this.password);
 
 		boolean res = false;
