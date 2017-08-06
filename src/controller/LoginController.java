@@ -40,7 +40,7 @@ public class LoginController {
 	  
 	    public User login(String username, String password) {
 	        try {
-				user = UserDao.findByNameAndPassword(username, password);
+				user = UserDao.findByUsernameAndPassword(username, password);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
