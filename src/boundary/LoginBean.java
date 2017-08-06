@@ -66,24 +66,19 @@ public class LoginBean {
 	}
 
 	public boolean validate() {
-		// Controllo sintattico
-		boolean res1=true,res2=false;
-		if (this.username.equals("") || this.password.equals("")) {
-			res1=false;
-		}
-		
-		
+
 		LoginController controller = LoginController.getInstance(this);
 		found = controller.login(this.username, this.password);
+
+		boolean res = false;
+
 		if(found != null) {
 			this.name = found.getName();
 			this.surname = found.getSurname();
-			res2 = true;
+			res = true;
 		}
-		
-		if(res1==true && res2==true)
-			return true;
-		return false;
+
+		return res;
 	}
 	
 }
