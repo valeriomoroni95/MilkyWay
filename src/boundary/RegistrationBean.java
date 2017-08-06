@@ -50,13 +50,6 @@ public class RegistrationBean {
 	
 	public boolean validate(){
 		
-		
-		if(this.usernamereg.equals("")|| this.namereg.equals("") || this.surnamereg.equals("")
-			|| this.passwordreg.equals("") || !this.passwordreg.equals(this.repasswordreg)|| this.emailreg.equals("")){
-			return false;
-		}
-		
-		//controlla che nel database non ci sia un utente con lo stesso nome e stesso tipo 
 		RegistrationController controller = RegistrationController.getInstance();
 		if( !controller.registration(this.usernamereg,this.namereg,this.surnamereg, this.passwordreg, this.emailreg, this.is_Admin)){
 			
