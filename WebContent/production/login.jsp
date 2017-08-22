@@ -16,7 +16,7 @@
 	if(request.getParameter("log")!=null){
 		if(loginBean.validate()){
 %>
-	<!-- <jsp:forward page="Menu.jsp"/> ci sarà la pagina di menù principale se loggato con successo -->		
+	<jsp:forward page="index.html"/> <!-- ci sarà la pagina di menù principale se loggato con successo -->			
 <%
 		}
 	}
