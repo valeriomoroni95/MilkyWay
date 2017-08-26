@@ -13,12 +13,20 @@
 <jsp:setProperty name="registrationBean" property="*" />
 
 <% 
-	if(request.getParameter("log")!=null){
+	String username = request.getParameter("username");
+	String password = request.getParameter("password");
+	
+	if(username != null && password != null){
+		System.out.println("login.jsp: log is NOT NULL: " + username + " " + password);
 		if(loginBean.validate()){
+			System.out.println("login.jsp: loginBean.validate() is TRUE, you are connected");
 %>
 	<jsp:forward page="index.html"/> <!-- ci sarà la pagina di menù principale se loggato con successo -->			
 <%
 		}
+		
+		System.out.println("login.jsp: loginBean.validate() is FALSE, you are NOT connected");
+		
 	}
 %>
 
@@ -35,13 +43,13 @@
             <form>
               <h1>Login Form</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="required" />
+                <input type="text" name="username" class="form-control" placeholder="Username" required="required" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="required" />
+                <input type="password" name="password" class="form-control" placeholder="Password" required="required" />
               </div>
               <div>
-                <input name="log" type="submit" class="btn btn-default submit" value="Login">
+                <input type="submit" class="btn btn-default submit" value="Login">
               </div>
 
               <div class="clearfix"></div>
