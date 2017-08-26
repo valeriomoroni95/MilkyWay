@@ -9,7 +9,6 @@ import entity.AdminUser;
 import entity.CommonUser;
 import entity.User;
 
-
 public class UserDao {
 
     private static DataSource dataSource;
@@ -21,43 +20,48 @@ public class UserDao {
 
     }
 
-    public static User findByUsernameAndPassword(String username, String password) throws SQLException {
+    @SuppressWarnings("unused")
+	public static User findByUsernameAndPassword(String username, String password) throws SQLException {
+    	
+    		System.out.println("UserDao.java: find user by username and password: " +  username + " " + password);
 
         Connection connection = null;
-
         PreparedStatement statement = null;
-
         User user = null;
-
         ResultSet result = null;
 
-        final String query = "SELECT user_id, name, surname, is_admin, mail, password FROM user WHERE user_id = '"
+        final String query = "SELECT * FROM milkyway.public.user WHERE user_id = '"
                 + username + "' AND password = '" + password + "';";
+        
+        System.out.println("UserDao.java: query: " +  query);
 
         try {
 
             connection = dataSource.getConnection();
-
+            
+            System.out.println("UserDao.java: connection from dataSource: " +  connection);
+            
             statement = connection.prepareStatement(query);
-
+            
+            System.out.println("UserDao.java: statement: " +  statement);
+            
             result = statement.executeQuery();
-
+            
             if (result == null) {
+            	
+            		System.out.println("UserDao.java: result is NULL");
 
                 return null;
 
             }else {
+            	
+            		System.out.println("UserDao.java: result is NOT NULL: " + result);
 
                 String name = result.getString("name");
-
                 String surname = result.getString("surname");
-
                 String usernameLoaded = result.getString("user_id");
-
                 String emailLoaded = result.getString("mail");
-
                 boolean is_admin = result.getBoolean("is_admin");
-
                 System.out.println(is_admin);
 
                 if (!is_admin) {
@@ -79,10 +83,14 @@ public class UserDao {
             }
 
         } catch (Exception e) {
+        	
+        		System.out.println("UserDao.java: catch after try");
 
             e.printStackTrace();
 
         } finally {
+        	
+        		System.out.println("UserDao.java: finally");
 
             if (result != null) {
                 result.close();
@@ -96,6 +104,8 @@ public class UserDao {
                 connection.close();
             }
         }
+        
+        System.out.println("UserDao.java: user is" + user);
         
         return user;
     }
@@ -150,7 +160,3 @@ public class UserDao {
          return true;
      }
     }
-    
-    
-
-
