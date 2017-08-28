@@ -20,7 +20,6 @@ public class UserDao {
 
     }
 
-    @SuppressWarnings("unused")
 	public static User findByUsernameAndPassword(String username, String password) throws SQLException {
     	
     		System.out.println("UserDao.java: find user by username and password: " +  username + " " + password);
