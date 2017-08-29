@@ -5068,7 +5068,7 @@ if (typeof NProgress != 'undefined') {
 				 return value.indexOf(" ") < 0 && value != ""; 
 				   }, "No space please and don't leave it empty");
 			
-		    $('#register form').validate({
+		    $('form').validate({
 		        rules:{
 		            name:{
 		                required: true
