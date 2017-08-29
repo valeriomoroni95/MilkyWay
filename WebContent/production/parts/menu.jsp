@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="index.jsp" class="site_title"><i class="fa fa-paw"></i> <span>MilkyWay</span></a>
+            <a href="index.jsp" class="site_title"><i class="fa fa-road"></i> <span>MilkyWay</span></a>
         </div>
 
         <div class="clearfix"></div>
@@ -22,9 +22,11 @@
 
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+        
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
+                
                     <li><a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="users.jsp">All users</a></li>
@@ -32,7 +34,35 @@
                             <li><a href="profile.jsp">Your profile</a></li>
                         </ul>
                     </li>
+                    
+                    <li><a><i class="fa fa-space-shuttle"></i> Satellites <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="satellites.jsp">All satellites</a></li>
+                            <li><a href="add-new-satellite.jsp">Add new</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li><a><i class="fa fa-map-marker"></i> Maps <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="maps.jsp">All maps</a></li>
+                            <li><a href="add-new-map.jsp">Add new</a></li>
+                        </ul>
+                    </li>
 
+					<li><a><i class="fa fa-star"></i> Clumps <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="clumps.jsp">All clumps</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li><a><i class="fa fa-upload"></i> Imports <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="clump-catalogue-import.jsp">Clump catalogue</a></li>
+                            <li><a href="flux-clump-dimension-import.jsp">Flux and clump dimension</a></li>
+                            <li><a href="sources-import.jsp">Sources</a></li>
+                        </ul>
+                    </li>
+                    
                 </ul>
             </div>
           
