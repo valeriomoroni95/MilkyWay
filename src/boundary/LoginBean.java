@@ -21,23 +21,23 @@ public class LoginBean {
 		this.found = null;
 	}
 
-	public void setUsername(String user) {
-		this.username = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getUsername() {
 		return this.username;
 	}
 
-	public void setPassword(String pwd) {
-		this.password = pwd;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getPassword() {
 		return this.password;
 	}
 
-	public void setName(String nome) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -45,7 +45,7 @@ public class LoginBean {
 		return this.name;
 	}
 
-	public void setSurname(String cogn) {
+	public void setSurname(String surname) {
 		this.surname = surname;
 	}
 
