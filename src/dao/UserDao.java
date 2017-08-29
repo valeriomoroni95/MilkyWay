@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import entity.AdminUser;
 import entity.CommonUser;
@@ -25,28 +26,28 @@ public class UserDao {
     		System.out.println("UserDao.java: find user by username and password: " +  username + " " + password);
 
         Connection connection = null;
-        PreparedStatement statement = null;
+        Statement statement = null;
         User user = null;
         ResultSet result = null;
 
-        final String query = "SELECT * FROM milkyway.public.user WHERE user_id = '"
-                + username + "' AND password = '" + password + "';";
+        final String query = "SELECT * FROM \"user\" WHERE \"user_id\" = '"+username+ "' AND \"password\" = '" +password+"';";
         
         System.out.println("UserDao.java: query: " +  query);
 
         try {
-
-            connection = dataSource.getConnection();
+        	
+            DataSource d = new DataSource();
+            connection = d.getConnection();
             
             System.out.println("UserDao.java: connection from dataSource: " +  connection);
             
-            statement = connection.prepareStatement(query);
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             
             System.out.println("UserDao.java: statement: " +  statement);
             
-            result = statement.executeQuery();
+            result = statement.executeQuery(query);
             
-            if (result == null) {
+            if (!result.first()) {
             	
             		System.out.println("UserDao.java: result is NULL");
 
@@ -59,7 +60,7 @@ public class UserDao {
                 String name = result.getString("name");
                 String surname = result.getString("surname");
                 String usernameLoaded = result.getString("user_id");
-                String emailLoaded = result.getString("mail");
+                String emailLoaded = result.getString("email");
                 boolean is_admin = result.getBoolean("is_admin");
                 System.out.println(is_admin);
 
