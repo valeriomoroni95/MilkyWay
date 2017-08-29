@@ -35,6 +35,12 @@
 <!-- bootstrap-daterangepicker -->
 <script src="../vendors/moment/min/moment.min.js"></script>
 <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- jquery validation -->
+<script src="../vendors/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+<!--
 
+//-->
+</script>
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
