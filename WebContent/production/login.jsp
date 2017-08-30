@@ -21,7 +21,7 @@
 		if(loginBean.validate()){
 			System.out.println("login.jsp: loginBean.validate() is TRUE, you are connected");
 %>
-	<jsp:forward page="index.html"/> <!-- ci sarà la pagina di menù principale se loggato con successo -->			
+	<jsp:forward page="index.jsp"/> <!-- ci sarà la pagina di menù principale se loggato con successo -->			
 <%
 		}
 		
