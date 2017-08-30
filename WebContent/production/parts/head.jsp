@@ -28,6 +28,9 @@
     
     <!-- Animate.css -->
     <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+    
+    <!-- Dropzone.js -->
+    <link href="../vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
