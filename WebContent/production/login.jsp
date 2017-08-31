@@ -20,13 +20,13 @@
 		System.out.println("login.jsp: log is NOT NULL: " + username + " " + password);
 		if(loginBean.validate()){
 			System.out.println("login.jsp: loginBean.validate() is TRUE, you are connected");
-%>
-	<jsp:forward page="index.jsp"/> <!-- ci sarà la pagina di menù principale se loggato con successo -->			
-<%
+			HttpSession s = request.getSession();
+			s.setAttribute("isLoggedIn", username + password);
+			System.out.println("login.jsp: Session " + s);
+			response.sendRedirect("index.jsp");
+		}else{
+			System.out.println("login.jsp: loginBean.validate() is FALSE, you are NOT connected");
 		}
-		
-		System.out.println("login.jsp: loginBean.validate() is FALSE, you are NOT connected");
-		
 	}
 %>
 
