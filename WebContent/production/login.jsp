@@ -30,6 +30,25 @@
 	}
 %>
 
+<%
+	String name = request.getParameter("name");
+	String surname = request.getParameter("surname");
+	String user = request.getParameter("username");
+	String email = request.getParameter("email");
+	String confemail = request.getParameter("confemail");
+	String pass = request.getParameter("password");
+	String confpass = request.getParameter("confpass");
+	
+	if(name!=null && surname!=null && user!=null && email!=null && confemail!=null && pass!=null && confpass!=null){
+		System.out.println("signup.jsp: signup is NOT NULL: " + name + " " + surname + " ");
+		if(SignUpBean.validate()){
+			System.out.println("signup.jsp: signup.validate() is TRUE, you are signed up");
+		}
+	}
+%>
+
+
+
 <html lang="en">
   <%@ include file="parts/head.jsp"  %>
   <body class="login">
