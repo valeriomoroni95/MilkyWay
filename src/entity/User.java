@@ -5,4 +5,5 @@ public interface User {
 	public String getSurname();
 	public boolean getAdmin();
 	public String getUsername();
+	public String getEmail();
 }

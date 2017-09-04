@@ -61,6 +61,8 @@ public class LoginController {
 	        	
 				user = UserDao.findByUsernameAndPassword(username, password);
 				
+				System.out.println("LoginController.java: user is " + user);
+				
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -70,6 +72,8 @@ public class LoginController {
 	        return user;
 	        
 	    }
+	    
+	   
 	    
 	    public void removeUser(){
 	    	

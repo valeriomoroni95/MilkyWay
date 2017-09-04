@@ -1,5 +1,7 @@
 <%@page import="boundary.LoginBean"%>
 <%@page import="boundary.SignUpBean" %>
+<%@page import="controller.LoginController" %>
+<%@page import="entity.User" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -16,13 +18,21 @@
 	String username = request.getParameter("username");
 	String password = request.getParameter("password");
 	
+	final User user;
+	
 	if(username != null && password != null){
 		System.out.println("login.jsp: log is NOT NULL: " + username + " " + password);
 		if(loginBean.validate()){
 			System.out.println("login.jsp: loginBean.validate() is TRUE, you are connected");
+			
+			user = loginBean.getUser();
+			
 			HttpSession s = request.getSession();
-			s.setAttribute("isLoggedIn", username + password);
-			System.out.println("login.jsp: Session " + s);
+			s.setAttribute("isLoggedIn", user);
+			s.setAttribute("name", user.getName());
+			s.setAttribute("surname", user.getSurname());
+			s.setAttribute("username", user.getUsername());
+			System.out.println("login.jsp: Session get name" + s.getAttribute("isLoggedIn"));
 			response.sendRedirect("index.jsp");
 		}else{
 			System.out.println("login.jsp: loginBean.validate() is FALSE, you are NOT connected");
@@ -31,20 +41,20 @@
 %>
 
 <%
-	String name = request.getParameter("name");
+	/*String name = request.getParameter("name");
 	String surname = request.getParameter("surname");
 	String user = request.getParameter("username");
 	String email = request.getParameter("email");
 	String confemail = request.getParameter("confemail");
 	String pass = request.getParameter("password");
-	String confpass = request.getParameter("confpass");
+	String confpass = request.getParameter("confpass");*/
 	
-	if(name!=null && surname!=null && user!=null && email!=null && confemail!=null && pass!=null && confpass!=null){
+	/*if(name!=null && surname!=null && user!=null && email!=null && confemail!=null && pass!=null && confpass!=null){
 		System.out.println("signup.jsp: signup is NOT NULL: " + name + " " + surname + " ");
 		if(SignUpBean.validate()){
 			System.out.println("signup.jsp: signup.validate() is TRUE, you are signed up");
 		}
-	}
+	}*/
 %>
 
 

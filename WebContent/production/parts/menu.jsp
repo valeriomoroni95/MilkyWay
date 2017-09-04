@@ -13,7 +13,7 @@
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>Roberto Capannelli</h2>
+                <h2>${name} ${surname} </h2>
             </div>
         </div>
         <!-- /menu profile quick info -->

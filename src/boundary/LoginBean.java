@@ -71,6 +71,8 @@ public class LoginBean {
 		
 		found = controller.login(this.username, this.password);
 
+		System.out.println("LoginBean.java: user is " + found);
+		
 		boolean res = false;
 
 		if(found != null) {
@@ -80,6 +82,10 @@ public class LoginBean {
 		}
 
 		return res;
+	}
+	
+	public User getUser(){
+		return found;
 	}
 	
 }

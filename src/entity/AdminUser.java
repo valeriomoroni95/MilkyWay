@@ -18,7 +18,7 @@ public class AdminUser implements User{
 	public AdminUser(String username, String password, String name, String surname, String email) {
         this.name = name;
         this.surname = surname;
-        this.setUsername(username);
+        this.username = username;
         this.password = password;
         this.email = email;
 	}
@@ -40,6 +40,14 @@ public class AdminUser implements User{
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getEmail(){
+		return email;
+	}
+	
+	public void setEmail(String email){
+		this.email = email;
 	}
 
 }

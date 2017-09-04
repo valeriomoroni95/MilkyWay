@@ -1,18 +1,5 @@
 <!DOCTYPE html>
 
-<%
-HttpSession s = request.getSession();
-
-Object user = s.getAttribute("isLoggedIn");
-
-System.out.println("index.jsp: Session " + s);
-
-if(user == null){
-	response.sendRedirect("login.jsp");
-}
-
-%>
-
 <html lang="en">
   <%@include file="parts/head.jsp" %>
   <body class="nav-md">
