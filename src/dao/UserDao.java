@@ -112,17 +112,17 @@ public class UserDao {
     
     public static boolean SignUpIfNotPresent(String username, String password, String name, String surname, String email, int is_admin) {
     	 
-    	 Connection connection = null;
-         PreparedStatement statement = null;
-         ResultSet result = null;
+    	Connection connection = null;
+        Statement statement = null;
+        ResultSet result = null;
 
-         final String query = "SELECT user_id, is_admin FROM user where user_id = '"
-                 + username + "' AND tipo = '"+ is_admin +"';";
+         final String query = "SELECT \"user_id\", is_admin FROM \"user\" WHERE \"user_id\" = '"        
+                 +username+ " ' AND \"is_admin\" = '"+ is_admin +"';";
          
          try {
              connection = dataSource.getConnection();
-             statement = connection.prepareStatement(query);
-             result = statement.executeQuery();
+             statement = connection.createStatement();
+             result = statement.executeQuery(query);
              
              if (result == null) {
                  return false;
@@ -131,8 +131,8 @@ public class UserDao {
              if(result.first())
             	 return false;
              else {
-                 String sql1 = "INSERT INTO user " + "VALUES ('"+ username +"','"+ password +"','"+ name +"','"+ surname +"','"+ email +"','"+ is_admin + "')" +";";
-                 int rc = statement.executeUpdate(sql1);
+                 String sql1 = "INSERT INTO user VALUES ('"+username+"','"+password+"','"+name+"','"+surname+"','"+email+"','"+is_admin+"')" +";";
+                 statement.executeUpdate(sql1);
              }
              result.close();
              statement.close();

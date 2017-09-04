@@ -42,4 +42,11 @@ public class CommonUser implements User{
 		this.username = username;
 	}
 
+
+	@Override
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
