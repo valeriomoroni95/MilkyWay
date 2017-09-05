@@ -92,8 +92,8 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i> MilkyWay</h1>
-                  <p>&copy;2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
+                  <h1> MilkyWay</h1>
+                  <p>&copy;2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio & Luca.</p>
                 </div>
               </div>
             </form>
@@ -145,8 +145,8 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i>MilkyWay</h1>
-                  <p>&copy;2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio.</p>
+                  <h1>MilkyWay</h1>
+                  <p>&copy;2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio & Luca.</p>
                 </div>
               </div>
             </form>
