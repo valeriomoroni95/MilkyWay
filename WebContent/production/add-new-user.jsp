@@ -12,23 +12,24 @@ String username = request.getParameter("username");
 String email = request.getParameter("email");
 String password = request.getParameter("password");
 
-System.out.println("login.jsp: name: " + name);
-System.out.println("login.jsp: username: " + username);
+System.out.println("add-new-user.jsp: name: " + name);
+System.out.println("add-new-user.jsp: username: " + username);
+
 if(name!=null){
-SignUpBean signUpBean = new SignUpBean();
+	SignUpBean signUpBean = new SignUpBean();
 
-signUpBean.setName(name);
-signUpBean.setSurname(surname);
-signUpBean.setUsername(username);
-signUpBean.setEmail(email);
-signUpBean.setPassword(password);
+	signUpBean.setName(name);
+	signUpBean.setSurname(surname);
+	signUpBean.setUsername(username);
+	signUpBean.setEmail(email);
+	signUpBean.setPassword(password);
 
-if(signUpBean.validate()){
-	System.out.println("signup.jsp: signup.validate() is TRUE, you are signed up");
-}
-else{
-	System.out.println("signup.jsp: signup.validate() is FALSE, you're not signed up");
-}
+	if(signUpBean.validate()){
+		System.out.println("add-new-user.jsp: signup.validate() is TRUE, you are signed up");
+	}
+	else{
+		System.out.println("add-new-user.jsp: signup.validate() is FALSE, you're not signed up");
+	}
 }
 
 %>

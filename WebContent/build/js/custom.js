@@ -5068,6 +5068,21 @@ if (typeof NProgress != 'undefined') {
 				 return value.indexOf(" ") < 0 && value != ""; 
 				   }, "No space please and don't leave it empty");
 			
+			$('form.login').validate({
+				rules:{
+					username:{
+						required: true,
+            				minlength: 6,
+            				noSpace: true
+					},
+					password:{
+						required: true,
+	            			minlength: 6,
+	            			noSpace: true
+					}
+				}
+			});
+			
 		    $('form').validate({
 		        rules:{
 		            name:{
