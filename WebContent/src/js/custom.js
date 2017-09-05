@@ -5033,14 +5033,14 @@ if (typeof NProgress != 'undefined') {
 				 return value.indexOf(" ") < 0 && value != ""; 
 				   }, "No space please and don't leave it empty");
 			
-			$('form.login').validate({
+			$('.login-form').validate({
 				rules:{
-					username:{
+					username_login:{
 						required: true,
             				minlength: 6,
             				noSpace: true
 					},
-					password:{
+					password_login:{
 						required: true,
 	            			minlength: 6,
 	            			noSpace: true
@@ -5048,35 +5048,36 @@ if (typeof NProgress != 'undefined') {
 				}
 			});
 			
-		    $('form').validate({
+			
+		    $('form.register-form').validate({
 		        rules:{
-		            name:{
+		            name_register:{
 		                required: true
 		            },
-		            surname: {
+		            surname_register: {
 		            		required: true
 		            },
-		            username:{
+		            username_register:{
 		            		required: true,
 		            		minlength: 6,
 		            		noSpace: true
 		            },
-		            email:{
+		            email_register:{
 		            		required: true,
 		            		email: true
 		            },
-		            confirm_email:{
+		            email_register_confirm:{
 		            		required: true,
-		            		equalTo: "#email"
+		            		equalTo: "#email_register"
 		            },
-		            password:{
+		            password_register:{
 		            		required: true,
 		            		minlength: 6,
 		            		noSpace: true
 		            },
-		            confirm_password:{
+		            password_register_confirm:{
 		            		required: true,
-		            		equalTo: "#password",
+		            		equalTo: "#password_register",
 		            		minlength: 6,
 		            		noSpace: true
 		            		
