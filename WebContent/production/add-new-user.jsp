@@ -1,3 +1,38 @@
+<%@page import="boundary.SignUpBean" %>
+
+<jsp:useBean id="registrationBean" scope="session" class="boundary.SignUpBean" />
+
+<jsp:setProperty name="registrationBean" property="*" />
+
+<%
+
+String name = request.getParameter("name");
+String surname = request.getParameter("surname");
+String username = request.getParameter("username");
+String email = request.getParameter("email");
+String password = request.getParameter("password");
+
+System.out.println("login.jsp: name: " + name);
+System.out.println("login.jsp: username: " + username);
+if(name!=null){
+SignUpBean signUpBean = new SignUpBean();
+
+signUpBean.setName(name);
+signUpBean.setSurname(surname);
+signUpBean.setUsername(username);
+signUpBean.setEmail(email);
+signUpBean.setPassword(password);
+
+if(signUpBean.validate()){
+	System.out.println("signup.jsp: signup.validate() is TRUE, you are signed up");
+}
+else{
+	System.out.println("signup.jsp: signup.validate() is FALSE, you're not signed up");
+}
+}
+
+%>
+
 <!DOCTYPE html>
 <html lang="en">
   <%@include file="parts/head.jsp" %>
@@ -31,7 +66,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" novalidate>
+                    <form method="post" action="" id="demo-form2" class="form-horizontal form-label-left" novalidate>
                     
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Name <span class="required">*</span>
