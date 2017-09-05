@@ -110,28 +110,33 @@ public class UserDao {
         return user;
     }
     
-    public static boolean SignUpIfNotPresent(String username, String password, String name, String surname, String email, int is_admin) {
+    public static boolean SignUpIfNotPresent(String username, String password, String name, String surname, String email) {
     	 
     	Connection connection = null;
         Statement statement = null;
         ResultSet result = null;
 
-         final String query = "SELECT \"user_id\", is_admin FROM \"user\" WHERE \"user_id\" = '"        
-                 +username+ " ' AND \"is_admin\" = '"+ is_admin +"';";
+         final String query = "SELECT \"user_id\" FROM \"user\" WHERE \"user_id\" = '"+username+"';";
          
          try {
-             connection = dataSource.getConnection();
-             statement = connection.createStatement();
+        	 DataSource d = new DataSource();
+             connection = d.getConnection();
+             System.out.println("UserDao.java: SignUpIfNotPresent.java: sto richiedendo una connessione" + connection);
+             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+             System.out.println("UserDao.java: SignUpIfNotPresent.java: ho preparato una statement" + statement);
              result = statement.executeQuery(query);
+             System.out.println("UserDao.java: SignUpIfNotPresent.java: ho un result" + result);
              
              if (result == null) {
+            	 System.out.println("UserDao.java: errore nel primo if");
                  return false;
 
              }
              if(result.first())
             	 return false;
              else {
-                 String sql1 = "INSERT INTO user VALUES ('"+username+"','"+password+"','"+name+"','"+surname+"','"+email+"','"+is_admin+"')" +";";
+                 String sql1 = "INSERT INTO \"user\" VALUES ('"+username+"','"+name+"','"+surname+"',false,'"+email+"','"+password+"');";
+                 System.out.println("ho fatto la insert " + sql1);
                  statement.executeUpdate(sql1);
              }
              result.close();
