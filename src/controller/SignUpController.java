@@ -1,23 +1,40 @@
 package controller;
 
+import boundary.SignUpBean;
+import dao.UserDao;
+
 public class SignUpController {
-	private static SignUpController instance;
 	
-	public static SignUpController getInstance() {
+	private static SignUpController instance;
+	private SignUpBean sb;
+	private boolean bool;
+	
+	
+	public static synchronized SignUpController getInstance(SignUpBean sb) {
+		
 		if(instance == null) {
-			instance = new SignUpController();
+			instance = new SignUpController(sb);
 		}
 		return instance;
 	}
 	
-	private SignUpController() {
-		
+	private SignUpController(SignUpBean sb) {
+		this.sb = sb;
 	}
 	
-	public boolean SignUp(String username, String password, String name, String surname, String email, Boolean isadmin ) {
+	
+	public boolean SignUp(String username, String password, String name, String surname, String email, boolean is_admin ) {
+		try {
+			bool=UserDao.SignUpIfNotPresent(username, password, name, surname, email);
+			System.out.println("SignUpController.java: user can register? " + bool);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		//this need to be completed, I wrote the return just to avoid the error inside SignUpBean
-		return true;
+		return bool;
 		
 	}
-}
+}		
+		
+		
+	

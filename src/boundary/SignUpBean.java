@@ -7,9 +7,8 @@ public class SignUpBean {
 	private String name;
 	private String surname;
 	private String password;
-	private String repassword;
 	private String email;
-	private boolean is_Admin;
+	private boolean is_admin;
 	
 	public String getUsername() {
 		return username;
@@ -20,7 +19,7 @@ public class SignUpBean {
 	public String getName() {
 		return name;
 	}
-	public void setNomeutente(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public String getSurname() {
@@ -29,12 +28,7 @@ public class SignUpBean {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	public String getRepassword() {
-		return repassword;
-	}
-	public void setRepassword(String repassword) {
-		this.repassword = repassword;
-	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -50,13 +44,15 @@ public class SignUpBean {
 	
 	public boolean validate(){
 		
-		SignUpController controller = SignUpController.getInstance();
-		if( !controller.SignUp(this.username,this.name,this.surname, this.password, this.email, this.is_Admin)){
-			
+		SignUpController controller = SignUpController.getInstance(this);
+		System.out.println("SignUpBean.java: Controller: " + controller);
+		if( !controller.SignUp(this.username,this.password,this.name, this.surname, this.email, this.is_admin)){
+			System.out.println("SignUpBean.java: l'utente non può registrarsi: errore nella validate: " +this.username);
 			return false;
 		}
-		
+		System.out.println("la validate sta ritornando true");
 		return true;
+		
 	}
 	
 }
