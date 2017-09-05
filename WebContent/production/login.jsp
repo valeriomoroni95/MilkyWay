@@ -20,7 +20,7 @@
 	
 	final User user;
 	
-	if(username != null && password != null){
+	if(username != null && username != null){
 		System.out.println("login.jsp: log is NOT NULL: " + username + " " + password);
 		if(loginBean.validate()){
 			System.out.println("login.jsp: loginBean.validate() is TRUE, you are connected");
@@ -43,18 +43,29 @@
 <%
 	/*String name = request.getParameter("name");
 	String surname = request.getParameter("surname");
-	String user = request.getParameter("username");
+	String username = request.getParameter("username");
 	String email = request.getParameter("email");
-	String confemail = request.getParameter("confemail");
-	String pass = request.getParameter("password");
-	String confpass = request.getParameter("confpass");*/
+	String password = request.getParameter("password");
 	
-	/*if(name!=null && surname!=null && user!=null && email!=null && confemail!=null && pass!=null && confpass!=null){
-		System.out.println("signup.jsp: signup is NOT NULL: " + name + " " + surname + " ");
-		if(SignUpBean.validate()){
-			System.out.println("signup.jsp: signup.validate() is TRUE, you are signed up");
-		}
+	System.out.println("login.jsp: name: " + name);
+	System.out.println("login.jsp: username: " + username);
+	if(name!=null){
+	SignUpBean signUpBean = new SignUpBean();
+	
+	signUpBean.setName(name);
+	signUpBean.setSurname(surname);
+	signUpBean.setUsername(username);
+	signUpBean.setEmail(email);
+	signUpBean.setPassword(password);
+	
+	if(signUpBean.validate()){
+		System.out.println("signup.jsp: signup.validate() is TRUE, you are signed up");
+	}
+	else{
+		System.out.println("signup.jsp: signup.validate() is FALSE, you're not signed up");
+	}
 	}*/
+
 %>
 
 
@@ -69,7 +80,7 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form>
+            <form method="POST" action="">
               <h1>Login Form</h1>
               <div>
                 <input type="text" name="username" class="form-control" placeholder="Username" required="required" />
@@ -100,13 +111,13 @@
           </section>
         </div>
 
-        <div id="register" class="animate form registration_form" novalidate>
+        <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form action="" method="post" novalidate>
+            <!--<form method="GET" action="">
 
               <h1>Create Account</h1>
               <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required="required"/>
+                <input type="text" class="form-control" name="name" placeholder="Name" required="required"/>
               </div>
               <div class="form-group">
                 <input type="text" class="form-control" name="surname" placeholder="Surname" required="required"/>
@@ -115,23 +126,22 @@
                 <input type="text" class="form-control" name="username" placeholder="Username"  required="required"/>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required" />
+                <input type="email" class="form-control" name="email" placeholder="Email" required="required" />
+              </div>
+              <div class="form-group">
+              	<input type="email" class="form-control" placeholder="Confirm Email"  required="required">
               </div>
 
               <div class="form-group">
-              	<input type="email" class="form-control" name="confirm_email" placeholder="Confirm Email"  required="required">
+                <input type="password" class="form-control" name="password" placeholder="Password" required="required" />
               </div>
 
               <div class="form-group">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" />
+                <input type="password" class="form-control" placeholder="Confirm Password" required="required" />
               </div>
 
               <div class="form-group">
-                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required" />
-              </div>
-
-              <div class="form-group">
-                <input name="reg" class="btn btn-default submit" type="submit" value="Register">
+                <input type="submit" class="btn btn-default submit" value="Register">
               </div>
 
               <div class="clearfix"></div>
@@ -149,7 +159,7 @@
                   <p>&copy;2017 All Rights Reserved. MilkyWay is a web app developed by Roberto & Valerio & Luca.</p>
                 </div>
               </div>
-            </form>
+            </form>-->
           </section>
         </div>
       </div>
