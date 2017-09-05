@@ -20,5 +20,8 @@ public class Map {
 	public void setMapName(String mapName) {
 		this.mapName = mapName;
 	}
-
+	
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
+	}
 }
