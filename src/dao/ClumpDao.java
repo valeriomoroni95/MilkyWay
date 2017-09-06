@@ -3,6 +3,9 @@ package dao;
 import java.sql.Connection;
 import entity.Clump;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Vector;
 
 public class ClumpDao {
 
@@ -31,5 +34,42 @@ public class ClumpDao {
         	
         }
         return true;
+	}
+	
+	public Vector<Clump> trovaClump() {
+		
+		Connection connection = null;
+		ResultSet result = null;
+		Statement statement = null;
+		Vector<Clump> clumps = new Vector<Clump>();
+		
+		final String query = "SELECT * FROM \"clump\" WHERE \"surf_dens\">0.1 AND \"surf_dens\" <1.0";
+		
+		try {
+        	
+            DataSource d = new DataSource();
+            connection = d.getConnection();
+            
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            result = statement.executeQuery(query);
+            
+            while(result.next()){
+            	Clump clump = new Clump();
+            	clump.setClump_id(result.getInt("id_clump"));
+				clump.setSurf_dens(result.getDouble("surf_dens"));
+				clump.setG_lat(result.getDouble("g_lat"));
+				clump.setG_lon(result.getDouble("g_lon"));
+				clump.setRatio(result.getDouble("ratio"));
+				clump.setK_temp(result.getDouble("k_temp"));
+				clump.setC_type(result.getInt("c_type"));
+				clumps.add(clump);
+
+            }
+            statement.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return clumps;
+
 	}
 }
