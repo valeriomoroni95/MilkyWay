@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import entity.Map;
 
@@ -12,11 +13,11 @@ public class MapDao {
 	
     private static DataSource dataSource;
     
-    public static Map[][] showMaps() throws SQLException {
+    public Vector<Map> showMaps() throws SQLException {
         
         Connection connection = null;
         Statement statement = null;
-        Map[][] maps = {};    
+        Vector<Map> maps = new Vector<Map>();    
         ResultSet result = null;
          
         final String query = "SELECT * FROM \"map\";"; //voglio selezionare id mappa e nome mappa per tutte le mappe
@@ -26,14 +27,43 @@ public class MapDao {
         	connection = d.getConnection();                
         	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
+            
+            while(result.next()){
+            	Map m = new Map(result.getInt("map_id"),result.getString("name"));
+            	maps.add(m);
+            	
+            }
                 
             if (!result.first()) {
                   return null;
+            } 
+            
+         }catch (Exception e){
+        	
+        		System.out.println("MapDao.java: catch after try");
+
+            e.printStackTrace();
+
+        } finally {
+        	
+        		System.out.println("MapDao.java: finally");
+
+            if (result != null) {
+                result.close();
             }
+
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
             
             return maps;
       }
-}
+
       
     
     public static boolean addMap(String mapId, String mapName) {
