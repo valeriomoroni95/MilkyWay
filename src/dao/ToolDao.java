@@ -26,10 +26,11 @@ public class ToolDao {
         	statement.setInt(2, tool.getMapId());
         	statement.executeUpdate();
           
-        	final String query2 = "INSERT INTO \"tool_band\"(tool_name, band_resolution) values (?,?);";
+        	final String query2 = "INSERT INTO \"tool_band\"(tool_name, band_resolution) values (?,?);"; //TODO sistemare statement
+        	statement = connection.prepareStatement(query2);
         	statement.setString(1, tool.getToolName());
         	statement.setDouble(2, tool.getResolution());
-        	statement.executeUpdate(query2);
+        	statement.executeUpdate();
         	statement.close();
         	connection.close();
         

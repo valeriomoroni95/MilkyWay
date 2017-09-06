@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -73,10 +74,11 @@ public class SatelliteDao {
         return null;
 	}
 
-	public static boolean isSatellitePresent(String name, String start, String end){
+	public static boolean isSatellitePresent(String name, String start, String end, Vector<String> tools){
 		
 		Connection connection = null;
         Statement statement = null;
+		PreparedStatement pstatement = null;
         ResultSet result = null;
         
         final String query = "SELECT \"name\" FROM \"satellite\" WHERE \"name\" = '"+name+"';";
@@ -95,11 +97,20 @@ public class SatelliteDao {
             }else {
                 String insert = "INSERT INTO \"satellite\" VALUES ('"+name+"','"+start+"','"+end+"');";
                 statement.executeUpdate(insert);
-            }
-            result.close();
-            statement.close();
-            connection.close();
+                String insert2 = "INSERT INTO \"tool_satellite\"(tool_name, satellite_name) VALUES (?,?);"; //TODO sistemare
+            	 
+                pstatement = connection.prepareStatement(insert2);
+				
+            	for(tool : tools) { 
+            		pstatement.setString(1, tool.getToolName());
+            		pstatement.setString(2, name);
+            		pstatement.executeUpdate();
+            	}
+           		result.close();
+            	statement.close();
+            	connection.close();
             
+            }
         }catch(Exception e){
         	e.printStackTrace();
         } finally {
