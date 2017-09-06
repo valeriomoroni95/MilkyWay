@@ -31,7 +31,7 @@ public class ToolController {
         
 		ToolDao toolDao = new ToolDao();
     
-		tools = ToolDao.showTools();
+		tools = toolDao.showTools();
     
 		return tools;
 	
