@@ -67,14 +67,14 @@ public class SatelliteBean {
 	}
 	
 	public void getSat() throws SQLException {
-		SatelliteController controller = SatelliteController.getInstance();
+		SatelliteController controller = SatelliteController.getInstance(this);
 		this.satellite = controller.getSatellitesList();
 	}
 	
 	public boolean validate(){
 		
 		SatelliteController controller = SatelliteController.getInstance(this);
-		if( !controller.InsertSatellite(this.name, this.start, this.end)){
+		if( !controller.InsertSatellites(this.name, this.start, this.end)){
 			return false;
 		}
 		return true;

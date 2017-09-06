@@ -3,19 +3,23 @@ package controller;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import boundary.SatelliteBean;
 import dao.SatelliteDao;
-import dao.UserDao;
 import entity.Satellite;
 
 public class SatelliteController {
   private static SatelliteController instance;
   
-  private SatelliteController() {
+  private SatelliteController(SatelliteBean sb) {
     
   }
-  public static SatelliteController getInstance() {
+  
+  private SatelliteController() {
+	  
+  }
+  public static synchronized SatelliteController getInstance(SatelliteBean sb) {
     if(instance == null)
-      instance = new SatelliteController();
+      instance = new SatelliteController(sb);
     return instance;
   }
   
