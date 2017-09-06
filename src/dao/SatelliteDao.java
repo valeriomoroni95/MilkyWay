@@ -1,17 +1,16 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import entity.Satellite;
 
 public class SatelliteDao {
-	
-	private static DataSource dataSource;
 	
 	public Vector<Satellite> showSatellites() throws SQLException {
         
@@ -20,23 +19,41 @@ public class SatelliteDao {
         Vector<Satellite> satellites = new Vector<Satellite>();    
         ResultSet result = null;
          
-        final String query = "SELECT * FROM \"satellite\";"; /*per la visualizzazione sul sito di tutti i
-        satelliti; se però ci si vogliono scrivere anche gli strumenti diventa complicatino   */
+        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.satellite_id = ts.satellite_id join tool t on ts.tool_id = t.tool_id order by s.satellite_id  ;"; 
             
         try {                
         	DataSource d = new DataSource();
         	connection = d.getConnection();                
         	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
-                
+            int currentSatId = -1; 
+            String satelliteName = null;
+            String start = null;
+            String end = null;
+            List<String> tools = new ArrayList<String>();
+            Satellite s = null;
+            
             if (!result.first()) {
                   return null;
             }
-            
+             
             while(result.next()) {
-            	Satellite s = new Satellite(result.getInt("satellite_id"), result.getString("satelliteName"), result.getString("satelliteStart"), result.getString("satelliteEnd"));
-            	//TODO cambiare i nomi nelle result.getXxx secondo quelli del db, cambiare tipo di dati nel db "date"-->"string"
-            	satellites.add(s);
+            	
+            	if(currentSatId != result.getInt("satellite_id")) {	
+            		
+            		if (currentSatId != -1) {
+            			s = new Satellite(currentSatId, satelliteName, start, end, tools);
+                    	satellites.add(s);
+            			}
+            		
+            		currentSatId = result.getInt("satellite_id");
+                	satelliteName = result.getString("satelliteName");
+                	start = result.getString("satelliteStart");
+                	end = result.getString("satelliteEnd");
+                	tools = null;
+            	}
+            	
+            	tools.add(result.getString("tool_name"));
             }
             
             return satellites;
