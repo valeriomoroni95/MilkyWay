@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.Vector;
 
 import controller.SatelliteController;
-import controller.SignUpController;
 import entity.Satellite;
 
 public class SatelliteBean {
 	
-	private Vector<Satellite> satellite = new Vector<Satellite>();
+	private Vector<Satellite> satellites = new Vector<Satellite>();
 	private String name;
 	private int id;
 	private String start;
@@ -68,13 +67,13 @@ public class SatelliteBean {
 	
 	public void getSat() throws SQLException {
 		SatelliteController controller = SatelliteController.getInstance(this);
-		this.satellite = controller.getSatellitesList();
+		this.satellites = controller.getSatellitesList();
 	}
 	
 	public boolean validate(){
 		
 		SatelliteController controller = SatelliteController.getInstance(this);
-		if( !controller.InsertSatellites(this.name, this.start, this.end)){
+		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools)){
 			return false;
 		}
 		return true;

@@ -1,9 +1,11 @@
 package entity;
 
 public class Tool {
-
+	
+	
 	private String toolName;
 	private int mapId;
+	private Double[] band;
 	
 	public Tool( String toolName, int mapId) {
 		
@@ -23,4 +25,16 @@ public class Tool {
 		return mapId;
 	}
 	
+	public void setBand(Double resolution, Double lenght) {
+		this.band[0] = resolution;
+		this.band[1] = lenght;
+	}
+	
+	public Double getResolution() {
+		return band[0];
+	}
+	
+	public Double getLenght() {
+		return band[1];
+		}
 }

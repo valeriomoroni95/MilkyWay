@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
 
 import boundary.SatelliteBean;
@@ -34,10 +35,10 @@ public class SatelliteController {
 	
   }
   
-  public boolean InsertSatellites(String name, String start, String end) {
+  public boolean InsertSatellites(String name, String start, String end, List<String> tools) {
 		boolean bool = false;
 		try {
-			bool=SatelliteDao.isSatellitePresent(name, start, end);
+			bool=SatelliteDao.isSatellitePresent(name, start, end, tools);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
