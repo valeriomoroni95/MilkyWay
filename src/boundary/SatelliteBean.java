@@ -1,14 +1,18 @@
 package boundary;
 
 import java.util.List;
+import java.util.Vector;
+
+import entity.Satellite;
 
 public class SatelliteBean {
-
-	private String name;
+	
+	private Vector<Satellite> satellite = new Vector<Satellite>();
+	/*private String name;
 	private int id;
 	private String start;
 	private String duration;
-	private List<String> tools;
+	private List<String> tools;*/
 	
 	public void setName(String name) {
 		this.name = name;
@@ -50,7 +54,10 @@ public class SatelliteBean {
 		return this.tools;
 	}
 	
-	//TODO validate()
+	public void getSat() {
+		SatelliteController controller = SatelliteController.getInstance();
+		this.satellite = controller.getSatellitesList();
+	}
 	
 }
 
