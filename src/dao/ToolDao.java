@@ -28,9 +28,11 @@ public class ToolDao {
           
         	final String query2 = "INSERT INTO \"tool_band\"(tool_name, band_resolution) values (?,?);"; //TODO sistemare statement
         	statement = connection.prepareStatement(query2);
-        	statement.setString(1, tool.getToolName());
-        	statement.setDouble(2, tool.getResolution());
-        	statement.executeUpdate();
+        	for(Double band : tool.getBandList()) {
+        		statement.setString(1, tool.getToolName());
+        		statement.setDouble(2, band);
+        		statement.executeUpdate();
+        	}
         	statement.close();
         	connection.close();
         
