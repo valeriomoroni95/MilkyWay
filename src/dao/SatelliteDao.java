@@ -72,4 +72,52 @@ public class SatelliteDao {
         
         return null;
 	}
+
+	public static boolean isSatellitePresent(String name, String start, String end){
+		
+		Connection connection = null;
+        Statement statement = null;
+        ResultSet result = null;
+        
+        final String query = "SELECT \"name\" FROM \"satellite\" WHERE \"name\" = '"+name+"';";
+		
+        try{
+        	DataSource d = new DataSource();
+            connection = d.getConnection();
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            result = statement.executeQuery(query);
+            if (result == null) {
+                return false;
+            }
+            
+            if(result.first()){
+            	return false;
+            }else {
+                String insert = "INSERT INTO \"satellite\" VALUES ('"+name+"','"+start+"','"+end+"');";
+                statement.executeUpdate(insert);
+            }
+            result.close();
+            statement.close();
+            connection.close();
+            
+        }catch(Exception e){
+        	e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        
+		return true;
+		
+	}
+
 }

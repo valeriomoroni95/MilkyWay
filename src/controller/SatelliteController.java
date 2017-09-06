@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import dao.SatelliteDao;
+import dao.UserDao;
 import entity.Satellite;
 
 public class SatelliteController {
@@ -28,4 +29,19 @@ public class SatelliteController {
 	return satellite;
 	
   }
+  
+  public boolean InsertSatellites(String name, String start, String end) {
+		boolean bool = false;
+		try {
+			bool=SatelliteDao.isSatellitePresent(name, start, end);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bool;
+		
+	}
+  
+  
+  
 }
