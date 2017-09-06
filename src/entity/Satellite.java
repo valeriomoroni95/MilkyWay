@@ -5,7 +5,6 @@ import java.util.List;
 //import java.sql.Date;
 
 public class Satellite {
-	private int satelliteId;
 	private String satelliteName;
 	//private Date satelliteStart;
 	//private Date satelliteEnd;
@@ -14,8 +13,7 @@ public class Satellite {
 	private List<String> tools;
 	private String duration;
 	
-	public Satellite(int satelliteId, String satelliteName, String satelliteStart, String satelliteEnd, List<String> tools) {
-		this.satelliteId = satelliteId;
+	public Satellite(String satelliteName, String satelliteStart, String satelliteEnd, List<String> tools) {
 		this.satelliteName = satelliteName;
 		this.satelliteStart = satelliteStart;
 		this.satelliteEnd = satelliteEnd;
@@ -29,10 +27,6 @@ public class Satellite {
 	}
 	public void setTools(List<String> tools) {
 		this.tools = tools;
-	}
-	
-	public int getSatelliteId() {
-		return satelliteId;
 	}
 	
 	public String getSatelliteName() {

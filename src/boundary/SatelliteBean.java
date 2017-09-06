@@ -15,7 +15,7 @@ public class SatelliteBean {
 	private String start;
 	private String end;
 	private String duration;
-	private List<String> tools;
+	private Vector<String> tools;
 	
 	public void setName(String name) {
 		this.name = name;
@@ -33,7 +33,7 @@ public class SatelliteBean {
 		this.duration = duration;
 	}
 	
-	public void setTools(List<String> tools) {
+	public void setTools(Vector<String> tools) {
 		this.tools = tools;
 	}
 	

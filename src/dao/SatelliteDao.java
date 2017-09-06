@@ -15,7 +15,7 @@ public class SatelliteDao {
 	
 	public Vector<Satellite> showSatellites() throws SQLException {
         
-        Connection connection = null;
+        Connection connection  = null;
         Statement statement = null;
         Vector<Satellite> satellites = new Vector<Satellite>();    
         ResultSet result = null;
@@ -27,8 +27,7 @@ public class SatelliteDao {
         	connection = d.getConnection();                
         	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
-            int currentSatId = -1; 
-            String satelliteName = null;
+            String currSatelliteName = null;
             String start = null;
             String end = null;
             List<String> tools = new ArrayList<String>();
@@ -40,15 +39,14 @@ public class SatelliteDao {
              
             while(result.next()) {
             	
-            	if(currentSatId != result.getInt("satellite_id")) {	
+            	if(currSatelliteName != result.getString("satelliteName")) {	
             		
-            		if (currentSatId != -1) {
-            			s = new Satellite(currentSatId, satelliteName, start, end, tools);
+            		if (currSatelliteName != null) {
+            			s = new Satellite(currSatelliteName, start, end, tools);
                     	satellites.add(s);
             			}
             		
-            		currentSatId = result.getInt("satellite_id");
-                	satelliteName = result.getString("satelliteName");
+                	currSatelliteName = result.getString("satelliteName");
                 	start = result.getString("satelliteStart");
                 	end = result.getString("satelliteEnd");
                 	tools = null;
@@ -101,8 +99,8 @@ public class SatelliteDao {
             	 
                 pstatement = connection.prepareStatement(insert2);
 				
-            	for(tool : tools) { 
-            		pstatement.setString(1, tool.getToolName());
+            	for(String tool : tools) { //TODO fix!
+            		pstatement.setString(1, tool);
             		pstatement.setString(2, name);
             		pstatement.executeUpdate();
             	}
