@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import entity.Satellite;
@@ -31,7 +29,7 @@ public class SatelliteDao {
             String currSatelliteName = null;
             String start = null;
             String end = null;
-            List<String> tools = new ArrayList<String>();
+            Vector<String> tools = new Vector<String>();
             Satellite s = null;
             
             if (!result.first()) {

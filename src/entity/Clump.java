@@ -10,6 +10,20 @@ public class Clump {
 	private double surf_dens;
 	private int c_type;
 	
+	public Clump(int clump_id, double g_lon, double g_lat, double k_temp, double ratio, double surf_dens, int c_type){
+		this.clump_id = clump_id;
+		this.g_lon = g_lon;
+		this.g_lat = g_lat;
+		this.k_temp = k_temp;
+		this.ratio = ratio;
+		this.surf_dens = surf_dens;
+		this.c_type = c_type;
+		
+	}
+	
+	public Clump(){
+		
+	}
 	public int getClump_id() {
 		return clump_id;
 	}
