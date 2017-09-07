@@ -5084,7 +5084,7 @@ if (typeof NProgress != 'undefined') {
 			});
 			
 			
-		    $('form.register-form').validate({
+		    $('.register-form').validate({
 		        rules:{
 		            name_register:{
 		                required: true
@@ -5119,6 +5119,16 @@ if (typeof NProgress != 'undefined') {
 		            }
 		        }
 		    });
+		    
+		    $('.new-satellite-form').validate({
+		    		rules:{
+		    			satellite_name : {
+		    				required: true
+		    			}
+		    		}
+		    });
+		    
+		    
 		});
 	   
 	$(document).ready(function() {
