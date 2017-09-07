@@ -15,16 +15,32 @@
 	String start = request.getParameter("satellite_start");
 	String end = request.getParameter("satellite_end");
 	String[] agencies = request.getParameterValues("agency");
-	Vector<String> vector = new Vector<String>();
+	String[] tools = request.getParameterValues("tool");
+	
+	Vector<String> vectorAgencies = new Vector<String>();
+	Vector<String> vectorTools = new Vector<String>();
 	
 	if(agencies != null){
 		for(String agency: agencies){
-			vector.addElement(agency);
+			vectorAgencies.addElement(agency);
 			System.out.println("Agency: " + agency);
 		}
 	}
 	
+	if(tools != null){
+		for(String tool: tools){
+			vectorTools.addElement(tool);
+			System.out.println("Tool: " + tool);
+		}
+	}
+	
 	SatelliteBean satelliteBean = new SatelliteBean();
+	
+	satelliteBean.setName(name);
+	satelliteBean.setStart(start);
+	satelliteBean.setEnd(end);
+	satelliteBean.setAgencies(vectorAgencies);
+	satelliteBean.setTools(vectorTools);
 	
 	if(satelliteBean.validate()){
 		System.out.println("add_new_satellite.jsp: validate TRUE");
@@ -32,8 +48,6 @@
 		System.out.println("add_new_satellite.jsp: validate FALSE");
 	}
 		
-	System.out.println(name + " " + start + " " + end + " " + vector);
-
 %>
 
 
@@ -121,6 +135,41 @@
 
                             </div>
                         </div>
+                        
+                        
+                        <div class="form-group">
+
+                            <label class="col-md-3 col-sm-3 col-xs-12 control-label">Tools</label>
+
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="tool" value="PACS" class="flat"> PACS
+                                    </label>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="tool" value="SPIRE" class="flat"> SPIRE
+                                    </label>
+                                </div>
+                                
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="tool" value="IRAC" class="flat"> IRAC
+                                    </label>
+                                </div>
+                                
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="tool" value="MIPS" class="flat"> MIPS
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        
 
 
                         <div class="ln_solid"></div>
