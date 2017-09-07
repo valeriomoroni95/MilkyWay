@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import boundary.SatelliteBean;
+import dao.AgencyDao;
 import dao.SatelliteDao;
 import dao.ToolDao;
+import entity.Agency;
 import entity.Satellite;
 
 public class SatelliteController {
@@ -42,6 +44,13 @@ public class SatelliteController {
 	    tools = toolDao.showToolNames();
 	    return tools;
   }
+  
+  public Vector<Agency> getAgencies() throws SQLException{
+	    Vector<Agency> agencies = new Vector<Agency>();
+	    AgencyDao agencyDao = new AgencyDao();
+	    agencies = agencyDao.showAgencies();
+	    return agencies;
+  	}
   
   public boolean InsertSatellites(String name, String start, String end, Vector<String> tools, Vector<String> agencies) {
 		boolean bool = false;

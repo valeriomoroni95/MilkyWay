@@ -4,19 +4,23 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import controller.SatelliteController;
+import entity.Agency;
 import entity.Satellite;
 
 public class SatelliteBean {
 	
-	private Vector<Satellite> satellites = new Vector<Satellite>();
+	private Vector<Satellite> satellites;
 	private String name;
 	private int id;
 	private String start;
 	private String end;
 	private String duration;
 	private Vector<String> tools;
-	private Vector<String> agencies;
-	
+	private Vector<String> allTools;
+
+	private Vector<String> agencyNames;
+	private Vector<Agency> agencies;
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -37,9 +41,10 @@ public class SatelliteBean {
 		this.tools = tools;
 	}
 	
-	public void setAgencies(Vector<String> agencies) {
-		this.agencies = agencies;
+	public void setAgenciesNames(Vector<String> agencies) {
+		this.agencyNames = agencies;
 	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -69,7 +74,7 @@ public class SatelliteBean {
 	}
 	
 	public Vector<String> getAgencies(){
-		return this.agencies;
+		return this.agencyNames;
 	}
 	
 	public void getSat() throws SQLException {
@@ -77,11 +82,21 @@ public class SatelliteBean {
 		this.satellites = controller.getSatellitesList();
 	}
 	
+	public void getAgenciesList() throws SQLException {
+		SatelliteController controller = SatelliteController.getInstance(this);
+		this.agencies = controller.getAgencies();
+	}
+	
+	public void getToolsList() throws SQLException {
+		SatelliteController controller = SatelliteController.getInstance(this);
+		this.allTools = controller.getTools();
+	}
+	
 	public boolean validate(){
-		System.out.println("SatelliteBean.java: validate(): " + name + start + end + tools + agencies);
+		System.out.println("SatelliteBean.java: validate(): " + name + start + end + tools + agencyNames);
 		SatelliteController controller = SatelliteController.getInstance(this);
 		System.out.println("SatelliteBean.java: validate() controller: " + controller);
-		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools, this.agencies)){
+		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools, this.agencyNames)){
 			System.out.println("SatelliteBean.java: validate() !controller.InsertSatellites FALSE");
 			return false;
 		}
