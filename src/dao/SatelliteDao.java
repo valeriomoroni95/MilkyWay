@@ -18,8 +18,8 @@ public class SatelliteDao {
         Vector<Satellite> satellites = new Vector<Satellite>();    
         ResultSet result = null;
          
-        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.satellite_id = ts.satellite_id "+
-        			"join tool t on ts.tool_id = t.tool_id order by s.satellite_id  ;"; 
+        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.satellite_name = ts.satellite_name "+
+        			"join tool t on ts.tool_name = t.tool_name order by s.satellite_name  ;"; 
             
         try {
         	
