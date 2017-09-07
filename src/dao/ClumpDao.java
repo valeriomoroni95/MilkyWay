@@ -4,6 +4,7 @@ import java.sql.Connection;
 import entity.Clump;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
@@ -36,7 +37,7 @@ public class ClumpDao {
         return true;
 	}
 	
-	public Vector<Clump> trovaClump() {
+	public Vector<Clump> findMassiveStar() {
 		
 		Connection connection = null;
 		ResultSet result = null;
@@ -72,4 +73,149 @@ public class ClumpDao {
 		return clumps;
 
 	}
+	
+	public Vector<String[]> findClumpInMap (String map,Float band){ 
+    	Vector<String[]> v = null;
+    	Connection connection = null;
+        ResultSet result = null;
+		v = new Vector<String[]>();
+
+        String query = "SELECT DISTINCT c.clump_id, fc.value, fc.error FROM clump c join flux_clump fc on" +
+        				"c.clump_id = fc.clump_id join map m on c.map_id = m.map_id WHERE m.map_name = '" + map + "' "; 
+        if(band != null)
+        		 query = query + "AND fc.band_resolution = ?";
+        			        
+        	query = query + ";";
+        	
+    	try { //TODO check || NB: è per il requisito 5
+		
+    		DataSource d = new DataSource();
+        	connection = d.getConnection();
+        	PreparedStatement pStatement = connection.prepareStatement(query);
+        	Double dband = Double.parseDouble(Float.toString(band));
+        	pStatement.setDouble(1,dband);
+        	result = pStatement.executeQuery(query);
+    		}
+				catch (SQLException se) {
+					se.printStackTrace();				}
+    		catch(Exception e) {
+    				e.printStackTrace();
+      		} 
+		
+				String[] s = new String[5];
+		    	try {
+		    		while(result.next()){
+		    			s[0] = Integer.toString(result.getInt("clump_id"));
+		    			s[1] = Double.toString(result.getDouble("value")); 
+		    			s[2] = Double.toString(result.getDouble("error"));
+		    			s[3] = Double.toString(result.getDouble("g_lat"));
+		    			s[4] = Double.toString(result.getDouble("g_lon"));
+
+		    			//TODO salvare anche posizione spaziale? 
+		    			v.add(s);
+		    		}
+		    	}
+		    	catch (SQLException e1) {
+		    		e1.printStackTrace();
+		    	}
+		 	 return v;
+	}
+
+
+	public Vector<Clump> showClumps() throws SQLException{
+		
+		Connection connection  = null;
+        Statement statement = null;
+        Vector<Clump> clumps = new Vector<Clump>();    
+        ResultSet result = null;
+         
+        final String query = "SELECT * FROM \"clump\";"; 
+            
+        try {                
+        	DataSource d = new DataSource();
+        	connection = d.getConnection();                
+        	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            result = statement.executeQuery(query);
+            
+            
+            if (!result.first()) {
+                  return null;
+            }
+            while(result.next()){
+            	Clump c = new Clump(result.getInt("clump_id"),result.getDouble("g_lon"),result.getDouble("g_lat"),result.getDouble("k_temp"),result.getDouble("ratio"),result.getDouble("surf_dens"),result.getInt("c_type"));
+            	clumps.add(c);
+            	
+            }
+             
+                       
+            return clumps;
+        
+        } catch(Exception e) {
+    	  System.out.println("SatelliteDao.java: catch after try");
+          } finally {
+        	  System.out.println("SatelliteDao.java: finally");
+        	  if(result != null)
+        		  result.close();
+        	  if(statement != null)
+        		  statement.close();
+        	  if(connection != null)
+        		  connection.close();
+          }
+        
+        return null;
+
+	}
 }
+
+/*	 QUESTO VA NEL SOURCEDAO
+ * 
+ * 
+ * 
+ * 
+ * public Vector<String[]> findSourceInMap (String map,Float band){ 
+	Vector<String[]> v = null;
+	Connection connection = null;
+    ResultSet result = null;
+	v= new Vector<String[]>();
+
+    String query = "SELECT DISTINCT s.source_id, fs.value, fs.error FROM source s join flux_source fs on" +
+    				"s.source_id = fs.source_id join map m on m.map_id = s.map_id WHERE m.map_name = '"+map+"' ";
+    if(band != null)
+    		 query = query + "AND sf.band_resolution = ?"; //da inserire, è un double/float
+    			        
+    	query = query + ";";
+    	
+	try { //TODO check || NB: è per il requisito 5
+	
+		DataSource d = new DataSource();
+    	connection = d.getConnection();
+    	PreparedStatement pStatement = connection.prepareStatement(query);
+    	Double dband = Double.parseDouble(Float.toString(band));
+    	pStatement.setDouble(1,dband);
+    	result = pStatement.executeQuery(query);
+		}
+			catch (SQLException se) {
+				//errore etc
+			}
+		catch(Exception e) {
+				System.out.println("ToolDao.java: catch after try");
+  		} 
+	
+			String[] s = new String[5];
+	    	try {
+	    		while(result.next()){
+	    			s[0] = result.getString("source_mapcode"); 
+	    			s[1] = Double.toString(result.getDouble("value")); //si fa col toString?
+	    			s[2] = Double.toString(result.getDouble("error"));
+	    			s[3] = Double.toString(result.getDouble("g_lat"));
+	    			s[4] = Double.toString(result.getDouble("g_lon"));
+		    	//TODO salvare anche posizione spaziale? 
+	    			v.add(s);
+	    		}
+	    	}
+	    	catch (SQLException e1) {
+	    		e1.printStackTrace();
+	    	}
+	 	 return v;
+	
+}*/	

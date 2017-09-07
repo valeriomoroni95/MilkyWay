@@ -1,6 +1,11 @@
 package controller;
 
+import java.sql.SQLException;
+import java.util.Vector;
+
 import boundary.ClumpBean;
+import dao.ClumpDao;
+import entity.Clump;
 
 
 public class ClumpController {
@@ -20,6 +25,15 @@ public class ClumpController {
 	    return instance;
 	  }
 	  
-	  
+	  public Vector<Clump> getClumpList() throws SQLException{
+		    Vector<Clump> clump = new Vector<Clump>();
+		        
+		    ClumpDao clumpDao = new ClumpDao();
+		    
+		    clump = clumpDao.showClumps();
+		    
+			return clump;
+			
+		  }
 
 }
