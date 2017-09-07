@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import boundary.SatelliteBean;
 import dao.SatelliteDao;
+import dao.ToolDao;
 import entity.Satellite;
 
 public class SatelliteController {
@@ -33,6 +34,13 @@ public class SatelliteController {
     
 	return satellite;
 	
+  }
+  
+  public Vector<String> getTools() throws SQLException{
+	    Vector<String> tools = new Vector<String>();
+	    ToolDao toolDao = new ToolDao();
+	    tools = toolDao.showToolNames();
+	    return tools;
   }
   
   public boolean InsertSatellites(String name, String start, String end, Vector<String> tools, Vector<String> agencies) {

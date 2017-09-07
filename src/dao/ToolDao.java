@@ -48,14 +48,14 @@ public class ToolDao {
 	}
 	
 	
-public Vector<Tool> showTools() throws SQLException {
+public Vector<String> showToolNames() throws SQLException {
         
         Connection connection = null;
         Statement statement = null;
-        Vector<Tool> tools = new Vector<Tool>();    
+        Vector<String> toolNames = new Vector<String>();    
         ResultSet result = null;
          
-        final String query = "SELECT * FROM \"tool\";"; 
+        final String query = "SELECT tool_name FROM \"tool\";"; 
         
         try {                
         	DataSource d = new DataSource();
@@ -64,8 +64,7 @@ public Vector<Tool> showTools() throws SQLException {
             result = statement.executeQuery(query);
             
             while(result.next()){
-            	Tool t = new Tool(result.getString("name"),result.getInt("map"));
-            	tools.add(t);
+            	toolNames.add(result.getString("tool_name"));
             	
             }
                 
@@ -96,9 +95,59 @@ public Vector<Tool> showTools() throws SQLException {
             }
         }
             
-            return tools;
-      }
+            return toolNames;
+   }
 
+public Vector<Tool> showTools() throws SQLException {
+    
+    Connection connection = null;
+    Statement statement = null;
+    Vector<Tool> tools = new Vector<Tool>();    
+    ResultSet result = null;
+     
+    final String query = "SELECT * FROM \"tool\";"; 
+    
+    try {                
+    	DataSource d = new DataSource();
+    	connection = d.getConnection();                
+    	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        result = statement.executeQuery(query);
+        
+        while(result.next()){
+        	Tool t = new Tool(result.getString("name"),result.getInt("map"));
+        	tools.add(t);
+        	
+        }
+            
+        if (!result.first()) {
+              return null;
+        } 
+        
+     }catch (Exception e){
+    	
+    		System.out.println("ToolDao.java: catch after try");
+
+        e.printStackTrace();
+
+    } finally {
+    	
+    		System.out.println("ToolDao.java: finally");
+
+        if (result != null) {
+            result.close();
+        }
+
+        if (statement != null) {
+            statement.close();
+        }
+
+        if (connection != null) {
+            connection.close();
+        }
+    }
+        
+        return tools;
+}
 
 public static boolean isToolPresent(String name, int mapId, Vector<Double> bands) {
 	
