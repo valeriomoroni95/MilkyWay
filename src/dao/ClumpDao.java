@@ -120,7 +120,15 @@ public class ClumpDao {
 		 	 return v;
 	}
 	
-public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
+	/*public Vector<String[]> showClumpsById(int clump_id) {       
+		
+		PreparedStatement statement = null;
+		Connection connection = null;
+		ResultSet result = null;
+		
+	}*/
+	
+	public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
 		
 		//permette di cercare i clump che si trovano in un cerchio o un quadrato centrato in latitude, longitude
 		// e con raggio/cateto di lunghezza lenght. Se cerco in un cerchio isCircle = true, rettangolo false

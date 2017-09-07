@@ -60,6 +60,7 @@ public class ShowObjectBean {
 	public void importMapNames() throws SQLException { //serve per far scegliere tra i nomi delle varie mappe
 		ShowObjectController controller = ShowObjectController.getInstance(this);
 		this.mapNames = controller.getMapNames();
+		
 		}
 	
 }

@@ -2,8 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 import java.util.Vector;
-
-import boundary.ClumpBean;
+import boundary.ShowMassiveStarBean;
 import dao.ClumpDao;
 import entity.Clump;
 
@@ -12,21 +11,21 @@ public class ClumpController {
 	
 	private static ClumpController instance;
 	  
-	  private ClumpController(ClumpBean cb) {
+	  private ClumpController(ShowMassiveStarBean msb) {
 	    
 	  }
 	  
 	  private ClumpController() {
 		  
 	  }
-	  public static synchronized ClumpController getInstance(ClumpBean cb) {
+	  public static synchronized ClumpController getInstance(ShowMassiveStarBean msb) {
 	    if(instance == null)
-	      instance = new ClumpController(cb);
+	      instance = new ClumpController(msb);
 	    return instance;
 	  }
 	  
-	  public Vector<Clump> getClumpList() throws SQLException{
-		    Vector<Clump> clump = new Vector<Clump>();
+	  /*public Vector<Clump> getClumpList() throws SQLException{  //TODO va creato il metodo showClumps nel clump dao
+		    Vector<Clump> clump = new Vector<Clump>();            
 		        
 		    ClumpDao clumpDao = new ClumpDao();
 		    
@@ -34,6 +33,15 @@ public class ClumpController {
 		    
 			return clump;
 			
-		  }
+		  }*/
+	  
+	  public Vector<Clump> getMassiveStars() {
+		 
+		  Vector<Clump> clump = new Vector<Clump>();           
+		  ClumpDao clumpDao = new ClumpDao();
+		  clump = clumpDao.findMassiveStar();
+		    
+		  return clump;
+	  }
 
 }
