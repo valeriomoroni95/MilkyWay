@@ -17,7 +17,7 @@ public class SatelliteBean {
 	private String duration;
 	private Vector<String> tools;
 	private Vector<String> allTools;
-	private Vector<String> agencyNames;
+	private Vector<String> agencyIds;
 	private Vector<Agency> agencies;
 	
 	
@@ -29,8 +29,8 @@ public class SatelliteBean {
 		this.satellites = satellites;
 	}
 
-	public void setAgencyNames(Vector<String> agencyNames) {
-		this.agencyNames = agencyNames;
+	public void setAgencyNames(Vector<String> agencyIds) {
+		this.agencyIds = agencyIds;
 	}
 
 	public Vector<String> getAllTools() {
@@ -70,7 +70,7 @@ public class SatelliteBean {
 	}
 	
 	public void setAgenciesNames(Vector<String> agencies) {
-		this.agencyNames = agencies;
+		this.agencyIds = agencies;
 	}
 	
 	public String getName() {
@@ -101,8 +101,8 @@ public class SatelliteBean {
 		return this.tools;
 	}
 	
-	public Vector<String> getAgencyNames(){
-		return this.agencyNames;
+	public Vector<String> getAgencyIds(){
+		return this.agencyIds;
 	}
 	
 	public void importSatellitesList() throws SQLException {
@@ -121,10 +121,10 @@ public class SatelliteBean {
 	}
 	
 	public boolean validate(){
-		System.out.println("SatelliteBean.java: validate(): " + name + start + end + tools + agencyNames);
+		System.out.println("SatelliteBean.java: validate(): " + name + start + end + tools + agencyIds);
 		SatelliteController controller = SatelliteController.getInstance(this);
 		System.out.println("SatelliteBean.java: validate() controller: " + controller);
-		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools, this.agencyNames)){
+		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools, this.agencyIds)){
 			System.out.println("SatelliteBean.java: validate() !controller.InsertSatellites FALSE");
 			return false;
 		}

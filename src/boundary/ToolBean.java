@@ -19,13 +19,29 @@ public class ToolBean {
 		this.name = name;
 	}
 	
-	public void setMapId(int mapName) {
+	public void setMapId(int mapId) {
 		this.mapId = mapId;
 	}
 	public void setBands(Vector<Double> bands) {
 		this.bands = bands;
 	}
 	
+	public Vector<Tool> getTools() {
+		return tools;
+	}
+
+	public void setTools(Vector<Tool> tools) {
+		this.tools = tools;
+	}
+
+	public Vector<Map> getMaps() {
+		return maps;
+	}
+
+	public void setMaps(Vector<Map> maps) {
+		this.maps = maps;
+	}
+
 	public String getName() {
 		return this.name;
 	}
@@ -42,7 +58,7 @@ public class ToolBean {
 		return this.tools;
 	}*/
 	
-	public void getTools() throws SQLException {
+	public void importTools() throws SQLException {
 		ToolController controller = ToolController.getInstance(this);
 		this.tools = controller.getToolsList();
 		this.maps = controller.getMapsList();
