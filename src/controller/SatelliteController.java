@@ -28,13 +28,19 @@ public class SatelliteController {
   
   public Vector<Satellite> getSatellitesList() throws SQLException{
 	  
-    Vector<Satellite> satellite = new Vector<Satellite>();
+    Vector<Satellite> satellites = new Vector<Satellite>();
+    
+    System.out.println("SatelliteController.java: getSatellitesList Vector" + satellites);
         
     SatelliteDao satelliteDao = new SatelliteDao();
     
-    satellite = satelliteDao.showSatellites();
+    System.out.println("SatelliteController.java: getSatellitesList satelliteDao" + satelliteDao);
     
-	return satellite;
+    satellites = satelliteDao.showSatellites();
+    
+    System.out.println("SatelliteController.java: getSatelliteList() satellite " + satellites);
+    
+	return satellites;
 	
   }
   

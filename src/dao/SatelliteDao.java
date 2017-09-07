@@ -18,17 +18,28 @@ public class SatelliteDao {
         Vector<Satellite> satellites = new Vector<Satellite>();    
         ResultSet result = null;
          
-        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.satellite_name = ts.satellite_name "+
-        			"join tool t on ts.tool_name = t.tool_name order by s.satellite_name  ;"; 
+        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
+        			"join tool t on ts.tool_name = t.tool_name;"; 
             
+        System.out.println("SatelliteDao.java: query " + query);
+        
         try {
         	
+    			System.out.println("SatelliteDao.java: try start");
+
         		DataSource d = new DataSource();
         		
-        		connection = d.getConnection();                
+        		System.out.println("SatelliteDao.java: dataSource " + d);
+        		
+        		connection = d.getConnection();
+        		System.out.println("SatelliteDao.java: connection " + connection);
         		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        		System.out.println("SatelliteDao.java: statement " + statement);
+
         		result = statement.executeQuery(query);
             
+        		System.out.println("SatelliteDao.java: result " + result);
+        		
             String currSatelliteName = null;
             String start = null;
             String end = null;
@@ -36,17 +47,30 @@ public class SatelliteDao {
             Satellite s = null;
             
             if (!result.first()) {
-                  return null;
+            	
+        			System.out.println("SatelliteDao.java: if !result.first -> null");
+
+        			return null;
             }
              
             while(result.next()) {
+            	
+        			System.out.println("SatelliteDao.java: result.next() " + result.next());
+
             	
             		if(currSatelliteName != result.getString("satelliteName")) {	
             		
             			if (currSatelliteName != null) {
             				
             				s = new Satellite(currSatelliteName, start, end, tools);
+            				
+                    		System.out.println("SatelliteDao.java: new satellite " + s);
+
+            				
             				satellites.add(s);
+            				
+                    		System.out.println("SatelliteDao.java: satellite result list " + satellites);
+
             				
             			}
             		

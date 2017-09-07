@@ -22,6 +22,9 @@ public class SatelliteBean {
 	
 	
 	public Vector<Satellite> getSatellites() {
+		
+		System.out.println("SatelliteBean.java: getSatellites() " + satellites);
+		
 		return satellites;
 	}
 
@@ -107,7 +110,12 @@ public class SatelliteBean {
 	
 	public void importSatellitesList() throws SQLException {
 		SatelliteController controller = SatelliteController.getInstance(this);
+		
+		System.out.println("SatlliteBean.java: importSatelliteList() controller " + controller);
+		
 		this.satellites = controller.getSatellitesList();
+		
+		System.out.println("SatlliteBean.java: importSatelliteList() this.satellites " + this.satellites);
 	}
 	
 	public void importAgenciesList() throws SQLException {
