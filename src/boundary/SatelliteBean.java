@@ -17,9 +17,37 @@ public class SatelliteBean {
 	private String duration;
 	private Vector<String> tools;
 	private Vector<String> allTools;
-
 	private Vector<String> agencyNames;
 	private Vector<Agency> agencies;
+	
+	
+	public Vector<Satellite> getSatellites() {
+		return satellites;
+	}
+
+	public void setSatellites(Vector<Satellite> satellites) {
+		this.satellites = satellites;
+	}
+
+	public void setAgencyNames(Vector<String> agencyNames) {
+		this.agencyNames = agencyNames;
+	}
+
+	public Vector<String> getAllTools() {
+		return allTools;
+	}
+
+	public void setAllTools(Vector<String> allTools) {
+		this.allTools = allTools;
+	}
+
+	public Vector<Agency> getAgencies() {
+		return agencies;
+	}
+
+	public void setAgencies(Vector<Agency> agencies) {
+		this.agencies = agencies;
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -73,21 +101,21 @@ public class SatelliteBean {
 		return this.tools;
 	}
 	
-	public Vector<String> getAgencies(){
+	public Vector<String> getAgencyNames(){
 		return this.agencyNames;
 	}
 	
-	public void getSat() throws SQLException {
+	public void importSatellitesList() throws SQLException {
 		SatelliteController controller = SatelliteController.getInstance(this);
 		this.satellites = controller.getSatellitesList();
 	}
 	
-	public void getAgenciesList() throws SQLException {
+	public void importAgenciesList() throws SQLException {
 		SatelliteController controller = SatelliteController.getInstance(this);
 		this.agencies = controller.getAgencies();
 	}
 	
-	public void getToolsList() throws SQLException {
+	public void importToolsList() throws SQLException {
 		SatelliteController controller = SatelliteController.getInstance(this);
 		this.allTools = controller.getTools();
 	}
