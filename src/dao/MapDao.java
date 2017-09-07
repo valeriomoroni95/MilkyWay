@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,8 +10,6 @@ import entity.Map;
 
 public class MapDao {
 	
-    private static DataSource dataSource;
-    
     public Vector<Map> showMaps() throws SQLException {
         
         Connection connection = null;
@@ -64,7 +61,43 @@ public class MapDao {
             return maps;
       }
 
+ public Vector<String> showMapNames() throws SQLException { //per checkbox con nomemappa, quando non serve inserire
+	 														//nulla a posteriori nel db (nomemappa != idmappa)
       
+        Connection connection = null;
+        Statement statement = null;
+        Vector<String> mapNames = new Vector<String>();    
+        ResultSet result = null;
+         
+        final String query = "SELECT DISTINCT name FROM \"map\";"; //voglio selezionare id mappa e nome mappa per tutte le mappe
+            
+        try {                
+        	DataSource d = new DataSource();
+        	connection = d.getConnection();                
+        	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            result = statement.executeQuery(query);
+            
+            while(result.next()){
+            	mapNames.add(result.getString("name"));
+            }
+                
+            if (!result.first())
+                  return null; 
+            
+         }catch (Exception e){
+        	 e.printStackTrace();
+         	} finally {
+         		if (result != null)
+         			result.close();
+         		if (statement != null)
+         			statement.close();
+         		if (connection != null)
+         			connection.close();
+         		}
+            
+            return mapNames;
+     }
+
     
     public static boolean addMap(String mapId, String mapName) {
    	 
