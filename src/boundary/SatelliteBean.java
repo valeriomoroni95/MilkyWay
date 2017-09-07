@@ -69,7 +69,7 @@ public class SatelliteBean {
 		this.tools = tools;
 	}
 	
-	public void setAgenciesNames(Vector<String> agencies) {
+	public void setAgencyIds(Vector<String> agencies) {
 		this.agencyIds = agencies;
 	}
 	

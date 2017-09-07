@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import boundary.ToolBean;
+import dao.BandDao;
 import dao.MapDao;
 import dao.ToolDao;
 import entity.Map;
@@ -38,6 +39,19 @@ public class ToolController {
 		return tools;
 	
    }
+
+		public Vector<Double> getBandResolutions() throws SQLException{
+		
+		Vector<Double> resolutions = new Vector<Double>();
+        
+		BandDao bandDao = new BandDao();
+    
+		resolutions = bandDao.showBandResolutions();
+    
+		return resolutions;
+	
+   }
+	
 	public Vector<Map> getMapsList() throws SQLException{
 		
 		Vector<Map> maps = new Vector<Map>();
