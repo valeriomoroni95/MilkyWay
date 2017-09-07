@@ -120,54 +120,68 @@ public class ClumpDao {
 		 	 return v;
 	}
 	
-	
-	/* VA NEL SOURCEDAO!
-	 *  
-	 * public Vector<String[]> findSourceInMap (String map,Float band){ 
-    	Vector<String[]> v = null;
-    	Connection connection = null;
-        ResultSet result = null;
-		v= new Vector<String[]>();
+public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
+		
+		//permette di cercare i clump che si trovano in un cerchio o un quadrato centrato in latitude, longitude
+		// e con raggio/cateto di lunghezza lenght. Se cerco in un cerchio isCircle = true, rettangolo false
+ 		// l'array di stringhe ritornato nel vettore ha il formato [id, latitudine, longitudine, distanza]
 
-        String query = "SELECT DISTINCT s.source_id, fs.value, fs.error FROM source s join flux_source fs on" +
-        				"s.source_id = fs.source_id join map m on m.map_id = s.map_id WHERE m.map_name = '"+map+"' ";
-        if(band != null)
-        		 query = query + "AND sf.band_resolution = ?"; //da inserire, è un double/float
-        			        
-        	query = query + ";";
+		Vector<String[]> data = new Vector<String[]>();
+		String query, condition;
+    	Connection connection = null;
+		PreparedStatement pStatement = null;
+		ResultSet result;		
+		
+		try {
+			
+			query = "SELECT c.clump_id, c.g_lat, c.g_lon, SQRT(POW((c.g_lat - ?),2)+" + 
+					"POW((c.g_lon - ?),2)) as distance FROM  flux_clump f JOIN "  + 
+					"clump c on f.clump_id = c.clump_id ";
+			
+			DataSource d = new DataSource();
+            connection = d.getConnection();
+        	pStatement = connection.prepareStatement(query);
         	
-    	try { //TODO check || NB: è per il requisito 5
-		
-    		DataSource d = new DataSource();
-        	connection = d.getConnection();
-        	PreparedStatement pStatement = connection.prepareStatement(query);
-        	Double dband = Double.parseDouble(Float.toString(band));
-        	pStatement.setDouble(1,dband);
+        	if(isCircle) {
+				condition = "WHERE distance < ? order by distance;";
+				pStatement.setDouble(1, latitude);
+				pStatement.setDouble(2, longitude);
+				pStatement.setDouble(3, lenght);
+        	}
+        	
+			else {
+				
+				condition = "WHERE g_lat < ? AND g_lat > ? AND g_lon < ? AND g_lon > ?" +
+							"order by distance;";
+				pStatement.setDouble(1, latitude);
+				pStatement.setDouble(2, longitude);
+				pStatement.setDouble(3, latitude + lenght/2);
+				pStatement.setDouble(4, latitude - lenght/2);
+				pStatement.setDouble(5, longitude + lenght/2);
+				pStatement.setDouble(6, longitude - lenght/2);		
+			
+			}
+        	
+			query = query + condition;
+        	
         	result = pStatement.executeQuery(query);
-    		}
-				catch (SQLException se) {
-					//errore etc
-				}
-    		catch(Exception e) {
-    				System.out.println("ToolDao.java: catch after try");
-      		} 
-		
-				String[] s = new String[5];
-		    	try {
-		    		while(result.next()){
-		    			s[0] = result.getString("source_mapcode"); 
-		    			s[1] = Double.toString(result.getDouble("value")); //si fa col toString?
-		    			s[2] = Double.toString(result.getDouble("error"));
-		    			s[3] = Double.toString(result.getDouble("g_lat"));
-		    			s[4] = Double.toString(result.getDouble("g_lon"));
-			    	//TODO salvare anche posizione spaziale? 
-		    			v.add(s);
-		    		}
-		    	}
-		    	catch (SQLException e1) {
-		    		e1.printStackTrace();
-		    	}
-		 	 return v;
-    	
-	}*/	
+
+			while(result.next()){
+				
+				String toPass[] = { Integer.toString(result.getInt("clump_id")),
+									Double.toString(result.getDouble("g_lat")),
+									Double.toString(result.getDouble("g_lon")),
+									Double.toString(result.getDouble("distance"))
+									};
+				data.add(toPass);
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+    }
 }
