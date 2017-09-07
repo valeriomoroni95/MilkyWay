@@ -20,7 +20,8 @@ public class SatelliteDao {
         Vector<Satellite> satellites = new Vector<Satellite>();    
         ResultSet result = null;
          
-        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.satellite_id = ts.satellite_id join tool t on ts.tool_id = t.tool_id order by s.satellite_id  ;"; 
+        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.satellite_id = ts.satellite_id "+
+        			"join tool t on ts.tool_id = t.tool_id order by s.satellite_id  ;"; 
             
         try {                
         	DataSource d = new DataSource();
@@ -70,9 +71,10 @@ public class SatelliteDao {
           }
         
         return null;
-	}
 
-	public static boolean isSatellitePresent(String name, String start, String end, Vector<String> tools){
+	}
+	
+	public static boolean isSatellitePresent(String name, String start, String end, Vector<String> tools, Vector<String> agencies){
 		
 		Connection connection = null;
         Statement statement = null;
@@ -86,22 +88,30 @@ public class SatelliteDao {
             connection = d.getConnection();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
-            if (result == null) {
-                return false;
-            }
             
-            if(result.first()){
+            if (result == null)
+                return false;
+            
+            if(result.first())
             	return false;
-            }else {
+            else {
                 String insert = "INSERT INTO \"satellite\" VALUES ('"+name+"','"+start+"','"+end+"');";
                 statement.executeUpdate(insert);
-                String insert2 = "INSERT INTO \"tool_satellite\"(tool_name, satellite_name) VALUES (?,?);"; //TODO sistemare
-            	 
+                
+                String insert2 = "INSERT INTO \"tool_satellite\"(tool_name, satellite_name) VALUES (?,?);"; 
                 pstatement = connection.prepareStatement(insert2);
 				
-            	for(String tool : tools) { //TODO fix!
+            	for(String tool : tools) {
             		pstatement.setString(1, tool);
             		pstatement.setString(2, name);
+            		pstatement.executeUpdate();
+            	}
+            	
+            	String insert3 = "INSERT INTO \"agency_satellite\"(agency_id, satellite_name) VALUES (?,?);"; 
+                pstatement = connection.prepareStatement(insert3);
+                for(String agency : agencies) { 
+            		pstatement.setString(1, name);
+            		pstatement.setInt(2, Integer.parseInt(agency));
             		pstatement.executeUpdate();
             	}
            		result.close();
@@ -109,6 +119,7 @@ public class SatelliteDao {
             	connection.close();
             
             }
+            
         }catch(Exception e){
         	e.printStackTrace();
         } finally {
@@ -116,17 +127,18 @@ public class SatelliteDao {
                 if (statement != null)
                     statement.close();
             } catch (SQLException se2) {
-            }
+            	se2.printStackTrace();
+            	}
             try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException se) {
                 se.printStackTrace();
-            }
-        }
+            	}
+        	}
         
 		return true;
 		
-	}
-
+		}	
 }
+

@@ -9,6 +9,7 @@ public class Clump {
 	private double ratio;
 	private double surf_dens;
 	private int c_type;
+	
 	public int getClump_id() {
 		return clump_id;
 	}

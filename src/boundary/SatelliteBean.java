@@ -1,7 +1,6 @@
 package boundary;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Vector;
 
 import controller.SatelliteController;
@@ -16,6 +15,7 @@ public class SatelliteBean {
 	private String end;
 	private String duration;
 	private Vector<String> tools;
+	private Vector<String> agencies;
 	
 	public void setName(String name) {
 		this.name = name;
@@ -37,6 +37,9 @@ public class SatelliteBean {
 		this.tools = tools;
 	}
 	
+	public void setAgencies(Vector<String> agencies) {
+		this.agencies = agencies;
+	}
 	public String getName() {
 		return this.name;
 	}
@@ -61,8 +64,12 @@ public class SatelliteBean {
 		this.end = end;
 	}
 	
-	public List<String> getTools(){
+	public Vector<String> getTools(){
 		return this.tools;
+	}
+	
+	public Vector<String> getAgencies(){
+		return this.agencies;
 	}
 	
 	public void getSat() throws SQLException {
@@ -73,7 +80,7 @@ public class SatelliteBean {
 	public boolean validate(){
 		
 		SatelliteController controller = SatelliteController.getInstance(this);
-		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools)){
+		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools, this.agencies)){
 			return false;
 		}
 		return true;
