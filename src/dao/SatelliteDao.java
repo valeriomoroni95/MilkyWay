@@ -84,44 +84,53 @@ public class SatelliteDao {
         final String query = "SELECT \"name\" FROM \"satellite\" WHERE \"name\" = '"+name+"';";
 		
         try{
-        	DataSource d = new DataSource();
+        	
+        		DataSource d = new DataSource();
             connection = d.getConnection();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
             
-            if (result == null)
+            if (result == null) {
+            	
                 return false;
+                
+            }
             
-            if(result.first())
-            	return false;
-            else {
-                String insert = "INSERT INTO \"satellite\" VALUES ('"+name+"','"+start+"','"+end+"');";
+            if(result.first()) {
+            	
+            		return false;
+            		
+            }else{
+            	
+                String insert = "INSERT INTO \"satellite\" VALUES ('"+start+"','"+end+"','"+name+"');";
                 statement.executeUpdate(insert);
                 
                 String insert2 = "INSERT INTO \"tool_satellite\"(tool_name, satellite_name) VALUES (?,?);"; 
                 pstatement = connection.prepareStatement(insert2);
 				
-            	for(String tool : tools) {
-            		pstatement.setString(1, tool);
-            		pstatement.setString(2, name);
-            		pstatement.executeUpdate();
-            	}
+            		for(String tool : tools) {
+            			pstatement.setString(1, tool);
+            			pstatement.setString(2, name);
+            			pstatement.executeUpdate();
+            		}
             	
-            	String insert3 = "INSERT INTO \"agency_satellite\"(agency_id, satellite_name) VALUES (?,?);"; 
-                pstatement = connection.prepareStatement(insert3);
-                for(String agency : agencies) { 
-            		pstatement.setString(1, name);
-            		pstatement.setInt(2, Integer.parseInt(agency));
-            		pstatement.executeUpdate();
-            	}
+            		String insert3 = "INSERT INTO \"agency_satellite\"(agency_id, satellite_name) VALUES (?,?);"; 
+            		pstatement = connection.prepareStatement(insert3);
+            		
+            		for(String agency : agencies) { 
+            			pstatement.setString(1, name);
+            			pstatement.setInt(2, Integer.parseInt(agency));
+            			pstatement.executeUpdate();
+            		}
+            		
            		result.close();
-            	statement.close();
-            	connection.close();
+           		statement.close();
+           		connection.close();
             
             }
             
         }catch(Exception e){
-        	e.printStackTrace();
+        		e.printStackTrace();
         } finally {
             try {
                 if (statement != null)
