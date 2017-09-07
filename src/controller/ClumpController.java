@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.Vector;
 import boundary.ShowMassiveStarBean;
 import dao.ClumpDao;

@@ -11,7 +11,7 @@ public class ShowObjectBean {
 	
 	private Vector<String[]> clumps; //formato: [clump_id, valoreflusso, erroreflusso, latitudine, longitudine]
 	
-	private Vector<String[]> sources; //[source_codemap, valoreflusso, erroreflusso, latitudine, longitudine]
+	private Vector<String[]> sources; //formato: [source_codemap, valoreflusso, erroreflusso, latitudine, longitudine]
 	
 	private Vector<String> mapNames; //nomi delle mappe caricati dal db, da far scegliere per la ricerca
 	float band; // deve essere un float per essere confrontato a null nel DAO, poi viene sistemato

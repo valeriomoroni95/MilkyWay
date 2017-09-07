@@ -6,7 +6,10 @@ import dao.UserDao;
 public class SignUpController {
 	
 	private static SignUpController instance;
+	
+	@SuppressWarnings("unused")     //mai vero che la signup bean non è usata
 	private SignUpBean sb;
+	
 	private boolean bool;
 	
 	

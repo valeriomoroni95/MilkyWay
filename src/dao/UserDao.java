@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +11,8 @@ import entity.User;
 
 public class UserDao {
 
-    private static DataSource dataSource;
+    @SuppressWarnings("unused")            //Non è mai vero che non viene utilizzato
+	private static DataSource dataSource;
 
     //Constructor
     public UserDao() {
