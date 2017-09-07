@@ -24,6 +24,7 @@ public class SatelliteController {
   }
   
   public Vector<Satellite> getSatellitesList() throws SQLException{
+	  
     Vector<Satellite> satellite = new Vector<Satellite>();
         
     SatelliteDao satelliteDao = new SatelliteDao();

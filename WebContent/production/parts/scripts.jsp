@@ -40,9 +40,10 @@
 <!-- jquery validation -->
 <script src="../vendors/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
-<!--
-
-//-->
+<!-- PNotify -->
+    <script src="../vendors/pnotify/dist/pnotify.js"></script>
+    <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="../vendors/pnotify/dist/pnotify.nonblock.js"></script>
 </script>
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>

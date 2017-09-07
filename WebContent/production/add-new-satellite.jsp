@@ -1,5 +1,6 @@
 <%@page import="boundary.SatelliteBean" %>
 <%@page import="controller.SatelliteController" %>
+<%@page import="boundary.ToolBean" %>
 <%@page import="java.util.*" %>
 <%@page import="java.io.*" %>
 
@@ -42,12 +43,22 @@
 	satelliteBean.setAgencies(vectorAgencies);
 	satelliteBean.setTools(vectorTools);
 	
+	boolean success = false;
+	
 	if(satelliteBean.validate()){
 		System.out.println("add_new_satellite.jsp: validate TRUE");
+		success=true;
+		HttpSession s = request.getSession();
+		s.setAttribute("success", success);
 	}else{
 		System.out.println("add_new_satellite.jsp: validate FALSE");
 	}
+	
+	
+	ToolBean toolBean = new ToolBean();
 		
+	System.out.println(" add_new_satellite.jsp: tools"  + toolBean);
+
 %>
 
 
@@ -59,7 +70,9 @@
     <div class="main_container">
 
         <%@include file="parts/header.jsp" %>
-
+        
+        
+        
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="x_panel">
@@ -192,6 +205,26 @@
 </div>
 
 <%@include file="parts/scripts.jsp" %>
+
+<%if(success){ %>
+        	
+	<script type="text/javascript">
+        	
+    		new PNotify({
+    			title: 'Success!',
+    			text: 'A brand new satellite has been sucessfully added to the database',
+    			type: 'success',
+    			styling: 'bootstrap3'
+    		});
+    				
+	</script>
+        	
+        		
+<% }
+	
+	s.removeAttribute("success");
+
+%>
 
 </body>
 </html>

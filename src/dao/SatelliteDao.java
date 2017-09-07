@@ -21,11 +21,14 @@ public class SatelliteDao {
         final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.satellite_id = ts.satellite_id "+
         			"join tool t on ts.tool_id = t.tool_id order by s.satellite_id  ;"; 
             
-        try {                
-        	DataSource d = new DataSource();
-        	connection = d.getConnection();                
-        	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            result = statement.executeQuery(query);
+        try {
+        	
+        		DataSource d = new DataSource();
+        		
+        		connection = d.getConnection();                
+        		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        		result = statement.executeQuery(query);
+            
             String currSatelliteName = null;
             String start = null;
             String end = null;
@@ -38,35 +41,43 @@ public class SatelliteDao {
              
             while(result.next()) {
             	
-            	if(currSatelliteName != result.getString("satelliteName")) {	
+            		if(currSatelliteName != result.getString("satelliteName")) {	
             		
-            		if (currSatelliteName != null) {
-            			s = new Satellite(currSatelliteName, start, end, tools);
-                    	satellites.add(s);
+            			if (currSatelliteName != null) {
+            				
+            				s = new Satellite(currSatelliteName, start, end, tools);
+            				satellites.add(s);
+            				
             			}
             		
-                	currSatelliteName = result.getString("satelliteName");
-                	start = result.getString("satelliteStart");
-                	end = result.getString("satelliteEnd");
-                	tools = null;
-            	}
+            			currSatelliteName = result.getString("satelliteName");
+            			start = result.getString("satelliteStart");
+            			end = result.getString("satelliteEnd");
+            			tools = null;
+            		}
             	
-            	tools.add(result.getString("tool_name"));
-            }
+            		tools.add(result.getString("tool_name"));
+            	}
             
             return satellites;
         
         } catch(Exception e) {
-    	  System.out.println("SatelliteDao.java: catch after try");
-          } finally {
-        	  System.out.println("SatelliteDao.java: finally");
-        	  if(result != null)
-        		  result.close();
-        	  if(statement != null)
-        		  statement.close();
-        	  if(connection != null)
-        		  connection.close();
-          }
+        	
+        		System.out.println("SatelliteDao.java: catch after try");
+        		
+        } finally {
+        	
+        	  	System.out.println("SatelliteDao.java: finally");
+        	  	
+        	  	if(result != null)
+        	  		result.close();
+        	  	
+        	  	if(statement != null)
+        	  		statement.close();
+        	  	
+        	  	if(connection != null)
+        	  		connection.close();
+        	}
         
         return null;
 
