@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import boundary.ToolBean;
+import dao.MapDao;
 import dao.ToolDao;
+import entity.Map;
 import entity.Tool;
 
 public class ToolController {
@@ -35,12 +37,23 @@ public class ToolController {
     
 		return tools;
 	
-  }
+   }
+	public Vector<Map> getMapsList() throws SQLException{
+		
+		Vector<Map> maps = new Vector<Map>();
+        		
+		MapDao md = new MapDao();
+		
+		maps = md.showMaps();
+    
+		return maps;
+	
+   }
   
-  public boolean InsertTool(String name, String mapName, Vector<Double> bands) {
+  public boolean InsertTool(String name, int mapId, Vector<Double> bands) {
 		boolean bool = false;
 		try {
-			bool=ToolDao.isToolPresent(name, mapName, bands);
+			bool=ToolDao.isToolPresent(name, mapId, bands);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

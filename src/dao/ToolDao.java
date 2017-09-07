@@ -100,5 +100,64 @@ public Vector<Tool> showTools() throws SQLException {
       }
 
 
+public static boolean isToolPresent(String name, int mapId, Vector<Double> bands) {
+	
+	Connection connection = null;
+    Statement statement = null;
+	PreparedStatement pstatement = null;
+    ResultSet result = null;
+    
+    final String query = "SELECT \"name\" FROM \"tool\" WHERE \"name\" = '"+name+"';";
+	
+    try{
+    	DataSource d = new DataSource();
+        connection = d.getConnection();
+        statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        result = statement.executeQuery(query);
+        if (result == null) {
+            return false;
+        }
+        
+        if(result.first()){
+        	return false;
+        }else {
+            String insert = "INSERT INTO \"tool\" VALUES ('"+name+"',?);";
+            pstatement = connection.prepareStatement(insert);
+            pstatement.setInt(1, mapId);
+            pstatement.executeUpdate();
+            String insert2 = "INSERT INTO \"tool_band\"(tool_name, band_resolution) VALUES (?,?);";
+        	 
+            pstatement = connection.prepareStatement(insert2);
+			
+        	for(Double band : bands) { //TODO fix!
+        		pstatement.setDouble(2, band);
+        		pstatement.setString(1, name);
+        		pstatement.executeUpdate();
+        	}
+       		result.close();
+        	statement.close();
+        	connection.close();
+        
+        }
+    }catch(Exception e){
+    	e.printStackTrace();
+    } finally {
+        try {
+            if (statement != null)
+                statement.close();
+        } catch (SQLException se2) {
+        }
+        try {
+            if (connection != null)
+                connection.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+    
+	return true;
+	
+	}
+
 }
 
