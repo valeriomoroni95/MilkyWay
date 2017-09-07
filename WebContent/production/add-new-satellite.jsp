@@ -1,6 +1,7 @@
 <%@page import="boundary.SatelliteBean" %>
 <%@page import="controller.SatelliteController" %>
 <%@page import="boundary.ToolBean" %>
+<%@page import="entity.Agency" %>
 <%@page import="java.util.*" %>
 <%@page import="java.io.*" %>
 
@@ -9,8 +10,14 @@
 
 <!DOCTYPE html>
 
-
 <%
+
+	SatelliteBean satelliteBean = new SatelliteBean();
+	satelliteBean.importToolsList();
+	satelliteBean.importAgenciesList();
+
+	Vector<Agency> agenciesVectorObject = satelliteBean.getAgencies();
+	Vector<String> toolsVectorString = satelliteBean.getAllTools();
 
 	String name = request.getParameter("satellite_name");
 	String start = request.getParameter("satellite_start");
@@ -35,12 +42,10 @@
 		}
 	}
 	
-	SatelliteBean satelliteBean = new SatelliteBean();
-	
 	satelliteBean.setName(name);
 	satelliteBean.setStart(start);
 	satelliteBean.setEnd(end);
-	satelliteBean.setAgencies(vectorAgencies);
+	satelliteBean.setAgencyNames(vectorAgencies);
 	satelliteBean.setTools(vectorTools);
 	
 	boolean success = false;
@@ -53,15 +58,8 @@
 	}else{
 		System.out.println("add_new_satellite.jsp: validate FALSE");
 	}
-	
-	
-	ToolBean toolBean = new ToolBean();
-		
-	System.out.println(" add_new_satellite.jsp: tools"  + toolBean);
 
 %>
-
-
 
 <html lang="en">
 <%@include file="parts/head.jsp" %>
@@ -70,8 +68,6 @@
     <div class="main_container">
 
         <%@include file="parts/header.jsp" %>
-        
-        
         
         <!-- page content -->
         <div class="right_col" role="main">
@@ -134,21 +130,25 @@
 
                             <div class="col-md-9 col-sm-9 col-xs-12">
 
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="agency" value="Nasa" class="flat"> NASA
-                                    </label>
-                                </div>
-
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="agency" value="Esa" class="flat"> ESA
-                                    </label>
-                                </div>
+								<% 
+								
+									for(Agency agencyObj : agenciesVectorObject) {
+										
+										int agencyId = agencyObj.getAgencyId();
+										String agencyName = (String) agencyObj.getAgencyName();
+								
+								%>
+								
+									<div class="checkbox">
+                                    		<label>
+                                        		<input type="checkbox" name="<%= agencyId %>" value="<%= agencyName %>" class="flat"> <%= agencyName %>
+                                    		</label>
+                                		</div>
+								
+								<% } %>
 
                             </div>
                         </div>
-                        
                         
                         <div class="form-group">
 
@@ -156,34 +156,18 @@
 
                             <div class="col-md-9 col-sm-9 col-xs-12">
 
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="tool" value="PACS" class="flat"> PACS
-                                    </label>
-                                </div>
-
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="tool" value="SPIRE" class="flat"> SPIRE
-                                    </label>
-                                </div>
-                                
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="tool" value="IRAC" class="flat"> IRAC
-                                    </label>
-                                </div>
-                                
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="tool" value="MIPS" class="flat"> MIPS
-                                    </label>
-                                </div>
+								<% for(String tool : toolsVectorString){ %>
+									
+									<div class="checkbox">
+                                    		<label>
+                                        		<input type="checkbox" name="tool" value="<%= tool %>" class="flat"> <%= tool %>
+                                    		</label>
+                                		</div>									
+									
+								<% } %>
 
                             </div>
                         </div>
-                        
-
 
                         <div class="ln_solid"></div>
                         <div class="form-group">
