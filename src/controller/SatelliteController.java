@@ -36,6 +36,7 @@ public class SatelliteController {
   
   public boolean InsertSatellites(String name, String start, String end, Vector<String> tools, Vector<String> agencies) {
 		boolean bool = false;
+		System.out.println("SatelliteController.java: InsertSatelltes " + name + start + end + tools + agencies);
 		try {
 			bool=SatelliteDao.isSatellitePresent(name, start, end, tools, agencies);
 		}catch (Exception e) {
