@@ -31,14 +31,12 @@
 	if(agencies != null){
 		for(String agency: agencies){
 			vectorAgencies.addElement(agency);
-			System.out.println("Agency: " + agency);
 		}
 	}
 	
 	if(tools != null){
 		for(String tool: tools){
 			vectorTools.addElement(tool);
-			System.out.println("Tool: " + tool);
 		}
 	}
 	
