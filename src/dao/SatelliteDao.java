@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.Vector;
 
+import entity.Agency;
 import entity.Satellite;
 
 public class SatelliteDao {
@@ -19,7 +20,8 @@ public class SatelliteDao {
         ResultSet result = null;
          
         final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
-        			"join tool t on ts.tool_name = t.tool_name;"; 
+        			"join tool t on ts.tool_name = t.tool_name join agency_satellite ag_sat on ag_sat.satellite_name ="+
+        			" s.name join agency a on ag_sat.agency_id = a.id order by satellite_name, tool_name;"; 
             
         System.out.println("SatelliteDao.java: query " + query);
         
@@ -40,10 +42,13 @@ public class SatelliteDao {
             
         		System.out.println("SatelliteDao.java: result " + result);
         		
-            String currSatelliteName = null;
-            String start = null;
-            String end = null;
+            String currSatelliteName = "";
+            String start = "";
+            String end = "";
+            String lastTool = "";
             Vector<String> tools = new Vector<String>();
+            Vector<Agency> agencies = new Vector<Agency>();
+            
             Satellite s = null;
             
             if (!result.first()) {
@@ -71,6 +76,7 @@ public class SatelliteDao {
             				start = "";
             				end = "";
             				tools.clear();
+            				agencies.clear();
             			
                     		System.out.println("SatelliteDao.java: satellite result list " + satellites);
 	
@@ -80,7 +86,14 @@ public class SatelliteDao {
             				currSatelliteName = result.getString("name");
             				start = result.getString("satellite_start");
             				end = result.getString("satellite_end");
-            				tools.add(result.getString("tool_name"));
+            				if(lastTool != result.getString("tool_name"))
+            					tools.add(lastTool);
+            				Agency agency = new Agency();
+            				agency.setAgencyId( result.getInt("id"));
+            				agency.setAgencyName(result.getString("name"));
+              				lastTool = result.getString("tool_name");
+              				
+              				agencies.add(agency);
             	}
                     
         } catch(Exception e) {

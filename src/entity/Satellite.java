@@ -2,7 +2,7 @@ package entity;
 
 import java.util.List;
 import java.util.Vector;
-
+import entity.Agency;
 //import java.sql.Date;
 
 public class Satellite {
@@ -13,6 +13,8 @@ public class Satellite {
 	private String satelliteEnd;
 	private Vector<String> tools;
 	private String duration;
+	private Vector<Agency> agencies;
+	
 	
 	public Satellite(String satelliteName, String satelliteStart, String satelliteEnd, Vector<String> tools) {
 		this.satelliteName = satelliteName;
@@ -23,6 +25,17 @@ public class Satellite {
 			this.duration = calculateDuration();
 	}
 	
+	
+	public Vector<Agency> getAgencies() {
+		return agencies;
+	}
+
+
+	public void setAgencies(Vector<Agency> agencies) {
+		this.agencies = agencies;
+	}
+
+
 	public Vector<String> getTools() {
 		return this.tools;
 	}
