@@ -16,7 +16,7 @@ public class ToolDao {
         PreparedStatement statement = null;
         
         
-        final String query = "INSERT INTO \"tool\"(name, map) VALUES(?,?);";
+        final String query = "INSERT INTO \"tool\"(tool_name, map_id) VALUES(?,?);";
 		
         try {                
         	DataSource d = new DataSource();
@@ -156,7 +156,7 @@ public static boolean isToolPresent(String name, int mapId, Vector<Double> bands
 	PreparedStatement pstatement = null;
     ResultSet result = null;
     
-    final String query = "SELECT \"name\" FROM \"tool\" WHERE \"name\" = '"+name+"';";
+    final String query = "SELECT \"tool_name\" FROM \"tool\" WHERE \"tool_name\" = '"+name+"';";
 	
     try{
     	DataSource d = new DataSource();

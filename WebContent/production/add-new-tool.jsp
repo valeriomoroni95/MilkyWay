@@ -15,6 +15,38 @@
 
 	Vector<Map> maps = toolBean.getMaps();
 	
+	String name = request.getParameter("name");
+	String mapId = request.getParameter("map");
+	
+	String[] bands = request.getParameterValues("band");
+		
+	Vector<Double> vectorBands = new Vector<Double>();
+	
+	if(bands != null){
+		for(String band : bands){
+			
+			System.out.println("band" + band);
+			
+			Double doubleBand = Double.parseDouble(band);
+			
+			vectorBands.addElement(doubleBand);
+		}
+	}
+	
+	toolBean.setName(name);
+	if(mapId != null){
+		toolBean.setMapId(Integer.parseInt(mapId));
+	}
+	
+	toolBean.setBands(vectorBands);
+	
+	if(toolBean.validate()){
+		System.out.println("add_new_tool.jsp: validate TRUE");
+	}else{
+		System.out.println("add_new_tool.jsp: validate FALSE");
+
+	}
+	
 %>
 
 <html lang="en">
@@ -49,7 +81,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form method="post" action="" id="demo-form2" class="form-horizontal form-label-left" novalidate>
+                    <form method="post" action="" id="demo-form2" class="form-horizontal form-label-left">
                     
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Name <span class="required">*</span>
@@ -65,11 +97,11 @@
                         
                           	<% if(maps != null){ %>
                           		
-                          		<select class="form-control">
+                          		<select name="map" class="form-control">
                           		
                         				<% for(Map map : maps){ %>
                         				
-                        					<option><%= map.getMapName() %></option>
+                        					<option value="<%= map.getMapId() %>"><%= map.getMapName() %></option>
                         				
                         				<% } %>
                         				
@@ -88,56 +120,55 @@
                       	
                       		<div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 70.0 (us)
+                              <input type="checkbox" name="band" value="70.0" class="flat"> 70.0 (us)
                             </label>
                           </div>
                       
                       <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 160.0 (us)
+                              <input type="checkbox" name="band" value="160.0" class="flat"> 160.0 (us)
                             </label>
                           </div>
                           
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 250.0 (us)
+                              <input type="checkbox" name="band" value="250.0" class="flat"> 250.0 (us)
                             </label>
                           </div>
-                          
                           
                         <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 350.0 (us)
+                              <input type="checkbox" name="band" value="350.0" class="flat"> 350.0 (us)
                             </label>
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 500.0 (us)
+                              <input type="checkbox" name="band" value="500.0" class="flat"> 500.0 (us)
                             </label>
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 3.6 (us)
+                              <input type="checkbox" name="band" value="500.0" class="flat"> 500.0 (us)
                             </label>
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 4.5 (us)
+                              <input type="checkbox" name="band" value="4.5" class="flat"> 4.5 (us)
                             </label>
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 5.8 (us)
+                              <input type="checkbox" name="band" value="5.8" class="flat"> 5.8 (us)
                             </label>
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 8.0 (us)
+                              <input type="checkbox" name="band" value="8.0" class="flat"> 8.0 (us)
                             </label>
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" class="flat"> 25.0 (us)
+                              <input type="checkbox" name="band" value="25.0" class="flat"> 25.0 (us)
                             </label>
                           </div>
                       	
