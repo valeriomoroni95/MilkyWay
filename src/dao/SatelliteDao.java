@@ -42,10 +42,10 @@ public class SatelliteDao {
             
         		System.out.println("SatelliteDao.java: result " + result);
         		
-            String currSatelliteName = "";
-            String start = "";
-            String end = "";
-            String lastTool = "";
+            String currSatelliteName = "\n";
+            String start = "\n";
+            String end = "\n";
+            String lastTool = "\n";
             Vector<String> tools = new Vector<String>();
             Vector<Agency> agencies = new Vector<Agency>();
             
@@ -62,7 +62,7 @@ public class SatelliteDao {
             	
         			System.out.println("SatelliteDao.java: result.next() " + result.next());
 
-        			if (currSatelliteName != "") {
+        			if (currSatelliteName != "\n") {
         			
         				if(currSatelliteName != result.getString("name")) {	
             		            				
