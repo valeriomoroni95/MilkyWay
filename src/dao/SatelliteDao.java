@@ -75,13 +75,12 @@ public class SatelliteDao {
                     		System.out.println("SatelliteDao.java: satellite result list " + satellites);
 	
             			}
+        			}
         				
             				currSatelliteName = result.getString("name");
             				start = result.getString("satellite_start");
             				end = result.getString("satellite_end");
-            		}
-            	
-            		tools.add(result.getString("tool_name"));
+            				tools.add(result.getString("tool_name"));
             	}
                     
         } catch(Exception e) {
