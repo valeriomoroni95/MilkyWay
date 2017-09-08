@@ -68,7 +68,7 @@ public class ShowObjectBean {
 	public void importClumpDatas() throws SQLException {
 		
 		ShowObjectController controller = ShowObjectController.getInstance(this);
-		this.clumps = controller.getClumps();
+		this.clumps = controller.getClumps(mapName, band);
 		
 		
 	}

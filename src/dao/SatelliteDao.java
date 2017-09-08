@@ -21,7 +21,7 @@ public class SatelliteDao {
          
         final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
         			"join tool t on ts.tool_name = t.tool_name join agency_satellite ag_sat on ag_sat.satellite_name ="+
-        			" s.name join agency a on ag_sat.agency_id = a.id order by satellite_name, tool_name;"; 
+        			" s.name join agency a on ag_sat.agency_id = a.id order by s.name, tool_name;"; 
             
         System.out.println("SatelliteDao.java: query " + query);
         
@@ -62,7 +62,7 @@ public class SatelliteDao {
             	
         			System.out.println("SatelliteDao.java: result.next() " + result.next());
 
-        			if (currSatelliteName != "") {
+        			if (currSatelliteName != null) {
         			
         				if(currSatelliteName != result.getString("name")) {	
             		            				
