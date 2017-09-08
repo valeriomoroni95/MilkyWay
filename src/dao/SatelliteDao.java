@@ -57,37 +57,36 @@ public class SatelliteDao {
             	
         			System.out.println("SatelliteDao.java: result.next() " + result.next());
 
-            	
-            		if(currSatelliteName != result.getString("satelliteName")) {	
-            		
-            			if (currSatelliteName != null) {
-            				
+        			if (currSatelliteName != null) {
+        			
+        				if(currSatelliteName != result.getString("name")) {	
+            		            				
             				s = new Satellite(currSatelliteName, start, end, tools);
             				
                     		System.out.println("SatelliteDao.java: new satellite " + s);
 
-            				
             				satellites.add(s);
             				
+            				currSatelliteName ="";
+            				start = "";
+            				end = "";
+            				tools.clear();
+            			
                     		System.out.println("SatelliteDao.java: satellite result list " + satellites);
-
-            				
+	
             			}
-            		
-            			currSatelliteName = result.getString("satelliteName");
-            			start = result.getString("satelliteStart");
-            			end = result.getString("satelliteEnd");
-            			tools = null;
+        				
+            				currSatelliteName = result.getString("name");
+            				start = result.getString("satellite_start");
+            				end = result.getString("satellite_end");
             		}
             	
             		tools.add(result.getString("tool_name"));
             	}
-            
-            return satellites;
-        
+                    
         } catch(Exception e) {
         	
-        		System.out.println("SatelliteDao.java: catch after try");
+        		e.printStackTrace();
         		
         } finally {
         	
@@ -103,8 +102,8 @@ public class SatelliteDao {
         	  		connection.close();
         	}
         
-        return null;
-
+        return satellites;
+        
 	}
 	
 	public static boolean isSatellitePresent(String name, String start, String end, Vector<String> tools, Vector<String> agencies){

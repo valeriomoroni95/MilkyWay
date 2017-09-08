@@ -54,14 +54,14 @@ public class Satellite {
 	}
 	
 	public String calculateDuration() {
-		String[] x = this.satelliteStart.split("/");
-		String[] y = this.satelliteEnd.split("/");
-		int startYear = Integer.parseInt(x[2]);
-		int endYear = Integer.parseInt(y[2]);
+		String[] x = this.satelliteStart.split(" - ");
+		String[] y = this.satelliteEnd.split(" - ");
+		int startYear = Integer.parseInt(x[0]);
+		int endYear = Integer.parseInt(y[0]);
 		int startMonth = Integer.parseInt(x[1]);
 		int endMonth = Integer.parseInt(y[1]);
-		int startDay = Integer.parseInt(x[0]);
-		int endDay = Integer.parseInt(y[0]);
+		int startDay = Integer.parseInt(x[2]);
+		int endDay = Integer.parseInt(y[2]);
 		int months;
 		int years;
 		int days;
