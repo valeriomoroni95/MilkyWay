@@ -60,9 +60,7 @@ public class SatelliteDao {
              
             while(result.next()) {
             	
-        			if (currSatelliteName != "\n") {
-        			
-        				if(currSatelliteName != result.getString("name")) {	
+        				if(currSatelliteName != result.getString("name") && currSatelliteName != "\n") {	
             		            				
             				s = new Satellite(currSatelliteName, start, end, tools);
             				
@@ -79,18 +77,18 @@ public class SatelliteDao {
                     		System.out.println("SatelliteDao.java: satellite result list " + satellites);
 	
             			}
-        			}
         				
             				currSatelliteName = result.getString("name");
             				start = result.getString("satellite_start");
             				end = result.getString("satellite_end");
-            				if(lastTool != result.getString("tool_name"))
+            				if(lastTool != result.getString("tool_name") && lastTool != "\n") {
+            					lastTool = result.getString("tool_name");
             					tools.add(lastTool);
+            				}
             				Agency agency = new Agency();
             				agency.setAgencyId( result.getInt("id"));
             				agency.setAgencyName(result.getString("name"));
-              			lastTool = result.getString("tool_name");
-              			agencies.add(agency);
+            				agencies.add(agency);
             	}
                     
         } catch(Exception e) {
