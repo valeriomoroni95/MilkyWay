@@ -3,9 +3,12 @@ package controller;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.xml.transform.Source;
+
 import boundary.ShowObjectBean;
 import dao.ClumpDao;
 import dao.MapDao;
+import dao.SourceDao;
 import entity.Clump;
 
 public class ShowObjectController {
@@ -38,7 +41,7 @@ public class ShowObjectController {
 	
    }
 	
-	public Vector<String[]> getClumps() {
+	public Vector<String[]> getClumps(String mapName, float band) {
 		
 		Vector<String[]> clumps = new Vector<String[]>();
 		ClumpDao clumpDao = new ClumpDao();
@@ -46,6 +49,14 @@ public class ShowObjectController {
 		return clumps;
 		
 	}
+	
+	/*public Vector<String[]> getSources(String map, float band){
+		
+		Vector<String[]> sources = new Vector<String[]>();
+		SourceDao sourceDao = new SourceDao();
+		sources = SourceDao.showSourceInfo(this.s.getSource_id());  
+		return sources;
+	}*/
 
 	
 	
