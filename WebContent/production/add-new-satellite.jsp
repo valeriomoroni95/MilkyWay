@@ -160,7 +160,7 @@
                                     		<label>
                                         		<input type="checkbox" name="tool" value="<%= tool %>" class="flat"> <%= tool %>
                                     		</label>
-                                		</div>									
+                                		</div>
 									
 								<% } %>
 
