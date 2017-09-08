@@ -101,7 +101,7 @@ public class ClumpDao {
     				e.printStackTrace();
       		} 
 		
-				String[] s = new String[5];
+				String[] s = new String[6];
 		    	try {
 		    		if (band != null) {
 		    			while(result.next()){
@@ -159,14 +159,19 @@ public class ClumpDao {
 		    				s[2] = Double.toString(result.getDouble("g_lat"));
 		    				s[3] = Double.toString(result.getDouble("g_lon"));
 		    				v.add(s);
+		    				t[0] = Double.toString(result.getDouble("band_resolution"));
+		    				t[1] = Double.toString(result.getDouble("value"));
+		    				t[2] = Double.toString(result.getDouble("error"));
+		    				v.add(t);
+		    				
 		    			} /* Ho creato un array di stringhe da passare ->controller->bean: 
 		    				funge da "Header";*/
 		    			
 		    			while(result.next()){
 		    				
 		    				t[0] = Double.toString(result.getDouble("band_resolution"));
-		    				t[2] = Double.toString(result.getDouble("value"));
-		    				t[3] = Double.toString(result.getDouble("error"));
+		    				t[1] = Double.toString(result.getDouble("value"));
+		    				t[2] = Double.toString(result.getDouble("error"));
 
 		    				v.add(t);
 		    			} /* Dopo l'header ci sono array di stringhe con banda, valore ed errore

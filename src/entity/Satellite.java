@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.List;
+import java.util.Vector;
 
 //import java.sql.Date;
 
@@ -10,10 +11,10 @@ public class Satellite {
 	//private Date satelliteEnd;
 	private String satelliteStart;
 	private String satelliteEnd;
-	private List<String> tools;
+	private Vector<String> tools;
 	private String duration;
 	
-	public Satellite(String satelliteName, String satelliteStart, String satelliteEnd, List<String> tools) {
+	public Satellite(String satelliteName, String satelliteStart, String satelliteEnd, Vector<String> tools) {
 		this.satelliteName = satelliteName;
 		this.satelliteStart = satelliteStart;
 		this.satelliteEnd = satelliteEnd;
@@ -22,10 +23,10 @@ public class Satellite {
 			this.duration = calculateDuration();
 	}
 	
-	public List<String> getTools() {
+	public Vector<String> getTools() {
 		return this.tools;
 	}
-	public void setTools(List<String> tools) {
+	public void setTools(Vector<String> tools) {
 		this.tools = tools;
 	}
 	
@@ -54,8 +55,8 @@ public class Satellite {
 	}
 	
 	public String calculateDuration() {
-		String[] x = this.satelliteStart.split(" - ");
-		String[] y = this.satelliteEnd.split(" - ");
+		String[] x = this.satelliteStart.split("-");
+		String[] y = this.satelliteEnd.split("-");
 		int startYear = Integer.parseInt(x[0]);
 		int endYear = Integer.parseInt(y[0]);
 		int startMonth = Integer.parseInt(x[1]);

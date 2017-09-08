@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import controller.ShowObjectController;
+import controller.ToolController;
 
 public class ShowObjectBean {
 	
@@ -16,7 +17,9 @@ public class ShowObjectBean {
 	private Vector<String> mapNames; //nomi delle mappe caricati dal db, da far scegliere per la ricerca
 	float band; // deve essere un float per essere confrontato a null nel DAO, poi viene sistemato
 	private String mapName; //la query viene fatta col nome, no prob
-	private boolean isClump; //l'utente deve scegliere tra ricerca di clump e ricerca di sorgenti nella mappa
+	/* NOT NEEDED, riciclare per REQ. 8
+	 * private boolean isClump; //l'utente deve scegliere tra ricerca di clump e ricerca di sorgenti nella mappa
+	 */
 	
 	public Vector<String[]> getClumps() {
 		return clumps;
@@ -28,12 +31,12 @@ public class ShowObjectBean {
 		return sources;
 	}
 	
-	public boolean isClump() {
+	/*public boolean isClump() {
 		return isClump;
 	}
 	public void setClump(boolean isClump) {
 		this.isClump = isClump;
-	}
+	}*/
 	public void setSources(Vector<String[]> sources) {
 		this.sources = sources;
 	}
@@ -60,7 +63,19 @@ public class ShowObjectBean {
 	public void importMapNames() throws SQLException { //serve per far scegliere tra i nomi delle varie mappe
 		ShowObjectController controller = ShowObjectController.getInstance(this);
 		this.mapNames = controller.getMapNames();
-		
-		}
+	}
 	
+	
+public boolean validate(){
+		
+		ShowObjectController controller = ShowObjectController.getInstance(this);
+		this.clumps = controller.getClumps();
+		
+		
+		if( !controller.InsertTool(this.name, this.mapId, this.bands)){
+			return false;
+		}
+		return true;
+		
+	}
 }
