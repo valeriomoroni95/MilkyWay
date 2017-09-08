@@ -30,35 +30,78 @@ public class SourceDao {
 			
 	    		DataSource d = new DataSource();
 	        	connection = d.getConnection();
+	        	if(band != null)
+	        		 query = query + "AND sf.band_resolution = ?"; //da inserire, è un double/float
+	        			        
+	        	query = query + ";";
 	        	PreparedStatement pStatement = connection.prepareStatement(query);
-	        	Double dband = Double.parseDouble(Float.toString(band));
-	        	pStatement.setDouble(1,dband);
+	        	
+	        	if(band!=null) {
+	        		Double dband = Double.parseDouble(Float.toString(band));
+	        		pStatement.setDouble(1,dband);
+	        	}
 	        	result = pStatement.executeQuery(query); 
-	    		}
-					catch (SQLException se) {
-						//TODO
-					}
-	    		catch(Exception e) {
-	    				System.out.println("ToolDao.java: catch after try");
-	      		} 
-			
-					String[] s = new String[5];
-			    	try {
-			    		while(result.next()){
-			    			s[0] = result.getString("source_mapcode"); 
-			    			s[1] = Double.toString(result.getDouble("value")); //si fa col toString?
-			    			s[2] = Double.toString(result.getDouble("error"));
-			    			s[3] = Double.toString(result.getDouble("latitude"));
-			    			s[4] = Double.toString(result.getDouble("longitude"));
+	    	}
+			catch (SQLException se) {
+					se.printStackTrace();
+				}
+	    	catch(Exception e) {
+	    			e.printStackTrace();
+	    		} 
+	    	
+				try {
+
+					String[] s = new String[6];
+
+					if (band != null) { 
+			   			while(result.next()){
+			   				s[0] = result.getString("source_mapcode");
+			   				s[1] = Double.toString(result.getDouble("g_lat"));
+			   				s[2] = Double.toString(result.getDouble("g_lon"));
+		    				s[3] = Double.toString(band);
+		    				s[4] = Double.toString(result.getDouble("value")); 
+		    				s[5] = Double.toString(result.getDouble("error"));
+			    				
+
+			    			//TODO salvare anche posizione spaziale? 
 			    			v.add(s);
+			    			}
 			    		}
+			    		else {
+				    			String currCode = "";
+
+				    			while(result.next()) {
+				    				if(currCode != result.getString("source_mapcode")) {
+				    					currCode = result.getString("source_mapcode");
+				    					s[0] = currCode;
+				    					s[1] = Double.toString(result.getDouble("g_lat"));
+				    					s[2] = Double.toString(result.getDouble("g_lon"));
+				    					s[3] = Double.toString(result.getDouble("band_resolution"));
+				    					s[4] = Double.toString(result.getDouble("value"));
+				    					s[5] = Double.toString(result.getDouble("error"));
+				    				v.add(s);
+				    			
+				    				}
+				    				
+				    				else {
+				    				s[0] = ""; //la sorgente è lo stessa, non ristampo questi valori;
+				    				s[1] = ""; //lo stesso vale per le coordinate.
+				    				s[2] = ""; //ricordare di escludere queste righe dal conteggio dei 50 oggetti
+				    				s[3] = Double.toString(result.getDouble("band_resolution"));
+				    				s[4] = Double.toString(result.getDouble("value"));
+				    				s[5] = Double.toString(result.getDouble("error"));
+				    				v.add(s);
+				    				}
+				    			} 
+			    			}
+		
 			    	}
 			    	catch (SQLException e1) {
 			    		e1.printStackTrace();
 			    	}
+					
 			 	 return v;
-	    	
-		}
+	 }
 	 
 	 public Vector<String[]> showSourcesInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
 			

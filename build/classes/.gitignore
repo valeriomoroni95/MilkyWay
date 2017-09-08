@@ -1,3 +1,7 @@
-/entity/
-/dao/
 /boundary/
+/dao/
+<<<<<<< Updated upstream
+/boundary/
+=======
+/entity/
+>>>>>>> Stashed changes
