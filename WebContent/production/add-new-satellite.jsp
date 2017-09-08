@@ -139,7 +139,7 @@
 								
 									<div class="checkbox">
                                     		<label>
-                                        		<input type="checkbox" name="<%= agencyId %>" value="<%= agencyName %>" class="flat"> <%= agencyName %>
+                                        		<input type="checkbox" name="agency" value="<%= agencyId %>" class="flat"> <%= agencyName %>
                                     		</label>
                                 		</div>
 								
