@@ -103,15 +103,18 @@ public class ClumpDao {
 		
 				String[] s = new String[5];
 		    	try {
-		    		while(result.next()){
-		    			s[0] = Integer.toString(result.getInt("clump_id"));
-		    			s[1] = Double.toString(result.getDouble("value")); 
-		    			s[2] = Double.toString(result.getDouble("error"));
-		    			s[3] = Double.toString(result.getDouble("g_lat"));
-		    			s[4] = Double.toString(result.getDouble("g_lon"));
+		    		if (band != null) {
+		    			while(result.next()){
+		    				s[0] = Integer.toString(result.getInt("clump_id"));
+		    				s[1] = Double.toString(band);
+		    				s[2] = Double.toString(result.getDouble("value")); 
+		    				s[3] = Double.toString(result.getDouble("error"));
+		    				s[4] = Double.toString(result.getDouble("g_lat"));
+		    				s[5] = Double.toString(result.getDouble("g_lon"));
 
 		    			//TODO salvare anche posizione spaziale? 
 		    			v.add(s);
+		    			}
 		    		}
 		    	}
 		    	catch (SQLException e1) {
@@ -120,13 +123,61 @@ public class ClumpDao {
 		 	 return v;
 	}
 	
-	/*public Vector<String[]> showClumpsById(int clump_id) {       
+	
+	public Vector<String[]> showClumpInfo(int clumpId) {
 		
-		PreparedStatement statement = null;
-		Connection connection = null;
-		ResultSet result = null;
+    	Vector<String[]> v = null;
+    	Connection connection = null;
+        ResultSet result = null;
+        v = new Vector<String[]>();
+        
+        String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on" +
+        				"c.clump_id = fc.clump_id WHERE c.clump_id = ?;"; 
+                	
+    	try { //TODO check || NB: è per il requisito 6
 		
-	}*/
+    		DataSource d = new DataSource();
+        	connection = d.getConnection();
+        	PreparedStatement pStatement = connection.prepareStatement(query);
+        	pStatement.setInt(1,clumpId);
+        	result = pStatement.executeQuery(query);
+    		}
+			catch (SQLException se) {
+					se.printStackTrace();				
+			}	
+    		catch(Exception e) {
+    				e.printStackTrace();
+      		} 
+		
+			
+		    	try {
+		    			String[] s = {"","","",""};
+		    			String[] t = {"","",""};
+		    			if(result.next()) {
+		    				s[0] = Integer.toString(result.getInt("clump_id"));
+		    				s[1] = Double.toString(result.getDouble("g_lat"));
+		    				s[2] = Double.toString(result.getDouble("g_lat"));
+		    				s[3] = Double.toString(result.getDouble("g_lon"));
+		    				v.add(s);
+		    			} /* Ho creato un array di stringhe da passare ->controller->bean: 
+		    				funge da "Header";*/
+		    			
+		    			while(result.next()){
+		    				
+		    				t[0] = Double.toString(result.getDouble("band_resolution"));
+		    				t[2] = Double.toString(result.getDouble("value"));
+		    				t[3] = Double.toString(result.getDouble("error"));
+
+		    				v.add(t);
+		    			} /* Dopo l'header ci sono array di stringhe con banda, valore ed errore
+		    			 	 per le diverse bande     */
+		    		}
+		    	catch (SQLException e1) {
+		    		e1.printStackTrace();
+		    	}
+		 	 return v;
+	}
+	
 	
 	public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
 		
