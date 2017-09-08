@@ -129,7 +129,7 @@ public class SatelliteBean {
 	}
 	
 	public boolean validate(){
-		System.out.println("SatelliteBean.java: validate(): " + name + start + end + tools + agencyIds);
+		System.out.println("SatelliteBean.java: validate(): " + name + " " + start + " " + end + " "+ tools + " " + agencyIds);
 		SatelliteController controller = SatelliteController.getInstance(this);
 		System.out.println("SatelliteBean.java: validate() controller: " + controller);
 		if( !controller.InsertSatellites(this.name, this.start, this.end, this.tools, this.agencyIds)){
