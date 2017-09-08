@@ -1,40 +1,22 @@
-<%@page import="boundary.SignUpBean" %>
+<%@page import="boundary.ToolBean" %>
+<%@page import="entity.Map" %>
+<%@page import="java.util.*" %>
 
-<jsp:useBean id="registrationBean" scope="session" class="boundary.SignUpBean" />
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
-<jsp:setProperty name="registrationBean" property="*" />
+<!DOCTYPE html>
 
 <%
 
-String name = request.getParameter("name");
-String surname = request.getParameter("surname");
-String username = request.getParameter("username");
-String email = request.getParameter("email");
-String password = request.getParameter("password");
 
-System.out.println("add-new-user.jsp: name: " + name);
-System.out.println("add-new-user.jsp: username: " + username);
+	ToolBean toolBean = new ToolBean();
+	toolBean.importMaps();
 
-if(name!=null){
-	SignUpBean signUpBean = new SignUpBean();
-
-	signUpBean.setName(name);
-	signUpBean.setSurname(surname);
-	signUpBean.setUsername(username);
-	signUpBean.setEmail(email);
-	signUpBean.setPassword(password);
-
-	if(signUpBean.validate()){
-		System.out.println("add-new-user.jsp: signup.validate() is TRUE, you are signed up");
-	}
-	else{
-		System.out.println("add-new-user.jsp: signup.validate() is FALSE, you're not signed up");
-	}
-}
-
+	Vector<Map> maps = toolBean.getMaps();
+	
 %>
 
-<!DOCTYPE html>
 <html lang="en">
   <%@include file="parts/head.jsp" %>
   <body class="nav-md">
@@ -80,13 +62,21 @@ if(name!=null){
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Map</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <select class="form-control">
-                            <option>Choose option</option>
-                            <option>Map one</option>
-                            <option>Map two</option>
-                            <option>Map three</option>
-                            <option>Map four</option>
-                          </select>
+                        
+                          	<% if(maps != null){ %>
+                          		
+                          		<select class="form-control">
+                          		
+                        				<% for(Map map : maps){ %>
+                        				
+                        					<option><%= map.getMapName() %></option>
+                        				
+                        				<% } %>
+                        				
+                        			</select>
+                        			
+                        		<% } %>
+                          
                         </div>
                       </div>
                       

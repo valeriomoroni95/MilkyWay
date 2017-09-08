@@ -20,14 +20,14 @@ public class MapDao {
         final String query = "SELECT * FROM \"map\";"; //voglio selezionare id mappa e nome mappa per tutte le mappe
             
         try {                
-        	DataSource d = new DataSource();
-        	connection = d.getConnection();                
-        	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        		DataSource d = new DataSource();
+        		connection = d.getConnection();                
+        		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
             
             while(result.next()){
-            	Map m = new Map(result.getInt("map_id"),result.getString("name"));
-            	maps.add(m);
+            		Map m = new Map(result.getInt("map_id"),result.getString("name"));
+            		maps.add(m);
             	
             }
                 
@@ -72,21 +72,23 @@ public class MapDao {
         final String query = "SELECT DISTINCT name FROM \"map\";"; //voglio selezionare id mappa e nome mappa per tutte le mappe
             
         try {                
-        	DataSource d = new DataSource();
-        	connection = d.getConnection();                
-        	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        		DataSource d = new DataSource();
+        		connection = d.getConnection();                
+        		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
             
             while(result.next()){
-            	mapNames.add(result.getString("name"));
+            		mapNames.add(result.getString("name"));
             }
                 
             if (!result.first())
                   return null; 
             
          }catch (Exception e){
-        	 e.printStackTrace();
-         	} finally {
+        	 
+        	 	e.printStackTrace();
+        	 	
+         } finally {
          		if (result != null)
          			result.close();
          		if (statement != null)
@@ -98,14 +100,14 @@ public class MapDao {
             return mapNames;
      }
 
-    
     public static boolean addMap(String mapId, String mapName) {
    	 
-    	Connection connection = null;
+    		Connection connection = null;
         Statement statement = null;
         ResultSet result = null;
         
         final String query = "SELECT \"map_id\" FROM \"map\" WHERE \"map_id\" = '"+mapId+"';";
+        
         try {
        	 	DataSource d = new DataSource();
             connection = d.getConnection();
