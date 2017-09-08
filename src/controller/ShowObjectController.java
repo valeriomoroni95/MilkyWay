@@ -4,12 +4,14 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import boundary.ShowObjectBean;
+import dao.ClumpDao;
 import dao.MapDao;
+import entity.Clump;
 
 public class ShowObjectController {
 	
 	private static ShowObjectController instance;
-	  
+	private Clump c; 
 	private ShowObjectController(ShowObjectBean ob) {
     
 	}
@@ -35,6 +37,15 @@ public class ShowObjectController {
 		return mapNames;
 	
    }
+	
+	public Vector<String[]> getClumps() {
+		
+		Vector<String[]> clumps = new Vector<String[]>();
+		ClumpDao clumpDao = new ClumpDao();
+		clumps = clumpDao.showClumpInfo(this.c.getClump_id());  //Il clump passato è quello dell'istanza corrente (dovrebbe essere giusto, controllare)
+		return clumps;
+		
+	}
 
 	
 	

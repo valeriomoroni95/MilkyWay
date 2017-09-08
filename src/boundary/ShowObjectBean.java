@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import controller.ShowObjectController;
-import controller.ToolController;
 
 public class ShowObjectBean {
 	
@@ -66,16 +65,11 @@ public class ShowObjectBean {
 	}
 	
 	
-public boolean validate(){
+	public void importClumpDatas() throws SQLException {
 		
 		ShowObjectController controller = ShowObjectController.getInstance(this);
 		this.clumps = controller.getClumps();
 		
-		
-		if( !controller.InsertTool(this.name, this.mapId, this.bands)){
-			return false;
-		}
-		return true;
 		
 	}
 }
