@@ -162,8 +162,8 @@ public class SatelliteDao {
             		pstatement = connection.prepareStatement(insert3);
             		
             		for(String agency : agencies) { 
-            			pstatement.setString(1, name);
-            			pstatement.setInt(2, Integer.parseInt(agency));
+            			pstatement.setString(2, name);
+            			pstatement.setInt(1, Integer.parseInt(agency));
             			pstatement.executeUpdate();
             		}
             		
