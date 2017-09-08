@@ -62,7 +62,7 @@ public class SatelliteDao {
             	
         			System.out.println("SatelliteDao.java: result.next() " + result.next());
 
-        			if (currSatelliteName != null) {
+        			if (currSatelliteName != "") {
         			
         				if(currSatelliteName != result.getString("name")) {	
             		            				
