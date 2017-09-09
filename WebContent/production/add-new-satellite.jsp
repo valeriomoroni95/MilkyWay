@@ -42,7 +42,13 @@
 	
 	satelliteBean.setName(name);
 	satelliteBean.setStart(start);
-	satelliteBean.setEnd(end);
+	
+	if(end != ""){
+		satelliteBean.setEnd(end);
+	}else{
+		satelliteBean.setEnd(null);
+	}
+	
 	satelliteBean.setAgencyNames(vectorAgencies);
 	satelliteBean.setTools(vectorTools);
 	
