@@ -91,8 +91,8 @@ public class Satellite {
 		years = days/365;
 		months = (days-years*365)/30;
 		days = days - years*365 - months*30;
-		String k = "Il satellite è attivo da " + Integer.toString(years) + 
-				" anni, " + Integer.toString(months) + " mesi e" + Integer.toString(days) + "giorni.";
+		String k = Integer.toString(years) + 
+				" years, " + Integer.toString(months) + " months and " + Integer.toString(days) + " days.";
 		//System.out.println(k);
 		return k;
 	}
