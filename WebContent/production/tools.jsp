@@ -97,17 +97,14 @@ Vector<Tool> tools = toolBean.getTools();
                             		<br />
                           	</td>
                           	
-                          	<td><%= tool.getMapId() %></td>
+                          	<td><%= tool.getMapName() %></td>
                           	
                           	<td>
-                          		<% System.out.println("tools.jsp: band list " + tool.getBandList()); %>
                           	
-                            		<% if(tool.getBandList() != null){ %>
+                            		<% if(tool.getBands() != null){ %>
                             		
-                            			<% for(Double band : tool.getBandList()){ %>
+                            			<% for(Double band : tool.getBands()){ %>
                             			
-                            				<% System.out.println("tools.jsp: band " + band); %>
-                            				
                             				<%= band %>
                             			
                             			<% } %> 
