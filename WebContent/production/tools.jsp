@@ -1,3 +1,20 @@
+<%@page import="boundary.ToolBean" %>
+<%@page import="entity.Tool" %>
+<%@page import="java.util.*" %>
+
+<%
+
+ToolBean toolBean = new ToolBean();
+
+toolBean.importTools();
+toolBean.importBands();
+toolBean.importMaps();
+
+Vector<Tool> tools = toolBean.getTools();
+
+%>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <%@include file="parts/head.jsp" %>
@@ -33,7 +50,7 @@
               <div class="col-md-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Satellites list</h2>
+                    <h2>Tools list</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -53,73 +70,69 @@
                   </div>
                   <div class="x_content">
 
-                    <p>Simple table with project listing with progress and editing options</p>
-
                     <!-- start project list -->
                     <table class="table table-striped projects">
                       <thead>
                         <tr>
                           <th style="width: 1%">#</th>
-                          <th style="width: 20%">Satellite name</th>
-                          <th>Agency</th>
-                          <th>Project Progress</th>
+                          <th style="width: 20%">Tool Name</th>
+                          <th>Map</th>
+                          <th>Bands</th>
                           <th>Status</th>
                           <th style="width: 20%">#Edit</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>#</td>
-                          <td>
-                            <a>IRAC</a>
-                            <br />
-                            <small>First obervation 01.01.2015</small>
-                          </td>
-                          <td>
-                            NASA
-                          </td>
-                          <td class="project_progress">
-                            <div class="progress progress_sm">
-                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
-                            </div>
-                            <small>57% Complete</small>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#</td>
-                          <td>
-                            <a>PACS</a>
-                            <br />
-                            <small>First observation 01.01.2015</small>
-                          </td>
-                          <td>
-                            ESA
-                          </td>
-                          <td class="project_progress">
-                            <div class="progress progress_sm">
-                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="47"></div>
-                            </div>
-                            <small>47% Complete</small>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                          </td>
-                        </tr>
-
-                      </tbody>
+                      
+                      
+                      <% if(tools != null){ %>
+                      
+                      	<tbody>
+                      	
+                      	<% int i = 1; %>
+                      	
+                      	<% for(Tool tool : tools){ %>
+                      	<tr>
+                          	<td>#<%= i %></td>
+                          	<td>
+                            		<a><%= tool.getToolName() %></a>
+                            		<br />
+                          	</td>
+                          	
+                          	<td><%= tool.getMapId() %></td>
+                          	
+                          	<td>
+                          		<% System.out.println("tools.jsp: band list " + tool.getBandList()); %>
+                          	
+                            		<% if(tool.getBandList() != null){ %>
+                            		
+                            			<% for(Double band : tool.getBandList()){ %>
+                            			
+                            				<% System.out.println("tools.jsp: band " + band); %>
+                            				
+                            				<%= band %>
+                            			
+                            			<% } %> 
+                            		
+                            		<% } %>
+                          	</td>
+                          	<td>
+                            		<button type="button" class="btn btn-success btn-xs">Success</button>
+                          	</td>
+                          	<td>
+                            		<a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            		<a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            		<a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          	</td>
+                        	</tr>
+                      		
+                      	<% i++; %>
+                      	<% } %>
+                      	
+                      	</tbody>
+                      
+                      <% } %>
+                      
+               
                     </table>
                     <!-- end project list -->
                     
