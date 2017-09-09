@@ -1,3 +1,30 @@
+<%@page import="boundary.SatelliteBean" %>
+<%@page import="entity.Satellite" %>
+<%@page import="entity.Agency" %>
+<%@page import="java.util.*" %>
+<%@page import="java.io.*" %>
+
+
+
+<%
+
+
+SatelliteBean satelliteBean = new SatelliteBean();
+satelliteBean.importSatellitesList();
+
+Vector<Satellite> satellites = satelliteBean.getSatellites();
+
+for(Satellite satellite : satellites){
+	System.out.println(" satellite.jsp: satellite " + satellite.getSatelliteName());
+}
+
+
+%>
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
   <%@include file="parts/head.jsp" %>
@@ -67,59 +94,82 @@
                           <th style="width: 20%">#Edit</th>
                         </tr>
                       </thead>
+                      
+                      <% if(satellites != null){ %>
+                      
+                      
                       <tbody>
-                        <tr>
-                          <td>#</td>
-                          <td>
-                            <a>Spitzer</a>
-                            <br />
-                            <small>First obervation 01.01.2015</small>
-                          </td>
-                          <td>
-                            NASA
-                          </td>
-                          <td class="project_progress">
-                            <div class="progress progress_sm">
-                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
-                            </div>
-                            <small>57% Complete</small>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#</td>
-                          <td>
-                            <a>Herschel</a>
-                            <br />
-                            <small>First observation 01.01.2015</small>
-                          </td>
-                          <td>
-                            ESA
-                          </td>
-                          <td class="project_progress">
-                            <div class="progress progress_sm">
-                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="47"></div>
-                            </div>
-                            <small>47% Complete</small>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                          </td>
-                        </tr>
-
+                      	<% int counterSat = 0; %>
+                      	<% for(Satellite satellite : satellites){ %>
+                      
+                      	<% System.out.println("satellites.jsp: counterSat " + counterSat); %>
+                      
+                      	<tr>
+                         	<td>#</td>
+                          	<td>
+                            		<a><%= satellite.getSatelliteName() %></a>
+                            		<br />
+                            		<small>First obervation: <%= satellite.getSatelliteStart() %></small><br>
+                            		
+                            		<% if(satellite.getSatelliteEnd() != null){ %>
+                            		
+                            		<small>Mission ended: <%= satellite.getSatelliteEnd() %></small><br>
+                            		<small>Duration: <%= satellite.getDuration() %></small>
+                            		
+                            		<% } %>
+                            		
+                          	</td>
+                          	
+                          	<% if(satellite.getAgencies() != null){ %>
+                          	
+                          		<td>
+                          		
+                          		<% int counterAg = 0; %>
+                          		<% for(Agency agency : satellite.getAgencies() ){ %>
+                          			<% System.out.println("satellites.jsp: couterAg " + counterAg); %>
+                          		
+                          			<%= agency.getAgencyName() %>
+                          			
+                          			<% System.out.println("satellites.jsp: Nome agenzia " + agency.getAgencyName()); %>
+                          			
+                          			<% counterAg++; %>
+                          		<% } %>
+                          		
+                          		</td>
+                          	
+                          	<% } %>
+                          	
+                          	<td class="project_progress">
+                            		<div class="progress progress_sm">
+                              		<div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
+                            		</div>
+                            		<small>57% Complete</small>
+                          	</td>
+                          	<td>
+                          		<% if(satellite.getSatelliteEnd() != ""){ %>
+                            		<button type="button" class="btn btn-success btn-xs">Success</button>
+                            		<% }else{ %>
+                            		<button type="button" class="btn btn-danger btn-xs">In progress</button>
+                            		<% } %>
+                            		
+                          	</td>
+                          	<td>
+                            		<a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            		<a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            		<a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          		</td>
+                        	</tr>
+                        	
+                        	<% counterSat++; %>
+                      
+                      	<% } %>
+                      
+                      
                       </tbody>
+                      
+                      
+                      <% } %>
+                      
                     </table>
                     <!-- end project list -->
                     
