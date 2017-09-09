@@ -105,7 +105,7 @@ public Vector<Tool> showTools() throws SQLException {
     Vector<Tool> tools = new Vector<Tool>();    
     ResultSet result = null;
      
-    final String query = "SELECT * FROM \"tool\";"; 
+    final String query = "SELECT * FROM \"tool\" join map on map_id;"; 
     
     try {                
     	DataSource d = new DataSource();
@@ -114,7 +114,7 @@ public Vector<Tool> showTools() throws SQLException {
         result = statement.executeQuery(query);
         
         while(result.next()){
-        	Tool t = new Tool(result.getString("tool_name"),result.getInt("map_id"));
+        	Tool t = new Tool(result.getString("tool_name"),result.getInt("map_id"), result.getString("name"));
         	tools.add(t);
         	
         }

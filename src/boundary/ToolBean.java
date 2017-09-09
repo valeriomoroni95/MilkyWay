@@ -54,14 +54,10 @@ public class ToolBean {
 		return this.bands;
 	}
 	
-	/*public List<String> getTools(){
-		return this.tools;
-	}*/
 	
 	public void importTools() throws SQLException { //serve per visualizzare tutti gli strumenti
 		ToolController controller = ToolController.getInstance(this);
 		this.tools = controller.getToolsList();
-		this.maps = controller.getMapsList();
 		}
 	
 	public void importBands() throws SQLException { //importa tutte le risoluzioni di bande presenti nel db
