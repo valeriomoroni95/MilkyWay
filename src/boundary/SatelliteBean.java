@@ -32,7 +32,7 @@ public class SatelliteBean {
 		this.satellites = satellites;
 	}
 
-	public void setAgencyNames(Vector<String> agencyIds) {
+	public void setAgencyIds(Vector<String> agencyIds) {
 		this.agencyIds = agencyIds;
 	}
 
@@ -72,9 +72,6 @@ public class SatelliteBean {
 		this.tools = tools;
 	}
 	
-	public void setAgencyIds(Vector<String> agencies) {
-		this.agencyIds = agencies;
-	}
 	
 	public String getName() {
 		return this.name;

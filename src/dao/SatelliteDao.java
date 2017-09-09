@@ -94,13 +94,21 @@ public class SatelliteDao {
            					//System.out.println(currSatelliteName +" "+ lastTool + " " + tools);
            				}
             			aTemp =	result.getInt("agencyid");
-           				if(agency.getAgencyId() != aTemp) {
-           					agency = new Agency();
-           					agency.setAgencyId(aTemp);
-           					agency.setAgencyName(result.getString("agencyname"));
-           					agencies.add(agency);
-           				}
+            			boolean check = true;
+            			for(Agency ag : agencies) {
+                			if(ag.getAgencyId()==aTemp) {
+                				check = false;
+                				break;
+                			}			
+            			}
+            				if(check) {
+            					agency = new Agency();
+           						agency.setAgencyId(aTemp);
+           						agency.setAgencyName(result.getString("agencyname"));
+           						agencies.add(agency);
+            				}
            				i = i + "i";
+        				
             	}
 			s = new Satellite(currSatelliteName, start, end, tools, agencies);
     		System.out.println("SatelliteDao.java: new satellite \n" + s.toString());
@@ -204,12 +212,12 @@ public class SatelliteDao {
 		
 		}	
 
-	public static void main(String args[]) throws SQLException {
+	/*public static void main(String args[]) throws SQLException {
 		Vector<Satellite> v = new Vector<Satellite>();
 		SatelliteDao c = new SatelliteDao();
 		v = c.showSatellites();
 		for(Satellite sat : v) {
 			System.out.println("satelliti: " + sat.toString());
 		}
-	}
+	}*/
 }

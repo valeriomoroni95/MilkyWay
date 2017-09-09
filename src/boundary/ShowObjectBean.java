@@ -77,4 +77,22 @@ public class ShowObjectBean {
 		this.sources = controller.getSources(mapName, band);
 
 	}
+	
+	
+	public static void main(String args[]) throws SQLException {
+		ShowObjectBean bean = new ShowObjectBean();
+		bean.importMapNames();
+		Vector<String> mapNames = bean.getMapNames();
+		System.out.println(mapNames);
+				
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
