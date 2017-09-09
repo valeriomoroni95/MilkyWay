@@ -69,7 +69,12 @@ public class ShowObjectBean {
 		
 		ShowObjectController controller = ShowObjectController.getInstance(this);
 		this.clumps = controller.getClumps(mapName, band);
+
+	}
+	public void importSourceDatas() throws SQLException {
 		
-		
+		ShowObjectController controller = ShowObjectController.getInstance(this);
+		this.sources = controller.getSources(mapName, band);
+
 	}
 }
