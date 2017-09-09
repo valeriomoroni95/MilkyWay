@@ -40,11 +40,13 @@
 	
 	toolBean.setBands(vectorBands);
 	
-	if(toolBean.validate()){
-		System.out.println("add_new_tool.jsp: validate TRUE");
-	}else{
-		System.out.println("add_new_tool.jsp: validate FALSE");
+	if(name != null){
+		if(toolBean.validate()){
+			System.out.println("add_new_tool.jsp: validate TRUE");
+		}else{
+			System.out.println("add_new_tool.jsp: validate FALSE");
 
+		}
 	}
 	
 %>
