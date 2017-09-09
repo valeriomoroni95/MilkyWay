@@ -19,7 +19,7 @@ public class SatelliteDao {
         Vector<Satellite> satellites = new Vector<Satellite>();    
         ResultSet result = null;
          
-        final String query = "SELECT * FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
+        final String query = "SELECT distinct s.name, s.satellite_start, s.satellite_end, t.tool_name, a.name, a.id FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
         			"join tool t on ts.tool_name = t.tool_name join agency_satellite ag_sat on ag_sat.satellite_name ="+
         			" s.name join agency a on ag_sat.agency_id = a.id order by s.name, ts.tool_name;"; 
             
@@ -48,7 +48,7 @@ public class SatelliteDao {
             String lastTool = "\n";
             Vector<String> tools = new Vector<String>();
             Vector<Agency> agencies = new Vector<Agency>();
-            
+            String temp = "\n";
             Satellite s = null;
             
             if (!result.first()) {
@@ -59,8 +59,8 @@ public class SatelliteDao {
             }
              
             while(result.next()) {
-            	
-        				if(currSatelliteName != result.getString("name") || currSatelliteName != "\n") {	
+            			temp = result.getString("s.name");
+        				if(currSatelliteName != temp && currSatelliteName != "\n") {	
             		            				
             				s = new Satellite(currSatelliteName, start, end, tools, agencies);
             				
@@ -78,20 +78,22 @@ public class SatelliteDao {
 	
             			}
         				
-            				currSatelliteName = result.getString("name");
-            				start = result.getString("satellite_start");
-            				end = result.getString("satellite_end");
-            				if(end == "")
-            					end = null;
-            				if(lastTool != result.getString("tool_name") && lastTool != "\n") {
-            					lastTool = result.getString("tool_name");
-            					tools.add(lastTool);
-            				}
-            				Agency agency = new Agency();
-            				agency.setAgencyId(result.getInt("id"));
-            				agency.setAgencyName(result.getString("name"));
-            				agencies.add(agency);
+            			currSatelliteName = temp;
+            			start = result.getString("s.satellite_start");
+            			end = result.getString("s.satellite_end");
+            			if(end == "")
+           					end = null;
+           				if(lastTool != result.getString("t.tool_name") && lastTool != "\n") {
+           					lastTool = result.getString("t.tool_name");
+           					tools.add(lastTool);
+           				}
+           				Agency agency = new Agency();
+           				agency.setAgencyId(result.getInt("a.id"));
+           				agency.setAgencyName(result.getString("a.name"));
+           				agencies.add(agency);
             	}
+            s = new Satellite(currSatelliteName, start, end, tools, agencies);
+            satellites.add(s);
                     
         } catch(Exception e) {
         	
