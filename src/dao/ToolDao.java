@@ -105,7 +105,7 @@ public Vector<Tool> showTools() throws SQLException {
     Vector<Tool> tools = new Vector<Tool>();    
     ResultSet result = null;
      
-    final String query = "SELECT * FROM \"tool\" join map on map_id;"; 
+    final String query = "SELECT * FROM \"tool\" t join map m on t.map_id = m.map_id;"; 
     
     try {                
     	DataSource d = new DataSource();
