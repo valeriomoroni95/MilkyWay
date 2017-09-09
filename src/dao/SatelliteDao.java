@@ -62,7 +62,7 @@ public class SatelliteDao {
             	
         				if(currSatelliteName != result.getString("name") && currSatelliteName != "\n") {	
             		            				
-            				s = new Satellite(currSatelliteName, start, end, tools);
+            				s = new Satellite(currSatelliteName, start, end, tools, agencies);
             				
                     		System.out.println("SatelliteDao.java: new satellite " + s);
 

@@ -15,11 +15,12 @@ public class Satellite {
 	private Vector<Agency> agencies;
 	
 	
-	public Satellite(String satelliteName, String satelliteStart, String satelliteEnd, Vector<String> tools) {
+	public Satellite(String satelliteName, String satelliteStart, String satelliteEnd, Vector<String> tools, Vector<Agency> agencies) {
 		this.satelliteName = satelliteName;
 		this.satelliteStart = satelliteStart;
 		this.satelliteEnd = satelliteEnd;
 		this.tools = tools;
+		this.agencies = agencies;
 		if(satelliteEnd!=null)
 			this.duration = calculateDuration();
 	}
