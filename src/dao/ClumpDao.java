@@ -73,7 +73,7 @@ public class ClumpDao {
 		return clumps;
 	}
 	
-	public Vector<String[]> findClumpInMap (String map,Float band){ 
+	public Vector<String[]> findClumpsInMap (String map,Float band){ 
     	Vector<String[]> v = null;
     	Connection connection = null;
         ResultSet result = null;

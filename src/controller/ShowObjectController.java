@@ -3,18 +3,18 @@ package controller;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import javax.xml.transform.Source;
+//import javax.xml.transform.Source;
 
 import boundary.ShowObjectBean;
 import dao.ClumpDao;
 import dao.MapDao;
 import dao.SourceDao;
-import entity.Clump;
+//import entity.Clump;
 
 public class ShowObjectController {
 	
 	private static ShowObjectController instance;
-	private Clump c; 
+	//private Clump c; 
 	private ShowObjectController(ShowObjectBean ob) {
     
 	}
@@ -45,17 +45,27 @@ public class ShowObjectController {
 		
 		Vector<String[]> clumps = new Vector<String[]>();
 		ClumpDao clumpDao = new ClumpDao();
-		clumps = clumpDao.showClumpInfo(this.c.getClump_id());  //Il clump passato è quello dell'istanza corrente (dovrebbe essere giusto, controllare)
+		clumps = clumpDao.findClumpsInMap(mapName, band);
 		return clumps;
+		
+		/*Vector<String[]> clumps = new Vector<String[]>();
+		ClumpDao clumpDao = new ClumpDao();
+		clumps = clumpDao.showClumpInfo(this.c.getClump_id());  //Il clump passato è quello dell'istanza corrente (dovrebbe essere giusto, controllare)
+		return clumps; //è sbagliato! RICICLARE? */ 
 		
 	}
 	
-	public Vector<String[]> getSources(String map, float band){
+	public Vector<String[]> getSources(String mapName, float band){
 		
 		Vector<String[]> sources = new Vector<String[]>();
 		SourceDao sourceDao = new SourceDao();
-		sources = SourceDao.showSourceInfo(this.s.getSource_id());  
+		sources = sourceDao.findSourcesInMap(mapName, band);
 		return sources;
+		/*
+		Vector<String[]> sources = new Vector<String[]>();
+		SourceDao sourceDao = new SourceDao();
+		sources = SourceDao.showSourceInfo(this.s.getSource_id());  
+		return sources; //non c'entra niente */
 	}
 
 	

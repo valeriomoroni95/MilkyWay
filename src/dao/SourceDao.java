@@ -13,7 +13,7 @@ public class SourceDao {
 	
 	
 	
-	 public Vector<String[]> findSourceInMap (String map, Float band){ 
+	 public Vector<String[]> findSourcesInMap (String map, Float band){ 
 	    	Vector<String[]> v = null;
 	    	Connection connection = null;
 	        ResultSet result = null;
