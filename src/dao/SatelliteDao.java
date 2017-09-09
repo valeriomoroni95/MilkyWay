@@ -60,7 +60,7 @@ public class SatelliteDao {
              
             while(result.next()) {
             	
-        				if(currSatelliteName != result.getString("name") && currSatelliteName != "\n") {	
+        				if(currSatelliteName != result.getString("name") || currSatelliteName != "\n") {	
             		            				
             				s = new Satellite(currSatelliteName, start, end, tools, agencies);
             				
