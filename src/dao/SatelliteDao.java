@@ -204,12 +204,12 @@ public class SatelliteDao {
 		
 		}	
 
-	public static void main(String args[]) throws SQLException {
+	/*public static void main(String args[]) throws SQLException {
 		Vector<Satellite> v = new Vector<Satellite>();
 		SatelliteDao c = new SatelliteDao();
 		v = c.showSatellites();
 		for(Satellite sat : v) {
 			System.out.println(sat.toString());
 		}
-	}
+	}*/
 }
