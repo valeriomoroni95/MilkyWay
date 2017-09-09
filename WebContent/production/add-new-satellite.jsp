@@ -45,14 +45,9 @@
 	satelliteBean.setEnd(end);
 	satelliteBean.setAgencyNames(vectorAgencies);
 	satelliteBean.setTools(vectorTools);
-	
-	boolean success = false;
-	
+		
 	if(satelliteBean.validate()){
 		System.out.println("add_new_satellite.jsp: validate TRUE");
-		success=true;
-		HttpSession s = request.getSession();
-		s.setAttribute("success", success);
 	}else{
 		System.out.println("add_new_satellite.jsp: validate FALSE");
 	}
@@ -187,26 +182,6 @@
 </div>
 
 <%@include file="parts/scripts.jsp" %>
-
-<%if(success){ %>
-        	
-	<script type="text/javascript">
-        	
-    		new PNotify({
-    			title: 'Success!',
-    			text: 'A brand new satellite has been sucessfully added to the database',
-    			type: 'success',
-    			styling: 'bootstrap3'
-    		});
-    				
-	</script>
-        	
-        		
-<% }
-	
-	s.removeAttribute("success");
-
-%>
 
 </body>
 </html>
