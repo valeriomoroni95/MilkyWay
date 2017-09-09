@@ -81,6 +81,8 @@ public class SatelliteDao {
             				currSatelliteName = result.getString("name");
             				start = result.getString("satellite_start");
             				end = result.getString("satellite_end");
+            				if(end == "")
+            					end = null;
             				if(lastTool != result.getString("tool_name") && lastTool != "\n") {
             					lastTool = result.getString("tool_name");
             					tools.add(lastTool);

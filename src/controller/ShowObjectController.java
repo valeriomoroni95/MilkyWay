@@ -50,13 +50,13 @@ public class ShowObjectController {
 		
 	}
 	
-	/*public Vector<String[]> getSources(String map, float band){
+	public Vector<String[]> getSources(String map, float band){
 		
 		Vector<String[]> sources = new Vector<String[]>();
 		SourceDao sourceDao = new SourceDao();
 		sources = SourceDao.showSourceInfo(this.s.getSource_id());  
 		return sources;
-	}*/
+	}
 
 	
 	
