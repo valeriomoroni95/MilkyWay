@@ -17,16 +17,16 @@ public class MapDao {
         Vector<Map> maps = new Vector<Map>();    
         ResultSet result = null;
          
-        final String query = "SELECT * FROM \"map\";"; //voglio selezionare id mappa e nome mappa per tutte le mappe
+        final String query = "SELECT m.map_id as mid, m.name as mapname FROM \"map\" m;"; //voglio selezionare id mappa e nome mappa per tutte le mappe
             
         try {                
         		DataSource d = new DataSource();
         		connection = d.getConnection();                
         		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            result = statement.executeQuery(query);
+        		result = statement.executeQuery(query);
             
             while(result.next()){
-            		Map m = new Map(result.getInt("map_id"),result.getString("name"));
+            		Map m = new Map(result.getInt("mid"),result.getString("mapname"));
             		maps.add(m);
             	
             }

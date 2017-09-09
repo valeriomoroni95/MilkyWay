@@ -114,7 +114,7 @@ public Vector<Tool> showTools() throws SQLException {
         result = statement.executeQuery(query);
         
         while(result.next()){
-        	Tool t = new Tool(result.getString("name"),result.getInt("map"));
+        	Tool t = new Tool(result.getString("tool_name"),result.getInt("map_id"));
         	tools.add(t);
         	
         }

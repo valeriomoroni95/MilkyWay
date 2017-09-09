@@ -21,7 +21,7 @@ public class Satellite {
 		this.satelliteEnd = satelliteEnd;
 		this.tools = tools;
 		this.agencies = agencies;
-		if(satelliteEnd!=null)
+		if(!satelliteEnd.equals("null"))
 			this.duration = calculateDuration();
 	}
 	
