@@ -202,7 +202,7 @@
 </script>
 <% }
 
-s.removeAttribute("success");
+session.removeAttribute("success");
 
 %>
 
