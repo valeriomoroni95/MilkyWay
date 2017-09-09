@@ -19,7 +19,8 @@ public class SatelliteDao {
         Vector<Satellite> satellites = new Vector<Satellite>();    
         ResultSet result = null;
          
-        final String query = "SELECT s.name, s.satellite_start, s.satellite_end, t.tool_name, a.name, a.id FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
+        final String query = "SELECT s.name as satellitename, s.satellite_start as satellitestart, s.satellite_end"+
+        " as satelliteend, t.tool_name as toolname, a.name as agencyname, a.id as agencyid FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
         			"join tool t on ts.tool_name = t.tool_name join agency_satellite ag_sat on ag_sat.satellite_name ="+
         			" s.name join agency a on ag_sat.agency_id = a.id order by s.name, ts.tool_name;"; 
             
@@ -59,7 +60,7 @@ public class SatelliteDao {
             }
              
             while(result.next()) {
-            			temp = result.getString("s.name");
+            			temp = result.getString("satellitename");
         				
             			if(currSatelliteName != temp && currSatelliteName != "\n") {	
             		            				
@@ -80,21 +81,19 @@ public class SatelliteDao {
             			}
         				
             			currSatelliteName = temp;
-            			start = result.getString("s.satellite_start");
-            			end = result.getString("s.satellite_end");
+            			start = result.getString("satellitestart");
+            			end = result.getString("satelliteend");
             			if(end == "")
            					end = null;
-           				if(lastTool != result.getString("t.tool_name") && lastTool != "\n") {
-           					lastTool = result.getString("t.tool_name");
+           				if(lastTool != result.getString("toolname") && lastTool != "\n") {
+           					lastTool = result.getString("toolname");
            					tools.add(lastTool);
            				}
            				Agency agency = new Agency();
-           				agency.setAgencyId(result.getInt("a.id"));
-           				agency.setAgencyName(result.getString("a.name"));
+           				agency.setAgencyId(result.getInt("agencyid"));
+           				agency.setAgencyName(result.getString("agencyname"));
            				agencies.add(agency);
             	}
-            s = new Satellite(currSatelliteName, start, end, tools, agencies);
-            satellites.add(s);
                     
         } catch(Exception e) {
         	
@@ -193,5 +192,13 @@ public class SatelliteDao {
 		return true;
 		
 		}	
-}
 
+	/*public static void main(String args[]) throws SQLException {
+		Vector<Satellite> v = new Vector<Satellite>();
+		SatelliteDao c = new SatelliteDao();
+		v = c.showSatellites();
+		for(Satellite sat : v) {
+			System.out.println(sat.toString());
+		}
+	}*/
+}

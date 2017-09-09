@@ -26,6 +26,13 @@ public class Satellite {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "Satellite [satelliteName=" + satelliteName + ", satelliteStart=" + satelliteStart + ", satelliteEnd="
+				+ satelliteEnd + ", tools=" + tools + ", duration=" + duration + ", agencies=" + agencies + "]";
+	}
+
+
 	public Vector<Agency> getAgencies() {
 		return agencies;
 	}
