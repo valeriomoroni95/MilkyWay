@@ -79,7 +79,7 @@ public class Satellite {
 		int years;
 		int days;
 		
-		days = (startYear-endYear)*365 + (startMonth-endMonth)*30 + startDay - endDay;
+		days = (-startYear+endYear)*365 + (-startMonth+endMonth)*30 - startDay + endDay;
 		years = days/365;
 		months = (days-years*365)/30;
 		days = days - years*365 - months*30;
