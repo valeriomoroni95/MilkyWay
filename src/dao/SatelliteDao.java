@@ -44,7 +44,7 @@ public class SatelliteDao {
         		
             String currSatelliteName = "\n";
             String start = "\n";
-            String end = "\n";
+            String end = null;
             String lastTool = "\n";
             Vector<String> tools = new Vector<String>();
             Vector<Agency> agencies = new Vector<Agency>();
