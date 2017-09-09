@@ -27,10 +27,6 @@ public Vector<Double> showBandResolutions() throws SQLException {
             	resolutions.add(result.getDouble("resolution"));
             	
             }
-                
-            if (!result.first()) {
-                  return null;
-            } 
             
          }catch (Exception e){
         	
