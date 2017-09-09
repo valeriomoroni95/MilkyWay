@@ -133,9 +133,9 @@ public class ClumpDao {
 			    				}
 			    				
 			    				else {
-			    				s[0] = ""; //il clump è lo stesso, non ristampo questi valori;
-			    				s[1] = ""; //lo stesso vale per le coordinate.
-			    				s[2] = ""; //ricordare di escludere queste righe dal conteggio dei 50 oggetti
+			    				s[0] = " "; //il clump è lo stesso, non ristampo questi valori;
+			    				s[1] = " "; //lo stesso vale per le coordinate.
+			    				s[2] = " "; //ricordare di escludere queste righe dal conteggio dei 50 oggetti
 			    				s[3] = Double.toString(result.getDouble("band_resolution"));
 			    				s[4] = Double.toString(result.getDouble("value"));
 			    				s[5] = Double.toString(result.getDouble("error"));

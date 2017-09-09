@@ -68,9 +68,9 @@ public class SatelliteDao {
 
             				satellites.add(s);
             				
-            				currSatelliteName ="";
-            				start = "";
-            				end = "";
+            				currSatelliteName ="\n";
+            				start = "\n";
+            				end = null;
             				tools.clear();
             				agencies.clear();
             			
@@ -86,7 +86,7 @@ public class SatelliteDao {
             					tools.add(lastTool);
             				}
             				Agency agency = new Agency();
-            				agency.setAgencyId( result.getInt("id"));
+            				agency.setAgencyId(result.getInt("id"));
             				agency.setAgencyName(result.getString("name"));
             				agencies.add(agency);
             	}
