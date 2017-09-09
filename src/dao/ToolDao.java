@@ -130,6 +130,8 @@ public Vector<Tool> showTools() throws SQLException {
         	currMid = result.getInt("mid");
         	bands.add(result.getDouble("resolution"));
         }
+        Tool t = new Tool(currName,currMid, currMapName, bands);
+    	tools.add(t);
         
      }catch (Exception e){
     	
