@@ -4,24 +4,14 @@
 <%@page import="java.util.*" %>
 <%@page import="java.io.*" %>
 
-
-
 <%
-
 
 SatelliteBean satelliteBean = new SatelliteBean();
 satelliteBean.importSatellitesList();
 
 Vector<Satellite> satellites = satelliteBean.getSatellites();
 
-for(Satellite satellite : satellites){
-	System.out.println(" satellite.jsp: satellite " + satellite.getSatelliteName());
-}
-
-
 %>
-
-
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -80,8 +70,6 @@ for(Satellite satellite : satellites){
                   </div>
                   <div class="x_content">
 
-                    <p>Simple table with project listing with progress and editing options</p>
-
                     <!-- start project list -->
                     <table class="table table-striped projects">
                       <thead>
@@ -89,7 +77,6 @@ for(Satellite satellite : satellites){
                           <th style="width: 1%">#</th>
                           <th style="width: 20%">Satellite name</th>
                           <th>Agency</th>
-                          <th>Project Progress</th>
                           <th>Status</th>
                           <th style="width: 20%">#Edit</th>
                         </tr>
@@ -99,22 +86,27 @@ for(Satellite satellite : satellites){
                       
                       
                       <tbody>
-                      	<% int counterSat = 0; %>
+                      	<% int i = 1; %>
                       	<% for(Satellite satellite : satellites){ %>
-                      
-                      	<% System.out.println("satellites.jsp: counterSat " + counterSat); %>
-                      
+                                            
                       	<tr>
-                         	<td>#</td>
+                         	<td>#<%= i %></td>
                           	<td>
                             		<a><%= satellite.getSatelliteName() %></a>
                             		<br />
                             		<small>First obervation: <%= satellite.getSatelliteStart() %></small><br>
                             		
-                            		<% if(satellite.getSatelliteEnd() != null){ %>
+                            		<% 
                             		
-                            		<small>Mission ended: <%= satellite.getSatelliteEnd() %></small><br>
-                            		<small>Duration: <%= satellite.getDuration() %></small>
+                            		String end = satellite.getSatelliteEnd();
+                            		String duration = satellite.getDuration();
+                            		
+                            		if(end.equals("null") || end == null){ %>
+                            			<small>Mission not completed</small>
+                            		<% } else{ %> 
+                            		
+                            			<small>Mission ended: <%= end %></small><br>
+                            			<small>Duration: <%= duration %></small>
                             		
                             		<% } %>
                             		
@@ -124,32 +116,21 @@ for(Satellite satellite : satellites){
                           	
                           		<td>
                           		
-                          		<% int counterAg = 0; %>
                           		<% for(Agency agency : satellite.getAgencies() ){ %>
-                          			<% System.out.println("satellites.jsp: couterAg " + counterAg); %>
                           		
                           			<%= agency.getAgencyName() %>
                           			
-                          			<% System.out.println("satellites.jsp: Nome agenzia " + agency.getAgencyName()); %>
-                          			
-                          			<% counterAg++; %>
                           		<% } %>
                           		
                           		</td>
                           	
                           	<% } %>
                           	
-                          	<td class="project_progress">
-                            		<div class="progress progress_sm">
-                              		<div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
-                            		</div>
-                            		<small>57% Complete</small>
-                          	</td>
                           	<td>
-                          		<% if(satellite.getSatelliteEnd() != ""){ %>
-                            		<button type="button" class="btn btn-success btn-xs">Success</button>
-                            		<% }else{ %>
+                          		<% if(end.equals("null") || end == null){ %>
                             		<button type="button" class="btn btn-danger btn-xs">In progress</button>
+                            		<% }else{ %>
+                            		<button type="button" class="btn btn-success btn-xs">Success</button>
                             		<% } %>
                             		
                           	</td>
@@ -160,7 +141,7 @@ for(Satellite satellite : satellites){
                           		</td>
                         	</tr>
                         	
-                        	<% counterSat++; %>
+                        	<% i++; %>
                       
                       	<% } %>
                       
