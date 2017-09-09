@@ -105,23 +105,31 @@ public Vector<Tool> showTools() throws SQLException {
     Vector<Tool> tools = new Vector<Tool>();    
     ResultSet result = null;
      
-    final String query = "SELECT t.tool_name as toolname, m.map_id as mid, m.name as mapname FROM \"tool\" t join map m on t.map_id = m.map_id;"; 
-    
+    final String query = "SELECT t.tool_name as toolname, m.map_id as mid, m.name as mapname, " + 
+    					 "tb.band_resolution as resolution FROM \"tool\" t join map m on t.map_id = m.map_id "+
+    					 "join tool_band tb on tb.tool_name = t.tool_name order by t.tool_name;"; 
     try {                
     	DataSource d = new DataSource();
     	connection = d.getConnection();                
     	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         result = statement.executeQuery(query);
-        
+        String temp = "";
+        String currName = "";
+        String currMapName = "";
+        int currMid = -1;
+        Vector<Double> bands = new Vector<Double>();
         while(result.next()){
-        	Tool t = new Tool(result.getString("toolname"),result.getInt("mid"), result.getString("mapname"));
-        	tools.add(t);
-        	
+        	temp = result.getString("toolname");
+        	if(!currName.equals(temp) && !currName.equals("")) {
+            	Tool t = new Tool(currName,currMid, currMapName, bands);
+            	tools.add(t);
+            	bands = new Vector<Double>();
+        	}
+        	currName = temp;
+        	currMapName = result.getString("mapname");
+        	currMid = result.getInt("mid");
+        	bands.add(result.getDouble("resolution"));
         }
-            
-        if (!result.first()) {
-              return null;
-        } 
         
      }catch (Exception e){
     	

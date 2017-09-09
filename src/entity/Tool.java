@@ -10,11 +10,12 @@ public class Tool {
 	private String mapName;
 	private Vector<Double> bands;
 	
-	public Tool( String toolName, int mapId, String mapName) {
+	public Tool( String toolName, int mapId, String mapName, Vector<Double> bands) {
 		
 		this.toolName = toolName;
 		this.mapId = mapId;
 		this.mapName = mapName;
+		this.bands = bands;
 	}
 
 	public String getToolName() {
