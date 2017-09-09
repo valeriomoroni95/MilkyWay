@@ -78,7 +78,6 @@ Vector<Tool> tools = toolBean.getTools();
                           <th style="width: 20%">Tool Name</th>
                           <th>Map</th>
                           <th>Bands</th>
-                          <th>Status</th>
                           <th style="width: 20%">#Edit</th>
                         </tr>
                       </thead>
@@ -114,9 +113,6 @@ Vector<Tool> tools = toolBean.getTools();
                             			<% } %> 
                             		
                             		<% } %>
-                          	</td>
-                          	<td>
-                            		<button type="button" class="btn btn-success btn-xs">Success</button>
                           	</td>
                           	<td>
                             		<a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
