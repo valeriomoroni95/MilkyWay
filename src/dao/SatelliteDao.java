@@ -20,7 +20,7 @@ public class SatelliteDao {
         ResultSet result = null;
          
         final String query = "SELECT s.name as satellitename, s.satellite_start as satellitestart, s.satellite_end"+
-        " as satelliteend, t.tool_name as toolname, a.name as agencyname, a.id as agencyid FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
+        " as satelliteend, ts.tool_name as toolname, a.name as agencyname, a.id as agencyid FROM \"satellite\" s join \"tool_satellite\" ts on s.name = ts.satellite_name "+
         			"join tool t on ts.tool_name = t.tool_name join agency_satellite ag_sat on ag_sat.satellite_name ="+
         			" s.name join agency a on ag_sat.agency_id = a.id order by s.name, ts.tool_name;"; 
             
@@ -51,50 +51,61 @@ public class SatelliteDao {
             Vector<Agency> agencies = new Vector<Agency>();
             String temp = "\n";
             Satellite s = null;
-            
-            if (!result.first()) {
+            String tempTool = "\n";
+            String i = "i";
+            Agency agency = new Agency();
+            int aTemp = -1;
+            /*if (!result.first()) {
             	
         			System.out.println("SatelliteDao.java: if !result.first -> null");
 
         			return null;
-            }
+            }*/
              
             while(result.next()) {
+            			
+            			System.out.println(i);
             			temp = result.getString("satellitename");
-        				
-            			if(currSatelliteName != temp && currSatelliteName != "\n") {	
-            		            				
+            			if(!currSatelliteName.equals(temp) && !currSatelliteName.equals("\n")) {	    				
             				s = new Satellite(currSatelliteName, start, end, tools, agencies);
-            				
-                    		System.out.println("SatelliteDao.java: new satellite " + s);
-
+                    		System.out.println("SatelliteDao.java: new satellite \n" + s.toString());
             				satellites.add(s);
             				
             				currSatelliteName ="\n";
             				start = "\n";
             				end = null;
-            				tools.clear();
-            				agencies.clear();
-            			
-                    		System.out.println("SatelliteDao.java: satellite result list " + satellites);
+            				lastTool = "\n";
+            				tools = new Vector<String>();
+            				agencies = new Vector<Agency>();
+                    		//System.out.println("SatelliteDao.java: satellite result list " + satellites);
 	
             			}
         				
             			currSatelliteName = temp;
             			start = result.getString("satellitestart");
             			end = result.getString("satelliteend");
-            			if(end == "")
-           					end = null;
-           				if(lastTool != result.getString("toolname") && lastTool != "\n") {
-           					lastTool = result.getString("toolname");
+            			/*if(end == "")
+           					end = null;*/
+            			tempTool = result.getString("toolname");
+           				//System.out.println(lastTool + " " + tempTool);
+            			if(!lastTool.equals(tempTool)) {
+           					lastTool = tempTool;
            					tools.add(lastTool);
+           					//System.out.println(currSatelliteName +" "+ lastTool + " " + tools);
            				}
-           				Agency agency = new Agency();
-           				agency.setAgencyId(result.getInt("agencyid"));
-           				agency.setAgencyName(result.getString("agencyname"));
-           				agencies.add(agency);
+            			aTemp =	result.getInt("agencyid");
+           				if(agency.getAgencyId() != aTemp) {
+           					agency = new Agency();
+           					agency.setAgencyId(aTemp);
+           					agency.setAgencyName(result.getString("agencyname"));
+           					agencies.add(agency);
+           				}
+           				i = i + "i";
             	}
-                    
+			s = new Satellite(currSatelliteName, start, end, tools, agencies);
+    		System.out.println("SatelliteDao.java: new satellite \n" + s.toString());
+    		satellites.add(s);
+
         } catch(Exception e) {
         	
         		e.printStackTrace();
@@ -193,12 +204,12 @@ public class SatelliteDao {
 		
 		}	
 
-	/*public static void main(String args[]) throws SQLException {
+	public static void main(String args[]) throws SQLException {
 		Vector<Satellite> v = new Vector<Satellite>();
 		SatelliteDao c = new SatelliteDao();
 		v = c.showSatellites();
 		for(Satellite sat : v) {
 			System.out.println(sat.toString());
 		}
-	}*/
+	}
 }
