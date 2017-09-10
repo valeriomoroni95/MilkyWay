@@ -150,7 +150,7 @@
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" name="band" value="500.0" class="flat"> 500.0 (us)
+                              <input type="checkbox" name="band" value="3.6" class="flat"> 3.6 (us)
                             </label>
                           </div>
                           <div class="checkbox">
@@ -170,7 +170,7 @@
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" name="band" value="25.0" class="flat"> 25.0 (us)
+                              <input type="checkbox" name="band" value="24.0" class="flat"> 24.0 (us)
                             </label>
                           </div>
                       	
