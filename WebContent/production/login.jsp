@@ -32,6 +32,8 @@
 			s.setAttribute("name", user.getName());
 			s.setAttribute("surname", user.getSurname());
 			s.setAttribute("username", user.getUsername());
+			System.out.println("login.jsp: user.getAdmin() " + user.getAdmin());
+			s.setAttribute("is_admin", user.getAdmin());
 			System.out.println("login.jsp: Session get name" + s.getAttribute("isLoggedIn"));
 			response.sendRedirect("index.jsp");
 		}else{

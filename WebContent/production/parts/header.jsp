@@ -1,11 +1,10 @@
 <%@page import="entity.User" %>
 
 <%
+
 HttpSession s = request.getSession();
 
-Object user = s.getAttribute("isLoggedIn");
-
-if(user == null){
+if(s.getAttribute("isLoggedIn") == null){
 	response.sendRedirect("login.jsp");
 }
 

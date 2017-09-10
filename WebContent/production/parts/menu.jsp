@@ -1,3 +1,15 @@
+<%
+
+boolean is_admin = false;
+
+try{
+	is_admin = (boolean) request.getSession().getAttribute("is_admin");
+}catch(Exception e ){
+	e.printStackTrace();
+}
+
+%>
+
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
@@ -30,7 +42,12 @@
                     <li><a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="users.jsp">All users</a></li>
-                            <li><a href="add-new-user.jsp">Add new</a></li>
+                            
+                            <% if( is_admin == true) { %>
+                                                     
+                            	<li><a href="add-new-user.jsp">Add new</a></li>
+                            	
+                            	<% } %>
                             <li><a href="profile.jsp">Your profile</a></li>
                         </ul>
                     </li>
@@ -38,7 +55,13 @@
                     <li><a><i class="fa fa-space-shuttle"></i> Satellites <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="satellites.jsp">All satellites</a></li>
+                            
+                            <% if( is_admin == true) { %>
+                           
                             <li><a href="add-new-satellite.jsp">Add new</a></li>
+                            
+                            <% } %>
+                            
                         </ul>
                     </li>
                     
@@ -55,6 +78,8 @@
                         </ul>
                     </li>
                     
+                    <% if( is_admin == true) { %>
+                    
                     <li><a><i class="fa fa-upload"></i> Imports <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="clump-catalogue-import.jsp">Clump catalogue</a></li>
@@ -63,10 +88,15 @@
                         </ul>
                     </li>
                     
+                    <% } %>
+                    
                     <li><a><i class="fa fa-wrench"></i> Tools <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="tools.jsp">All tools</a></li>
+                            
+                            <% if( is_admin == true) { %>
                             <li><a href="add-new-tool.jsp">Add new tool</a></li>
+                            <% } %>
                             
                         </ul>
                     </li>
