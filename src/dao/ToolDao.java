@@ -58,14 +58,13 @@ public Vector<String> showToolNames() throws SQLException {
         final String query = "SELECT tool_name FROM \"tool\";"; 
         
         try {                
-        	DataSource d = new DataSource();
-        	connection = d.getConnection();                
-        	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        		DataSource d = new DataSource();
+        		connection = d.getConnection();                
+        		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
             
             while(result.next()){
-            	toolNames.add(result.getString("tool_name"));
-            	
+            		toolNames.add(result.getString("tool_name"));
             }
                 
             if (!result.first()) {
@@ -109,10 +108,11 @@ public Vector<Tool> showTools() throws SQLException {
     					 "tb.band_resolution as resolution FROM \"tool\" t join map m on t.map_id = m.map_id "+
     					 "join tool_band tb on tb.tool_name = t.tool_name order by t.tool_name;"; 
     try {                
-    	DataSource d = new DataSource();
-    	connection = d.getConnection();                
-    	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    		DataSource d = new DataSource();
+    		connection = d.getConnection();                
+    		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         result = statement.executeQuery(query);
+        
         String temp = "";
         String currName = "";
         String currMapName = "";
@@ -169,7 +169,7 @@ public static boolean isToolPresent(String name, int mapId, Vector<Double> bands
     final String query = "SELECT \"tool_name\" FROM \"tool\" WHERE \"tool_name\" = '"+name+"';";
 	
     try{
-    	DataSource d = new DataSource();
+    		DataSource d = new DataSource();
         connection = d.getConnection();
         statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         result = statement.executeQuery(query);
@@ -178,7 +178,7 @@ public static boolean isToolPresent(String name, int mapId, Vector<Double> bands
         }
         
         if(result.first()){
-        	return false;
+        		return false;
         }else {
             String insert = "INSERT INTO \"tool\" VALUES ('"+name+"',?);";
             pstatement = connection.prepareStatement(insert);
@@ -193,13 +193,16 @@ public static boolean isToolPresent(String name, int mapId, Vector<Double> bands
         		pstatement.setString(1, name);
         		pstatement.executeUpdate();
         	}
-       		result.close();
+        	
+       	result.close();
         	statement.close();
         	connection.close();
         
         }
     }catch(Exception e){
-    	e.printStackTrace();
+    	
+    		e.printStackTrace();
+    		
     } finally {
         try {
             if (statement != null)

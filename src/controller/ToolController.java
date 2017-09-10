@@ -25,7 +25,7 @@ public class ToolController {
 	public static synchronized ToolController getInstance(ToolBean tb) {
 		if(instance == null)
 			instance = new ToolController(tb);
-    return instance;
+		return instance;
 	}
   
 	public Vector<Tool> getToolsList() throws SQLException{
@@ -74,8 +74,5 @@ public class ToolController {
 		
 		return bool;
 		
-	}
-  
-  
-  
+	}  
 }

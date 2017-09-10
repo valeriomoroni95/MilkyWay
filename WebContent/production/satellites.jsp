@@ -8,8 +8,10 @@
 
 SatelliteBean satelliteBean = new SatelliteBean();
 satelliteBean.importSatellitesList();
+satelliteBean.importToolsList();
 
 Vector<Satellite> satellites = satelliteBean.getSatellites();
+
 
 %>
 
@@ -77,6 +79,7 @@ Vector<Satellite> satellites = satelliteBean.getSatellites();
                           <th style="width: 1%">#</th>
                           <th style="width: 20%">Satellite name</th>
                           <th>Agency</th>
+                          <th>Tools</th>
                           <th>Status</th>
                           <th style="width: 20%">#Edit</th>
                         </tr>
@@ -125,6 +128,19 @@ Vector<Satellite> satellites = satelliteBean.getSatellites();
                           		</td>
                           	
                           	<% } %>
+                          	
+                          	<td>
+                          	<% if(satellite.getTools() != null){ 
+                          	
+                          		for(String tool : satellite.getTools()){ %>
+                          			
+                          			<%= tool %>
+                          			
+                          		<% }
+                          	
+                          	 } %>
+                          	 
+                          	</td>
                           	
                           	<td>
                           		<% if(end.equals("null") || end == null){ %>
