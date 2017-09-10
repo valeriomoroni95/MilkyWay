@@ -30,13 +30,13 @@ public Vector<Double> showBandResolutions() throws SQLException {
             
          }catch (Exception e){
         	
-        		System.out.println("ToolDao.java: catch after try");
+        		System.out.println("BandDao.java: catch after try");
 
             e.printStackTrace();
 
         } finally {
         	
-        		System.out.println("ToolDao.java: finally");
+        		System.out.println("BandDao.java: finally");
 
             if (result != null) {
                 result.close();

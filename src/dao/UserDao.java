@@ -30,7 +30,7 @@ public class UserDao {
         User user = null;
         ResultSet result = null;
 
-        final String query = "SELECT * FROM \"user\" WHERE \"user_id\" = '"+username+ "' AND \"password\" = '" +password+"';";
+        final String query = "SELECT * FROM \"user_milkyway\" WHERE \"user_id\" = '"+username+ "' AND \"password\" = '" +password+"';";
         
         System.out.println("UserDao.java: query: " +  query);
 
@@ -116,7 +116,7 @@ public class UserDao {
         Statement statement = null;
         ResultSet result = null;
 
-         final String query = "SELECT \"user_id\" FROM \"user\" WHERE \"user_id\" = '"+username+"';";
+         final String query = "SELECT \"user_id\" FROM \"user_milkyway\" WHERE \"user_id\" = '"+username+"';";
          
          try {
         	 DataSource d = new DataSource();
@@ -135,7 +135,7 @@ public class UserDao {
              if(result.first())
             	 return false;
              else {
-                 String sql1 = "INSERT INTO \"user\" VALUES ('"+username+"','"+name+"','"+surname+"',false,'"+email+"','"+password+"');";
+                 String sql1 = "INSERT INTO \"user_milkyway\" VALUES ('"+username+"','"+name+"','"+surname+"',false,'"+email+"','"+password+"');";
                  System.out.println("ho fatto la insert " + sql1);
                  statement.executeUpdate(sql1);
              }

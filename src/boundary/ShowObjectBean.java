@@ -78,19 +78,22 @@ public class ShowObjectBean {
 
 	}
 	
-	
+/*	
 	public static void main(String args[]) throws SQLException {
 		ShowObjectBean bean = new ShowObjectBean();
 		bean.importMapNames();
 		Vector<String> mapNames = bean.getMapNames();
 		System.out.println(mapNames);
 				
+	}*/
 	
+	public static void main(String args[]) throws SQLException {
+		ShowObjectBean bean = new ShowObjectBean();
+		bean.mapName = "Higal";
+		bean.band = (float) 350.0;
+		bean.importClumpDatas();
+		
 	}
-	
-	
-	
-	
 	
 	
 	
