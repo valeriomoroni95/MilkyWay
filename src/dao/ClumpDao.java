@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Vector;
 
 public class ClumpDao {
@@ -208,6 +209,61 @@ public class ClumpDao {
 		    	}
 		 	 return v;
 	}
+//    for(String[] rawClumpData : fileData){
+
+	public boolean isPresent(int clumpId) {
+		Connection connection = null;
+        PreparedStatement statement = null;
+           	
+        ResultSet result = null;
+        	
+        
+        try {
+       	 	
+        	System.out.println("ClumpDao: isPresent.java: sto dopo il try");
+        	final String query = "SELECT \"clump_id\" FROM \"clump\" WHERE \"clump_id\" = ?;";
+        	DataSource d = new DataSource();
+        	System.out.println("ClumpDao: isPresent.java: sopravvissuto al Datasource");
+
+            connection = d.getConnection();
+            
+            PreparedStatement pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pStatement.setInt(1, clumpId);
+            result = pStatement.executeQuery();
+            System.out.println("ClumpDao: isPresent.java: ho eseguito la query");
+
+            
+            
+            if(result.first())
+           	 return true;
+          
+            result.close();
+            pStatement.close();
+            connection.close();
+            return false;  
+        } catch (SQLException se) {
+            // Errore durante l'apertura della connessione
+            se.printStackTrace();
+        } catch (Exception e) {
+            // Errore nel loading del driver
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        return true;
+    }
+		
+	
 	
 	
 	public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
