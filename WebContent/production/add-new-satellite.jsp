@@ -49,7 +49,7 @@
 		satelliteBean.setEnd(null);
 	}
 	
-	satelliteBean.setAgencyNames(vectorAgencies);
+	satelliteBean.setAgencyIds(vectorAgencies);
 	satelliteBean.setTools(vectorTools);
 	
 	boolean success = false;
