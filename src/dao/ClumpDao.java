@@ -104,7 +104,7 @@ public class ClumpDao {
 		
 				String[] s = {"","","","","",""};
 		    	try {
-		    		if (band != null) { 
+		    		if (!band.equals(null)) { 
 		    			while(result.next()){
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
