@@ -52,9 +52,9 @@ public class FileImportDao {
             		surfDens = Double.parseDouble(vect[5]);
             		cType = Integer.parseInt(vect[6]);
             		if(cd.isPresent(clumpId)){
-            			String sql1 = "UPDATE clump SET(g_lon, g_lat, k_temp, ratio, surf_dens, c_type) = (?,?,?,?,?,?,?,?) WHERE clump_id =?;";
+            			String sql1 = "UPDATE clump SET(g_lon, g_lat, k_temp, ratio, surf_dens, c_type) = (?,?,?,?,?,?) WHERE clump_id =?;";
             			statement = connection.prepareStatement(sql1);
-            			statement.setInt(6, clumpId);
+            			statement.setInt(7, clumpId);
                         statement.setDouble(1, gLon);
             			statement.setDouble(2, gLat);
             			statement.setDouble(3, temp);
