@@ -108,6 +108,106 @@ public class SourceDao {
 	 
 	 public Vector<String[]> showSourcesInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
 			
+			//permette di cercare i clump che si trovano in un cerchio o un quadrato centrato in latitude, longitude
+			// e con raggio/cateto di lunghezza lenght. Se cerco in un cerchio isCircle = true, rettangolo false
+	 		// l'array di stringhe ritornato nel vettore ha il formato [id, latitudine, longitudine, distanza]
+
+			Vector<String[]> data = new Vector<String[]>();
+			String query, condition;
+	    	Connection connection = null;
+			PreparedStatement pStatement = null;
+			ResultSet result;		
+			
+			try {
+				
+				query = "SELECT s.source_mapcode, s.latitude, s.longitude "  + 
+						"FROM source s;";
+				
+				DataSource d = new DataSource();
+	            connection = d.getConnection();
+	        	pStatement = connection.prepareStatement(query);
+	        	result = pStatement.executeQuery();
+	        	String mapCode;
+	        	Double lat, lon, distance;
+	        	while(result.next()) {
+	        		
+	        		mapCode = result.getString("source_mapcode");
+	        		lat = result.getDouble("latitude");
+	        		lon = result.getDouble("longitude");
+	        		
+	        		if(isCircle) {
+	        			distance = Math.sqrt(Math.pow(latitude - lat, 2)+Math.pow(longitude - lon,2));
+	        			if(distance < lenght) {
+	        				String toPass[] = {	mapCode,
+	        									Double.toString(lat),
+	        									Double.toString(lon),
+	        									Double.toString(distance)
+												};
+	        				data.add(toPass);
+	        			}
+	        		}
+	        		else {
+	        			if(lat < latitude + lenght/2 && lat > latitude - lenght/2 &&
+	        				lon < longitude + lenght/2 && lon > longitude - lenght/2) {
+	        					distance = Math.sqrt(Math.pow(latitude-lat, 2)+Math.pow(longitude-lon,2));
+	        					String toPass[] = { mapCode,
+	        							Double.toString(lat),
+	        							Double.toString(lon),
+	        							Double.toString(distance)
+	        							};
+	                			data.add(toPass);
+	        			
+	        				}
+	        		}
+	        	}
+
+				/*if(isCircle) {
+					condition = "WHERE SQRT((c.g_lat - ?)*(c.g_lat - ?) + " + 
+								"(c.g_lon - ?)*(c.g_lon - ?))  < ?;";
+					query = query + condition;
+		        	pStatement = connection.prepareStatement(query);
+
+					pStatement.setDouble(1, latitude);
+					pStatement.setDouble(2, latitude);
+					pStatement.setDouble(3, longitude);
+					pStatement.setDouble(4, longitude);
+					pStatement.setDouble(5, lenght);
+				}
+				else {
+					condition = "WHERE c.g_lat < ? AND c.g_lat > ? AND c.g_lon < ? AND c.g_lon > ?;";
+					query = query + condition;
+		        	pStatement = connection.prepareStatement(query);
+
+					pStatement.setDouble(1, latitude);
+					pStatement.setDouble(2, longitude);
+					pStatement.setDouble(3, latitude + lenght/2);
+					pStatement.setDouble(4, latitude - lenght/2);
+					pStatement.setDouble(5, longitude + lenght/2);
+					pStatement.setDouble(6, longitude - lenght/2);		
+				}*/
+	        
+	        	/*result = pStatement.executeQuery();
+
+				while(result.next()){
+					
+					String toPass[] = { Integer.toString(result.getInt("clump_id")),
+										Double.toString(result.getDouble("g_lat")),
+										Double.toString(result.getDouble("g_lon")),
+										Double.toString(result.getDouble("distance"))
+										};
+					data.add(toPass);
+				}*/
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return data;
+	    }
+	/* public Vector<String[]> showSourcesInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
+			
 			// permette di cercare le sorgenti che si trovano in un cerchio o un quadrato centrato in latitude, longitude
 			// e con raggio/cateto di lunghezza lenght. Se cerco in un cerchio isCircle = true, rettangolo false
 		 	// l'array di stringhe ritornato nel vettore ha il formato [id, latitudine, longitudine, distanza]
@@ -173,7 +273,7 @@ public class SourceDao {
 				e.printStackTrace();
 			}
 			return data;
-	    }
+	    } */
 	 
 	 public boolean isPresent(String source_mapcode) {
 			Connection connection = null;
@@ -226,4 +326,17 @@ public class SourceDao {
 	        }
 	        return true;
 	    }
+	 
+	 public static void main(String[] args) {
+			SourceDao sourceD = new SourceDao();
+			Vector<String[]> results = new Vector<String[]>();
+			results = sourceD.showSourcesInArea(0.0,42.7,2.0, false);
+			for(String[] v : results) {
+				for(String k : v)
+					System.out.println(k);
+			}
+	 
+	 }
 }
+
+

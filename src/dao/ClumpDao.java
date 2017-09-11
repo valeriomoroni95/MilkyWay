@@ -263,8 +263,6 @@ public class ClumpDao {
     }
 		
 	
-	
-	
 	public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
 		
 		//permette di cercare i clump che si trovano in un cerchio o un quadrato centrato in latitude, longitude
@@ -279,37 +277,73 @@ public class ClumpDao {
 		
 		try {
 			
-			query = "SELECT c.clump_id, c.g_lat, c.g_lon, SQRT(POW((c.g_lat - ?),2)+" + 
-					"POW((c.g_lon - ?),2)) as distance FROM  flux_clump f JOIN "  + 
-					"clump c on f.clump_id = c.clump_id ";
+			query = "SELECT c.clump_id, c.g_lat, c.g_lon "  + 
+					"FROM clump c;";
 			
 			DataSource d = new DataSource();
             connection = d.getConnection();
         	pStatement = connection.prepareStatement(query);
-        	
-        	if(isCircle) {
-				condition = "WHERE distance < ? order by distance;";
-				pStatement.setDouble(1, latitude);
-				pStatement.setDouble(2, longitude);
-				pStatement.setDouble(3, lenght);
+        	result = pStatement.executeQuery();
+        	int clumpId;
+        	Double lat, lon, distance;
+        	while(result.next()) {
+        		
+        		clumpId = result.getInt("clump_id");
+        		lat = result.getDouble("g_lat");
+        		lon = result.getDouble("g_lon");
+        		
+        		if(isCircle) {
+        			distance = Math.sqrt(Math.pow(latitude - lat, 2)+Math.pow(longitude - lon,2));
+        			if(distance < lenght) {
+        				String toPass[] = { Integer.toString(clumpId),
+        									Double.toString(lat),
+        									Double.toString(lon),
+        									Double.toString(distance)
+											};
+        				data.add(toPass);
+        			}
+        		}
+        		else {
+        			if(lat < latitude + lenght/2 && lat > latitude - lenght/2 &&
+        				lon < longitude + lenght/2 && lon > longitude - lenght/2) {
+        					distance = Math.sqrt(Math.pow(lat, 2)+Math.pow(lon,2));
+        					String toPass[] = { Integer.toString(clumpId),
+        							Double.toString(lat),
+        							Double.toString(lon),
+        							Double.toString(distance)
+        							};
+                			data.add(toPass);
+        			
+        				}
+        		}
         	}
-        	
+
+			/*if(isCircle) {
+				condition = "WHERE SQRT((c.g_lat - ?)*(c.g_lat - ?) + " + 
+							"(c.g_lon - ?)*(c.g_lon - ?))  < ?;";
+				query = query + condition;
+	        	pStatement = connection.prepareStatement(query);
+
+				pStatement.setDouble(1, latitude);
+				pStatement.setDouble(2, latitude);
+				pStatement.setDouble(3, longitude);
+				pStatement.setDouble(4, longitude);
+				pStatement.setDouble(5, lenght);
+			}
 			else {
-				
-				condition = "WHERE g_lat < ? AND g_lat > ? AND g_lon < ? AND g_lon > ?" +
-							"order by distance;";
+				condition = "WHERE c.g_lat < ? AND c.g_lat > ? AND c.g_lon < ? AND c.g_lon > ?;";
+				query = query + condition;
+	        	pStatement = connection.prepareStatement(query);
+
 				pStatement.setDouble(1, latitude);
 				pStatement.setDouble(2, longitude);
 				pStatement.setDouble(3, latitude + lenght/2);
 				pStatement.setDouble(4, latitude - lenght/2);
 				pStatement.setDouble(5, longitude + lenght/2);
 				pStatement.setDouble(6, longitude - lenght/2);		
-			
-			}
-        	
-			query = query + condition;
-        	
-        	result = pStatement.executeQuery(query);
+			}*/
+        
+        	/*result = pStatement.executeQuery();
 
 			while(result.next()){
 				
@@ -319,7 +353,7 @@ public class ClumpDao {
 									Double.toString(result.getDouble("distance"))
 									};
 				data.add(toPass);
-			}
+			}*/
 			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -329,4 +363,15 @@ public class ClumpDao {
 		}
 		return data;
     }
+	
+	/* public static void main(String[] args) {
+		ClumpDao clumpD = new ClumpDao();
+		Vector<String[]> results = new Vector<String[]>();
+		results = clumpD.showClumpsInArea(0.0,42.7,20.0, false);
+		for(String[] v : results) {
+			for(String k : v)
+				System.out.println(k);
+		}
+	}*/
 }
+
