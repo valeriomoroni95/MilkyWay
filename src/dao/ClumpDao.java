@@ -2,10 +2,13 @@ package dao;
 
 import java.sql.Connection;
 import entity.Clump;
+import entity.DistanceComparator;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -306,7 +309,7 @@ public class ClumpDao {
         		else {
         			if(lat < latitude + lenght/2 && lat > latitude - lenght/2 &&
         				lon < longitude + lenght/2 && lon > longitude - lenght/2) {
-        					distance = Math.sqrt(Math.pow(lat, 2)+Math.pow(lon,2));
+        					distance = Math.sqrt(Math.pow(latitude - lat, 2)+Math.pow(longitude -lon,2));
         					String toPass[] = { Integer.toString(clumpId),
         							Double.toString(lat),
         							Double.toString(lon),
@@ -361,10 +364,12 @@ public class ClumpDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		Collections.sort(data, new DistanceComparator());
+
 		return data;
     }
 	
-	/* public static void main(String[] args) {
+	 public static void main(String[] args) {
 		ClumpDao clumpD = new ClumpDao();
 		Vector<String[]> results = new Vector<String[]>();
 		results = clumpD.showClumpsInArea(0.0,42.7,20.0, false);
@@ -372,6 +377,6 @@ public class ClumpDao {
 			for(String k : v)
 				System.out.println(k);
 		}
-	}*/
+	}
 }
 

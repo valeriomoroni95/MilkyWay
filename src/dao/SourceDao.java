@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.Vector;
+import entity.DistanceComparator;
 
 public class SourceDao {
 
@@ -204,6 +206,7 @@ public class SourceDao {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			Collections.sort(data, new DistanceComparator());
 			return data;
 	    }
 	/* public Vector<String[]> showSourcesInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
