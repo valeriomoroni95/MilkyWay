@@ -82,7 +82,7 @@ public class ClumpDao {
 
         String query = "SELECT DISTINCT c.clump_id, fc.value, fc.error FROM clump c join flux_clump fc on" +
         				" c.clump_id = fc.clump_id join map m on c.map_id = m.map_id WHERE m.name = '" + map + "' "; 
-        if(!band.equals(null))
+        if(!band.equals(0.0))
         		 query = query + "AND fc.band_resolution = ?";
         			        
         	query = query + " order by c.clump_id;";
