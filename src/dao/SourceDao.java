@@ -4,54 +4,100 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 public class SourceDao {
 
 	
-	
-	
-	
-	
-	 public Vector<String[]> findSourcesInMap (String map, Float band){ 
+	 public Vector<String[]> findSourcesInMap (String map, Double band){ 
 	    	Vector<String[]> v = null;
 	    	Connection connection = null;
 	        ResultSet result = null;
 			v= new Vector<String[]>();
-
-	        String query = "SELECT DISTINCT s.source_id, fs.value, fs.error FROM source s join flux_source fs on" +
-	        				"s.source_id = fs.source_id join map m on m.map_id = s.map_id WHERE m.map_name = '"+map+"' ";
-	        if(band != null)
-	        		 query = query + "AND sf.band_resolution = ?"; //da inserire, è un double/float
+			PreparedStatement pStatement = null;
+			Statement statement = null;
+	        String query = "SELECT distinct s.source_id, fs.value, fs.error, s.source_mapcode, s.latitude, s.longitude, fs.band_resolution FROM source s join flux_source fs on" +
+	        				" s.source_id = fs.source_id join map m on m.map_id = s.map_id WHERE m.name = '"+map+"' ";
+	      
+	        if(band != 0.0)
+	        		 query = query + "AND sf.band_resolution = ?"; //da inserire, è un double
 	        			        
-	        	query = query + ";";
+	        	query = query + "order by s.source_id;";
 	        	
 	    	try { //TODO check || NB: è per il requisito 5
 			
 	    		DataSource d = new DataSource();
 	        	connection = d.getConnection();
-	        	PreparedStatement pStatement = connection.prepareStatement(query);
-	        	Double dband = Double.parseDouble(Float.toString(band));
-	        	pStatement.setDouble(1,dband);
-	        	result = pStatement.executeQuery(query); 
-	    		}
+	        	if(band!=0.0) {
+		        	pStatement = connection.prepareStatement(query);
+	        		pStatement.setDouble(1,band);
+	        		result = pStatement.executeQuery(); 
+	        	}
+	        	else {
+	        		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+	        		System.out.println("vivo prima execute");
+	        		result = statement.executeQuery(query);
+	        		System.out.println("vivo dopo execute");
+
+	        	}
+	        }
 					catch (SQLException se) {
-						//TODO
-					}
+						se.printStackTrace();
+						}
 	    		catch(Exception e) {
 	    				System.out.println("ToolDao.java: catch after try");
 	      		} 
 			
-					String[] s = new String[5];
+					String[] s = new String[6];
 			    	try {
-			    		while(result.next()){
-			    			s[0] = result.getString("source_mapcode"); 
-			    			s[1] = Double.toString(result.getDouble("value")); //si fa col toString?
-			    			s[2] = Double.toString(result.getDouble("error"));
-			    			s[3] = Double.toString(result.getDouble("latitude"));
-			    			s[4] = Double.toString(result.getDouble("longitude"));
-			    			v.add(s);
-			    		}
+		    			String currSource = "";
+		    			String tempS = null;
+
+		    			while(result.next()){
+
+		    				if (band!=0.0) {
+		    					s = new String[6];
+
+			    				s[0] = result.getString("source_mapcode"); 
+			    				s[1] = Double.toString(result.getDouble("latitude"));
+			    				s[2] = Double.toString(result.getDouble("longitude"));
+			    				s[3] = Double.toString(band);
+			    				s[4] = Double.toString(result.getDouble("value")); //si fa col toString?
+			    				s[5] = Double.toString(result.getDouble("error"));
+			    				v.add(s);
+			    			}
+			    		
+			    			else {
+				    				
+				    				tempS = result.getString("source_mapcode");
+				    				if(!currSource.equals(tempS)) {
+				    					s = new String[6];
+				    					s[0] = tempS; 
+				    					s[1] = Double.toString(result.getDouble("latitude"));
+				    					s[2] = Double.toString(result.getDouble("longitude"));
+				    					s[3] = Double.toString(result.getDouble("band_resolution"));
+					    				s[4] = Double.toString(result.getDouble("value")); //si fa col toString?
+					    				s[5] = Double.toString(result.getDouble("error"));
+					    				v.add(s);
+					    				currSource = tempS;
+					    				
+				    				}
+				    				else {
+				    					s = new String[6];
+
+				    					s[0] = " ";
+				    					s[1] = " ";
+				    					s[2] = " ";
+				    					s[3] = Double.toString(result.getDouble("band_resolution"));
+					    				s[4] = Double.toString(result.getDouble("value")); //si fa col toString?
+					    				s[5] = Double.toString(result.getDouble("error"));
+					    				v.add(s);
+				    				}
+				    			}
+			    			}
+			    		
+		    			
 			    	}
 			    	catch (SQLException e1) {
 			    		e1.printStackTrace();

@@ -15,7 +15,7 @@ import java.util.Vector;
 
 public class FileImportDao {
 	
-public boolean importSatellite(String filename) throws ClassNotFoundException, SQLException {
+	public boolean importSatellite(String filename) throws ClassNotFoundException, SQLException {
     	
     	Connection connection = null;
 		PreparedStatement statement = null;
@@ -23,12 +23,13 @@ public boolean importSatellite(String filename) throws ClassNotFoundException, S
 		String line = "";
         String csvSplitBy = ",";
         int rowIndex = 0;
+        int HIGAL = 1;
         
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
         	
         	DataSource d = new DataSource();
             connection = d.getConnection();
-            final String query = "INSERT INTO \"clump\"(clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,3)";
+            final String query = "INSERT INTO \"clump\"(clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,?)";
             statement = connection.prepareStatement(query);
             int clumpId;
             double gLon;
@@ -63,7 +64,7 @@ public boolean importSatellite(String filename) throws ClassNotFoundException, S
             			statement.executeUpdate();
             		}
             		else{
-            			String sql2 = "INSERT INTO clump VALUES(clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,3);";
+            			String sql2 = "INSERT INTO clump (clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,?);";
             			statement = connection.prepareStatement(sql2);
             			statement.setInt(1, clumpId);
                         statement.setDouble(2, gLon);
@@ -72,6 +73,7 @@ public boolean importSatellite(String filename) throws ClassNotFoundException, S
             			statement.setDouble(5, ratio);
             			statement.setDouble(6, surfDens);
             			statement.setInt(7, cType);
+            			statement.setInt(8,HIGAL);
             			statement.executeUpdate();
             		}
             	}
@@ -84,7 +86,7 @@ public boolean importSatellite(String filename) throws ClassNotFoundException, S
         return true;
     }
 
-public boolean importSource(String filename) throws ClassNotFoundException, SQLException{
+  public boolean importSource(String filename) throws ClassNotFoundException, SQLException{
 	
 	Connection connection = null;
 	Statement statement1 = null;
@@ -211,11 +213,11 @@ public boolean importSource(String filename) throws ClassNotFoundException, SQLE
     
 }
 
-public static void main(String args[]) throws ClassNotFoundException, SQLException {
+/*public static void main(String args[]) throws ClassNotFoundException, SQLException {
 	FileImportDao dao = new FileImportDao();
-	dao.importSource("/home/luca/Scrivania/mips.csv");
+	dao.importSatellite("/home/luca/Scrivania/higal.csv");
 		
-}
+}*/
 
 }
        

@@ -41,7 +41,7 @@ public class ShowObjectController {
 	
    }
 	
-	public Vector<String[]> getClumps(String mapName, float band) {
+	public Vector<String[]> getClumps(String mapName, Double band) {
 		
 		Vector<String[]> clumps = new Vector<String[]>();
 		ClumpDao clumpDao = new ClumpDao();
@@ -55,7 +55,7 @@ public class ShowObjectController {
 		
 	}
 	
-	public Vector<String[]> getSources(String mapName, float band){
+	public Vector<String[]> getSources(String mapName, Double band){
 		
 		Vector<String[]> sources = new Vector<String[]>();
 		SourceDao sourceDao = new SourceDao();

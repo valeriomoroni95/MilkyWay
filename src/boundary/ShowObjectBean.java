@@ -14,7 +14,7 @@ public class ShowObjectBean {
 	private Vector<String[]> sources; //formato: [source_codemap, valoreflusso, erroreflusso, latitudine, longitudine]
 	
 	private Vector<String> mapNames; //nomi delle mappe caricati dal db, da far scegliere per la ricerca
-	float band; // deve essere un float per essere confrontato a null nel DAO, poi viene sistemato
+	Double band; // deve essere un float per essere confrontato a null nel DAO, poi viene sistemato
 	private String mapName; //la query viene fatta col nome, no prob
 	/* NOT NEEDED, riciclare per REQ. 8
 	 * private boolean isClump; //l'utente deve scegliere tra ricerca di clump e ricerca di sorgenti nella mappa
@@ -39,10 +39,10 @@ public class ShowObjectBean {
 	public void setSources(Vector<String[]> sources) {
 		this.sources = sources;
 	}
-	public float getBand() {
+	public Double getBand() {
 		return band;
 	}
-	public void setBand(float band) {
+	public void setBand(Double band) {
 		this.band = band;
 	}
 	public String getMapName() {
@@ -75,11 +75,11 @@ public class ShowObjectBean {
 		
 		ShowObjectController controller = ShowObjectController.getInstance(this);
 		this.sources = controller.getSources(mapName, band);
-
+		
 	}
 	
-/*	
-	public static void main(String args[]) throws SQLException {
+	
+	/*public static void main(String args[]) throws SQLException {
 		ShowObjectBean bean = new ShowObjectBean();
 		bean.importMapNames();
 		Vector<String> mapNames = bean.getMapNames();
@@ -89,13 +89,22 @@ public class ShowObjectBean {
 	
 	public static void main(String args[]) throws SQLException {
 		ShowObjectBean bean = new ShowObjectBean();
-		bean.mapName = "Higal";
-		bean.band = (float) 350.0;
-		bean.importClumpDatas();
+		bean.setMapName("MIPS-GAL");
+		//bean.band = (float) 350.0;
+		bean.setBand(0.0);
+		bean.importSourceDatas();
+		Vector<String[]> z = new Vector<String[]>();
 		
+		z = bean.getSources();
+		System.out.println(z);
+		
+		
+		for(int i = 0; i< z.size(); i++ ) {
+			String[] v = z.get(i);
+			for(String k : v)
+				System.out.print(k  + " ");
+			System.out.println("         i:" + i);	
+		}
 	}
-	
-	
-	
-	
+
 }

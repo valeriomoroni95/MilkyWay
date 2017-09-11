@@ -74,26 +74,25 @@ public class ClumpDao {
 		return clumps;
 	}
 	
-	public Vector<String[]> findClumpsInMap (String map,Float band){ 
+	public Vector<String[]> findClumpsInMap (String map,Double band){ 
     	Vector<String[]> v = null;
     	Connection connection = null;
         ResultSet result = null;
 		v = new Vector<String[]>();
 
         String query = "SELECT DISTINCT c.clump_id, fc.value, fc.error FROM clump c join flux_clump fc on" +
-        				"c.clump_id = fc.clump_id join map m on c.map_id = m.map_id WHERE m.map_name = '" + map + "' order by c.clump_id;"; 
-        if(band != null)
+        				" c.clump_id = fc.clump_id join map m on c.map_id = m.map_id WHERE m.name = '" + map + "' "; 
+        if(!band.equals(null))
         		 query = query + "AND fc.band_resolution = ?";
         			        
-        	query = query + ";";
+        	query = query + " order by c.clump_id;";
         	
     	try { //TODO check || NB: è per il requisito 5
 		
     		DataSource d = new DataSource();
         	connection = d.getConnection();
         	PreparedStatement pStatement = connection.prepareStatement(query);
-        	Double dband = Double.parseDouble(Float.toString(band));
-        	pStatement.setDouble(1,dband);
+        	pStatement.setDouble(1,band);
         	result = pStatement.executeQuery();
     		}
 				catch (SQLException se) {
@@ -104,12 +103,12 @@ public class ClumpDao {
 		
 				String[] s = {"","","","","",""};
 		    	try {
-		    		if (!band.equals(null)) { 
+		    		if (!band.equals(0.0)) { 
 		    			while(result.next()){
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
 		    				s[2] = Double.toString(result.getDouble("g_lon"));
-		    				s[3] = Double.toString(band);
+		    				s[3] = Double.toString(result.getDouble("resolution"));
 		    				s[4] = Double.toString(result.getDouble("value")); 
 		    				s[5] = Double.toString(result.getDouble("error"));
 		    				
