@@ -80,10 +80,12 @@ public class SourceDao {
 				
 				DataSource d = new DataSource();
 	            connection = d.getConnection();
-	        	pStatement = connection.prepareStatement(query);
 	        	
 	        	if(isCircle) {
 					condition = "WHERE distance < ? order by distance;";
+		        	query = query + condition; 
+					pStatement = connection.prepareStatement(query);
+
 					pStatement.setDouble(1, latitude);
 					pStatement.setDouble(2, longitude);
 					pStatement.setDouble(3, lenght);
@@ -93,6 +95,8 @@ public class SourceDao {
 					
 					condition = "WHERE g_lat < ? AND g_lat > ? AND g_lon < ? AND g_lon > ?" +
 								"order by distance;";
+					query = query + condition; 
+					pStatement = connection.prepareStatement(query);
 					pStatement.setDouble(1, latitude);
 					pStatement.setDouble(2, longitude);
 					pStatement.setDouble(3, latitude + lenght/2);
@@ -123,5 +127,57 @@ public class SourceDao {
 				e.printStackTrace();
 			}
 			return data;
+	    }
+	 
+	 public boolean isPresent(String source_mapcode) {
+			Connection connection = null;
+	        PreparedStatement statement = null;
+	           	
+	        ResultSet result = null;
+	        	
+	        
+	        try {
+	       	 	
+	        	System.out.println("SourceDao: isPresent.java: sto dopo il try");
+	        	final String query = "SELECT \"source_mapcode\" FROM \"source\" WHERE \"source_mapcode\" = ?;";
+	        	DataSource d = new DataSource();
+	        	System.out.println("SourceDao: isPresent.java: sopravvissuto al Datasource");
+
+	            connection = d.getConnection();
+	            
+	            PreparedStatement pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	            pStatement.setString(1, source_mapcode);
+	            result = pStatement.executeQuery();
+	            System.out.println("SourceDao: isPresent.java: ho eseguito la query");
+
+	            
+	            
+	            if(result.first())
+	           	 return true;
+	          
+	            result.close();
+	            pStatement.close();
+	            connection.close();
+	            return false;  
+	        } catch (SQLException se) {
+	            // Errore durante l'apertura della connessione
+	            se.printStackTrace();
+	        } catch (Exception e) {
+	            // Errore nel loading del driver
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (statement != null)
+	                    statement.close();
+	            } catch (SQLException se2) {
+	            }
+	            try {
+	                if (connection != null)
+	                    connection.close();
+	            } catch (SQLException se) {
+	                se.printStackTrace();
+	            }
+	        }
+	        return true;
 	    }
 }

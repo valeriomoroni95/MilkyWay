@@ -94,7 +94,7 @@ public class ClumpDao {
         	PreparedStatement pStatement = connection.prepareStatement(query);
         	Double dband = Double.parseDouble(Float.toString(band));
         	pStatement.setDouble(1,dband);
-        	result = pStatement.executeQuery(query);
+        	result = pStatement.executeQuery();
     		}
 				catch (SQLException se) {
 					se.printStackTrace();				}
