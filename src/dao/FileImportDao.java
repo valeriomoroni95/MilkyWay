@@ -212,6 +212,93 @@ public class FileImportDao {
     return true;    
     
 }
+  
+  public boolean importGlimpse(String filename) throws ClassNotFoundException, SQLException{
+		
+		Connection connection = null;                    
+		Statement statement1 = null;
+		PreparedStatement pstatement = null;
+		SourceDao sd = new SourceDao();
+		String line = "";
+	    String csvSplitBy = ",";
+	    int rowIndex = 0;
+	    
+	    try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+	    	
+	    	DataSource d = new DataSource();
+	        connection = d.getConnection();     
+	        double longitude;                //TODO A questa funzione vanno associati i flussi a diverse
+	        double latitude;                 //bande che possono essere null.
+	        String source_x = null;
+	        String source_mapcode;
+	        int sourceId;
+	        
+	        while ((line = br.readLine()) != null) {
+	
+	        	if(rowIndex++ > 11){
+	        		
+	        		String[] vect = line.split(csvSplitBy);
+	        		
+	        		longitude = Double.parseDouble(vect[1]);
+	        		latitude = Double.parseDouble(vect[2]);
+	        		source_mapcode = vect[0]; //il mapcode qui è solo di Glimpse
+	        		
+	        		if(sd.isPresent(source_mapcode)){   //se il mapcode è già presente nel db, prendi il suo id e fai l'update dopo
+	        			String sql = "SELECT source_id FROM source WHERE source_mapcode = '"+source_mapcode+"';";
+	        			statement1 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);                 			     ResultSet rs = statement1.executeQuery(sql);
+	        			
+	        			if(rs.first()){
+	        				sourceId = rs.getInt("source_id");
+	        		  			
+	        		
+	        			String sql1 = "UPDATE source SET(brightness, longitude, latitude, source_mapcode, source_x) = (?,?,?,?,?) WHERE source_id = ?;";
+	        			pstatement = connection.prepareStatement(sql1);
+	        			pstatement.setInt(6, sourceId);                 //questo update non so che deve fare nel caso Glimpse
+	        			pstatement.setDouble(1, Double.NaN);
+	        			pstatement.setDouble(2, longitude);
+	        			pstatement.setDouble(3, latitude);
+	        			pstatement.setString(4, source_mapcode);
+	        			pstatement.setString(5, source_x);
+	        			System.out.println("Sono prima dell'update");
+	        			pstatement.executeUpdate();
+	        			System.out.println("Sono dopo l'update");
+	        			}
+	        		}
+	        		else{
+	        			System.out.println("sto nell'else");
+	        		
+	        			String sql2 = "INSERT INTO source(source_id ,brightness, longitude, latitude, map_id, source_mapcode, source_x) VALUES (?,?,?,?,4,?,?);"; 
+	        																					//Da cambiare il 4 perché stava sul mio vecchio db
+	
+	        			pstatement = connection.prepareStatement(sql2);
+	        			System.out.println("sto dopo prepare");
+	
+	        			
+	        			System.out.println("sto dopo l'update dopo la insert");
+	
+	        			String idQ = "SELECT source_id from source order by source_id DESC;"; //Questa dovrebbe comunque andarci
+	                    Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+	                    ResultSet result = statement.executeQuery(idQ);
+	        			if (result.next())
+	        			pstatement.setInt(1, result.getInt("source_id")+ 1);
+	        			pstatement.setDouble(2, Double.NaN);  //manco glimpse ha la brightness
+	        			pstatement.setDouble(3, longitude);
+	        			pstatement.setDouble(4, latitude);
+	        			pstatement.setString(5, source_mapcode);
+	        			pstatement.setString(6, source_x);
+	        			pstatement.executeUpdate();
+	        		}
+	        	}
+	        }
+	        	
+	        }catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    return true;    
+	    
+	}
 
 /*public static void main(String args[]) throws ClassNotFoundException, SQLException {
 	FileImportDao dao = new FileImportDao();
