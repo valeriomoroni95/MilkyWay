@@ -5,7 +5,7 @@
     <div class="container body">
       <div class="main_container">
         
-        <%@include file="parts/header.jsp" %>
+        <%@ include file="parts/header.jsp" %>
         
         <!-- page content -->
         <div class="right_col" role="main">
@@ -45,7 +45,16 @@
                   </div>
                   <div class="x_content">
                     <p>Drag multiple files to the box below for multi upload or click to select files. This is for demonstration purposes only, the files are not uploaded to any server.</p>
-                    <form action="form_upload.html" class="dropzone"></form>
+                    <form  class="dropzone" action="UploadFile.jsp" method="post" enctype="multipart/form-data"></form>
+                    
+                    <!--  <form method="post" action="UploadFile.jsp" enctype="multipart/form-data">
+                    
+                    		<input type="file" class="form-control" name="file">
+                    		
+                    		<input type="submit">
+                    		
+                    </form>-->
+                    
                     <br />
                     <br />
                     <br />
