@@ -30,5 +30,7 @@ public class ShowClumpInfoBean {
 	public void setClumpInfo(Vector<String[]> clumpInfo) {
 		this.clumpInfo = clumpInfo;
 	}
-
+	
+	
+	
 }

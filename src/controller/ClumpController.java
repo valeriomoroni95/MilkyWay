@@ -3,6 +3,7 @@ package controller;
 import java.util.Vector;
 
 import boundary.ShowClumpInfoBean;
+import boundary.ShowClumpsInAreaBean;
 import boundary.ShowMassiveStarBean;
 import dao.ClumpDao;
 import entity.Clump;
@@ -11,6 +12,10 @@ import entity.Clump;
 public class ClumpController {
 	
 	private static ClumpController instance;
+	
+	  private ClumpController(ShowClumpsInAreaBean sciab){
+		  
+	  }
 	  
 	  private ClumpController(ShowMassiveStarBean msb) {
 	    
@@ -35,7 +40,13 @@ public class ClumpController {
 		    if(instance == null)
 		      instance = new ClumpController(scib);
 		    return instance;
-		  }
+	  }
+	  
+	  public static synchronized ClumpController getInstance(ShowClumpsInAreaBean sciab) {
+		    if(instance == null)
+		      instance = new ClumpController(sciab);
+		    return instance;
+	  }
 	  
 	  /*public Vector<Clump> getClumpList() throws SQLException{  //TODO va creato il metodo showClumps nel clump dao
 		    Vector<Clump> clump = new Vector<Clump>();            
@@ -59,12 +70,20 @@ public class ClumpController {
 	  
 	  public Vector<String[]> getClumpInfo(int clumpId) {
 		  
+		  Vector<String[]> clump = new Vector<String[]>();           
+		  ClumpDao clumpDao = new ClumpDao();
+		  clump = clumpDao.showClumpInfo(clumpId);
+		    
+		  return clump;
+	  }
+	 
+	  public Vector<String[]> getClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle) {
+		  
 		  Vector<String[]> clumps = new Vector<String[]>();           
 		  ClumpDao clumpDao = new ClumpDao();
-		  clumps = clumpDao.showClumpInfo(clumpId);
+		  clumps = clumpDao.showClumpsInArea(latitude, longitude, lenght, isCircle);
 		    
 		  return clumps;
 	  }
-	 
 
 }

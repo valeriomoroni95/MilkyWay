@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
-import java.util.List;
 import java.util.Vector;
 
 public class ClumpDao {
@@ -265,6 +264,7 @@ public class ClumpDao {
     }
 		
 	
+	@SuppressWarnings({ "unchecked", "unused" })
 	public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
 		
 		//permette di cercare i clump che si trovano in un cerchio o un quadrato centrato in latitude, longitude
@@ -285,7 +285,7 @@ public class ClumpDao {
 			DataSource d = new DataSource();
             connection = d.getConnection();
         	pStatement = connection.prepareStatement(query);
-        	result = pStatement.executeQuery();
+        	result = pStatement.executeQuery();    
         	int clumpId;
         	Double lat, lon, distance;
         	while(result.next()) {
