@@ -382,10 +382,81 @@ public class FileImportDao {
 	    return true;    
 	    
 	}
+  
+  public boolean importHigalAdditionalInfo(String filename) throws ClassNotFoundException, SQLException {
+  	
+  		Connection connection = null;
+		PreparedStatement statement = null;
+		ClumpDao cd = new ClumpDao();
+		String line = "";
+		String csvSplitBy = ",";
+		int rowIndex = 0;
+		int HIGAL = 1;  //dipende dall'id che abbiamo nel db per HIGAL
+      
+      try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+      	
+      	  DataSource d = new DataSource();
+          connection = d.getConnection();
+          final String query = "INSERT INTO \"clump\"(clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,?)";
+          statement = connection.prepareStatement(query);  //la query non è questa, dobbiamo prendere i flussi a bande diverse, le misure degli assi 
+          int clumpId;                                     //a 70, 160 e 250, 350 e 500. Sono 5 colonne ogni misurazione. Bisogna anche prendere 
+          /*double gLon;                                     //l'angolo dell'ellisse a 70, 160, 250, 300 e 500 microns.
+          double gLat;
+          double temp;  //presumo non ci serviranno queste informazioni, dato che il clump è sempre lo stesso
+          double ratio;
+          double surfDens;
+          int cType;*/
+          
+          while ((line = br.readLine()) != null) {
+
+          	if(rowIndex++ > 11){
+          		
+          		String[] vect = line.split(csvSplitBy);
+          		clumpId = Integer.parseInt(vect[0]);
+          		/*gLon = Double.parseDouble(vect[1]);     //A parte l'id le colonne cambieranno completamente in base
+          		gLat = Double.parseDouble(vect[2]);       //alle informazioni di cui sopra.
+          		temp = Double.parseDouble(vect[3]);
+          		ratio = Double.parseDouble(vect[4]);
+          		surfDens = Double.parseDouble(vect[5]);
+          		cType = Integer.parseInt(vect[6]);*/
+          		if(cd.isPresent(clumpId)){
+          			String sql1 = "UPDATE clump SET(g_lon, g_lat, k_temp, ratio, surf_dens, c_type) = (?,?,?,?,?,?) WHERE clump_id =?;";
+          			statement = connection.prepareStatement(sql1);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
+          			statement.setInt(7, clumpId);                    //bisognerà aggiornare le tabelle dei flussi e dell'ellisse in base
+                    /*statement.setDouble(1, gLon);                  //alle misurazioni.
+          			statement.setDouble(2, gLat);
+          			statement.setDouble(3, temp);
+          			statement.setDouble(4, ratio);
+          			statement.setDouble(5, surfDens);
+          			statement.setInt(6, cType);
+          			statement.executeUpdate();*/
+          		}
+          		else{
+          			String sql2 = "INSERT INTO clump (clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,?);";
+          			statement = connection.prepareStatement(sql2);   //Anche l'insert cambierà in base ai parametri di cui sopra (serve una funzione
+          			statement.setInt(1, clumpId);                    //aggiuntiva?)
+                    /*statement.setDouble(2, gLon);
+          			statement.setDouble(3, gLat);
+          			statement.setDouble(4, temp);
+          			statement.setDouble(5, ratio);
+          			statement.setDouble(6, surfDens);
+          			statement.setInt(7, cType);
+          			statement.setInt(8,HIGAL);
+          			statement.executeUpdate();*/
+          		}
+          	}
+          	}
+          }	 catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+      return true;
+  }
 
 public static void main(String args[]) throws ClassNotFoundException, SQLException {
 	FileImportDao dao = new FileImportDao();
-	dao.importGlimpse("/home/luca/Scrivania/r08.csv");
+	dao.importGlimpse("/Users/Valerio/Desktop/r08.csv");
 		
 }
 

@@ -211,7 +211,6 @@ public class ClumpDao {
 		    	}
 		 	 return v;
 	}
-//    for(String[] rawClumpData : fileData){
 
 	public boolean isPresent(int clumpId) {
 		Connection connection = null;
