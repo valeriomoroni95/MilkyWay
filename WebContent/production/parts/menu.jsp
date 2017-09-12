@@ -65,10 +65,9 @@ try{
                         </ul>
                     </li>
                     
-                    <li><a><i class="fa fa-map-marker"></i> Maps <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-map-marker"></i> Objects <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="maps.jsp">All maps</a></li>
-                            <li><a href="add-new-map.jsp">Add new</a></li>
+                            <li><a href="objects.jsp">All objects</a></li>
                         </ul>
                     </li>
 
