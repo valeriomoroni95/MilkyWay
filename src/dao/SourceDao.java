@@ -340,6 +340,80 @@ public class SourceDao {
 			}
 	 
 	 }
+
+/*Trovare tra le sorgenti all’interno della mappa MIPSGAL, 
+ * tutte quelle che sono all’interno di uno specifico clump e per una specifica banda. 
+ * Un oggetto si dice che appartiene a un clump se la distanza tra la posizione della sorgente  
+ * e quella del clump è minore dell’asse maggiore dell’ellisse per la banda selezionata. */
+
+	 public Vector<String[]> findSourcesInClump(int clumpId, Double bandRes){
+		 
+		 Vector<String[]> sources = new Vector<String[]>();
+		 String query = "SELECT c.g_lat, c.g_lon, e.x_axis, e.y_axis FROM clump c join ellipse e on c.clump_id " +
+				 		"=e.clump_id AND e.band_resolution = ?";
+		 String query2 = "SELECT s.source_mapcode, s.latitude, s.longitude FROM source s join map m on s.map_id " +
+				 "= m.map_id where m.name = 'MIPS-GAL' OR m.name = 'MIPSGAL' OR m.name = 'mipsgal' OR m.name = 'mips-gal'"+
+				 "OR m.name = 'Mipsgal';";
+		 Double cLatitude = 0.0;
+		 Double cLongitude= 0.0;
+		 Double x = 0.0;
+		 Double y= 0.0;
+		 Connection connection = null;
+	     ResultSet result = null;
+		 PreparedStatement pStatement = null;
+		 Connection connection2 = null;
+	     ResultSet result2 = null;
+		 Statement statement2 = null;
+		 DataSource d = new DataSource();
+		 int sourceId;
+		 Double sLatitude;
+		 Double sLongitude;
+		 String[] toPass = new String[3];
+
+		 try {
+			 
+	         connection = d.getConnection();
+	         pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+     		 pStatement.setDouble(1, bandRes);
+	         result = pStatement.executeQuery();
+     		 
+     		 if(!result.first()){
+     			 return null;
+     		 }
+     		 if(result.next()) {
+     			 cLatitude = result.getDouble("g_lat");
+     			 cLongitude = result.getDouble("g_lon");
+     			 x = result.getDouble("x_axis");
+     			 y = result.getDouble("y_axis");
+     		 }
+     		 connection2 = d.getConnection();
+			 connection2.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+     		 result2 = statement2.executeQuery(query2);
+     		 if(!result2.first())
+     			 return null;
+     		 
+     		 while(result2.next()) {
+     			 sourceId = result.getInt("source_id");
+     			 sLatitude = result.getDouble("latitude");
+     			 sLongitude = result.getDouble("longitude");
+     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+ Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
+     			     toPass[0] = Integer.toString(sourceId);
+     			     toPass[1] = Double.toString(sLatitude);
+     			     toPass[2] = Double.toString(sLongitude);
+     				 sources.add(toPass);
+     				 
+     			 }
+     			 
+     		 }
+		 }catch(SQLException se) {
+			 se.printStackTrace();
+		 } catch(Exception e) {
+			 e.printStackTrace();
+		 }
+
+		 return sources;
+	 }
+
 }
 
 
