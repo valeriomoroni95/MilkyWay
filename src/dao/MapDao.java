@@ -102,7 +102,7 @@ public class MapDao {
 
     public static boolean addMap(String mapId, String mapName) {
    	 
-    		Connection connection = null;
+    	Connection connection = null;
         Statement statement = null;
         ResultSet result = null;
         
@@ -125,7 +125,7 @@ public class MapDao {
             if(result.first())
            	 return false;
             
-            else {
+            else { //TODO fix!
                 String sql1 = "INSERT INTO \"map\"(map_id, name) VALUES ('"+mapId+"','"+mapName+"');";
                 System.out.println("ho fatto la insert " + sql1);
                 statement.executeUpdate(sql1);

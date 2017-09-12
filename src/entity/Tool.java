@@ -4,7 +4,6 @@ import java.util.Vector;
 
 public class Tool {
 	
-	//TODO CHANGE BANDE IN A VECTOR! 
 	private String toolName;
 	private int mapId;
 	private String mapName;

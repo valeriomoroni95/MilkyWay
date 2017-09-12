@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
-
+import java.lang.Object;
 
 public class FileImportDao {
 	
@@ -218,27 +218,46 @@ public class FileImportDao {
 		Connection connection = null;                    
 		Statement statement1 = null;
 		PreparedStatement pstatement = null;
+		PreparedStatement pstatement2 = null;
+		PreparedStatement pstatement3 = null;
+		PreparedStatement pstatement4 = null;
+		PreparedStatement pstatement5 = null;
+
 		SourceDao sd = new SourceDao();
 		String line = "";
 	    String csvSplitBy = ",";
 	    int rowIndex = 0;
-	    
+	    final int GLIMPSE = 2;
 	    try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
 	    	
 	    	DataSource d = new DataSource();
 	        connection = d.getConnection();     
-	        double longitude;                //TODO A questa funzione vanno associati i flussi a diverse
-	        double latitude;                 //bande che possono essere null.
+	        double longitude;                
+	        double latitude;         
 	        String source_x = null;
 	        String source_mapcode;
 	        int sourceId;
+	        int sId = 0;
+	        Double f3_6 = -1.0; //se una riga è vuota, il valore rimane a -1 (che non è una banda accettabile!)
+	        Double f4_5 = -1.0;
+	        Double f5_8 = -1.0;
+	        Double f8 = -1.0;
 	        
 	        while ((line = br.readLine()) != null) {
 	
-	        	if(rowIndex++ > 11){
+	        	if(rowIndex++ > 11){ 
 	        		
 	        		String[] vect = line.split(csvSplitBy);
-	        		
+	        		if(vect[3]!=null && !vect[3].trim().isEmpty())
+	        			f3_6 = Double.parseDouble(vect[3]);
+	        		if(vect[4]!=null && !vect[4].trim().isEmpty())
+	        			f4_5 = Double.parseDouble(vect[4]);
+	        		if(vect[5]!=null && !vect[5].trim().isEmpty())
+	        			f5_8 = Double.parseDouble(vect[5]);
+	        		if(vect[6]!=null && !vect[6].trim().isEmpty())
+	        			f8 = Double.parseDouble(vect[6]);
+
+
 	        		longitude = Double.parseDouble(vect[1]);
 	        		latitude = Double.parseDouble(vect[2]);
 	        		source_mapcode = vect[0]; //il mapcode qui è solo di Glimpse
@@ -249,44 +268,108 @@ public class FileImportDao {
 	        			
 	        			if(rs.first()){
 	        				sourceId = rs.getInt("source_id");
-	        		  			
-	        		
-	        			String sql1 = "UPDATE source SET(brightness, longitude, latitude, source_mapcode, source_x) = (?,?,?,?,?) WHERE source_id = ?;";
-	        			pstatement = connection.prepareStatement(sql1);
-	        			pstatement.setInt(6, sourceId);                 //questo update non so che deve fare nel caso Glimpse
-	        			pstatement.setDouble(1, Double.NaN);
-	        			pstatement.setDouble(2, longitude);
-	        			pstatement.setDouble(3, latitude);
-	        			pstatement.setString(4, source_mapcode);
-	        			pstatement.setString(5, source_x);
-	        			System.out.println("Sono prima dell'update");
-	        			pstatement.executeUpdate();
-	        			System.out.println("Sono dopo l'update");
-	        			}
+	        		  		
+		        			String sqlu1 = "UPDATE source SET(longitude, latitude, source_mapcode, source_x) = (?,?,?,?) WHERE source_id = ?;";
+		        			String sqlu2 = "UPDATE flux_source SET value = ? WHERE band_resolution = ? and source_id = ?;";
+		        			pstatement = connection.prepareStatement(sqlu1);
+		        			pstatement.setInt(5, sourceId);
+		        			pstatement.setDouble(1, longitude);
+		        			pstatement.setDouble(2, latitude);
+		        			pstatement.setString(3, source_mapcode);
+		        			pstatement.setString(4, source_x);
+		        			System.out.println("Sono prima dell'update");
+		        			pstatement.executeUpdate();
+		        			System.out.println("Sono dopo l'update");
+		        			
+		        			if(f3_6 != -1.0) {
+			        			pstatement2 = connection.prepareStatement(sqlu2);
+			        			pstatement2.setDouble(2, 3.6);
+			        			pstatement2.setInt(3, sId);
+			        			pstatement2.setDouble(1, f3_6);
+			        			pstatement2.executeUpdate();
+		        			}
+		        			if(f4_5 != -1.0) {
+			        			pstatement3 = connection.prepareStatement(sqlu2);
+			        			pstatement3.setDouble(2, 4.5);
+			        			pstatement3.setInt(3, sId);
+			        			pstatement3.setDouble(1, f4_5);
+			        			pstatement3.executeUpdate();
+
+		        			}
+		        			if(f5_8 != -1.0) {
+			        			pstatement4 = connection.prepareStatement(sqlu2);
+			        			pstatement4.setDouble(2, 5.8);
+			        			pstatement4.setInt(3, sId);
+			        			pstatement4.setDouble(1, f5_8);
+			        			pstatement4.executeUpdate();
+
+		        			}
+		        			if(f8 != -1.0) {
+			        			pstatement5 = connection.prepareStatement(sqlu2);
+			        			pstatement5.setDouble(2, 8.0);
+			        			pstatement5.setInt(3, sId);
+			        			pstatement5.setDouble(1, f8);
+			        			pstatement5.executeUpdate();
+
+		        			}
+		        		}
 	        		}
 	        		else{
 	        			System.out.println("sto nell'else");
 	        		
-	        			String sql2 = "INSERT INTO source(source_id ,brightness, longitude, latitude, map_id, source_mapcode, source_x) VALUES (?,?,?,?,4,?,?);"; 
-	        																					//Da cambiare il 4 perché stava sul mio vecchio db
-	
+	        			String sql2 = "INSERT INTO source(source_id ,brightness, longitude, latitude, map_id, source_mapcode, source_x) VALUES (?,?,?,?,?,?,?);"; 
+	        			String sql3 = "INSERT INTO flux_source(band_resolution, source_id, value, error) VALUES(?,?,?,?);";
 	        			pstatement = connection.prepareStatement(sql2);
 	        			System.out.println("sto dopo prepare");
-	
-	        			
-	        			System.out.println("sto dopo l'update dopo la insert");
-	
+		
 	        			String idQ = "SELECT source_id from source order by source_id DESC;"; //Questa dovrebbe comunque andarci
 	                    Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 	                    ResultSet result = statement.executeQuery(idQ);
 	        			if (result.next())
-	        			pstatement.setInt(1, result.getInt("source_id")+ 1);
-	        			pstatement.setDouble(2, Double.NaN);  //manco glimpse ha la brightness
-	        			pstatement.setDouble(3, longitude);
-	        			pstatement.setDouble(4, latitude);
-	        			pstatement.setString(5, source_mapcode);
-	        			pstatement.setString(6, source_x);
-	        			pstatement.executeUpdate();
+	        				sId = result.getInt("source_id")+ 1;
+		        			pstatement.setInt(1, sId);
+		        			pstatement.setDouble(2, Double.NaN); 
+		        			pstatement.setDouble(3, longitude);
+		        			pstatement.setDouble(4, latitude);
+		        			pstatement.setInt(5, GLIMPSE);
+		        			pstatement.setString(6, source_mapcode);
+		        			pstatement.setString(7, source_x);
+		        			pstatement.executeUpdate();
+		        			if(f3_6 != -1.0) {
+			        			pstatement2 = connection.prepareStatement(sql3);
+			        			pstatement2.setDouble(1, 3.6);
+			        			pstatement2.setInt(2, sId);
+			        			pstatement2.setDouble(3, f3_6);
+			        			pstatement2.setDouble(4, 0.0);
+			        			pstatement2.executeUpdate();
+		        			}
+		        			if(f4_5 != -1.0) {
+			        			pstatement3 = connection.prepareStatement(sql3);
+			        			pstatement3.setDouble(1, 4.5);
+			        			pstatement3.setInt(2, sId);
+			        			pstatement3.setDouble(3, f4_5);
+			        			pstatement3.setDouble(4, 0.0);
+			        			pstatement3.executeUpdate();
+
+		        			}
+		        			if(f5_8 != -1.0) {
+			        			pstatement4 = connection.prepareStatement(sql3);
+			        			pstatement4.setDouble(1, 5.8);
+			        			pstatement4.setInt(2, sId);
+			        			pstatement4.setDouble(3, f5_8);
+			        			pstatement4.setDouble(4, 0.0);
+			        			pstatement4.executeUpdate();
+
+		        			}
+		        			if(f8 != -1.0) {
+			        			pstatement5 = connection.prepareStatement(sql3);
+			        			pstatement5.setDouble(1, 8.0);
+			        			pstatement5.setInt(2, sId);
+			        			pstatement5.setDouble(3, f8);
+			        			pstatement5.setDouble(4, 0.0);
+			        			pstatement5.executeUpdate();
+
+		        			}
 	        		}
 	        	}
 	        }
@@ -300,11 +383,11 @@ public class FileImportDao {
 	    
 	}
 
-/*public static void main(String args[]) throws ClassNotFoundException, SQLException {
+public static void main(String args[]) throws ClassNotFoundException, SQLException {
 	FileImportDao dao = new FileImportDao();
-	dao.importSatellite("/home/luca/Scrivania/higal.csv");
+	dao.importGlimpse("/home/luca/Scrivania/r08.csv");
 		
-}*/
+}
 
 }
        
