@@ -1,0 +1,340 @@
+CREATE TABLE public.agency
+(
+    id integer NOT NULL,
+    name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT agency_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.agency
+    OWNER to postgres;
+
+
+
+
+
+CREATE TABLE public.agency_satellite
+(
+    agency_id integer NOT NULL,
+    satellite_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT agency_satellite_pkey PRIMARY KEY (satellite_name, agency_id),
+    CONSTRAINT agency_id FOREIGN KEY (agency_id)
+        REFERENCES public.agency (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.agency_satellite
+    OWNER to postgres;
+
+
+
+
+
+
+
+CREATE TABLE public.band
+(
+    resolution double precision NOT NULL,
+    wave_lenght double precision NOT NULL,
+    CONSTRAINT resolution PRIMARY KEY (resolution)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.band
+    OWNER to postgres;
+
+
+
+
+
+
+CREATE TABLE public.clump
+(
+    clump_id integer NOT NULL,
+    g_lon double precision NOT NULL,
+    g_lat double precision NOT NULL,
+    k_temp double precision NOT NULL,
+    ratio double precision NOT NULL,
+    surf_dens double precision NOT NULL,
+    c_type integer NOT NULL,
+    map_id integer NOT NULL,
+    CONSTRAINT clump_id PRIMARY KEY (clump_id),
+    CONSTRAINT clump_map_id_cl_fkey FOREIGN KEY (map_id)
+        REFERENCES public.map (map_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT clump_map_id_fkey FOREIGN KEY (map_id)
+        REFERENCES public.map (map_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.clump
+    OWNER to postgres;
+
+
+
+
+
+
+CREATE TABLE public.ellipse
+(
+    band_resolution double precision NOT NULL,
+    clump_id integer NOT NULL,
+    x_axis double precision NOT NULL,
+    y_axis double precision NOT NULL,
+    angle double precision NOT NULL,
+    CONSTRAINT ellipse_pkey PRIMARY KEY (band_resolution, clump_id),
+    CONSTRAINT ellipse_band_resolution_fkey FOREIGN KEY (band_resolution)
+        REFERENCES public.band (resolution) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT ellipse_clump_id_fkey FOREIGN KEY (clump_id)
+        REFERENCES public.clump (clump_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.ellipse
+    OWNER to postgres;
+
+
+
+
+
+
+
+
+CREATE TABLE public.flux_clump
+(
+    band_resolution double precision NOT NULL,
+    clump_id integer NOT NULL,
+    value double precision NOT NULL,
+    error double precision,
+    CONSTRAINT flux_clump_pkey PRIMARY KEY (band_resolution, clump_id),
+    CONSTRAINT band_resolution FOREIGN KEY (band_resolution)
+        REFERENCES public.band (resolution) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT clump_id FOREIGN KEY (clump_id)
+        REFERENCES public.clump (clump_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.flux_clump
+    OWNER to postgres;
+
+
+
+
+
+
+CREATE TABLE public.flux_source
+(
+    band_resolution double precision NOT NULL,
+    source_id integer NOT NULL,
+    value double precision NOT NULL,
+    error double precision,
+    CONSTRAINT flux_source_pkey PRIMARY KEY (band_resolution, source_id),
+    CONSTRAINT band_resolution FOREIGN KEY (band_resolution)
+        REFERENCES public.band (resolution) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT flux_source_source_id_fkey FOREIGN KEY (source_id)
+        REFERENCES public.source (source_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT source_id FOREIGN KEY (source_id)
+        REFERENCES public.source (source_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.flux_source
+    OWNER to postgres;
+
+
+
+
+
+
+CREATE TABLE public.map
+(
+    map_id integer NOT NULL,
+    name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT map_pkey PRIMARY KEY (map_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.map
+    OWNER to postgres;
+
+
+
+
+CREATE TABLE public.satellite
+(
+    satellite_start character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    satellite_end character varying(20) COLLATE pg_catalog."default",
+    name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT satellite_pkey PRIMARY KEY (name)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.satellite
+    OWNER to postgres;
+
+
+
+
+
+CREATE TABLE public.source
+(
+    source_id integer NOT NULL,
+    brightness double precision,
+    longitude double precision NOT NULL,
+    latitude double precision NOT NULL,
+    map_id integer NOT NULL,
+    source_mapcode character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    source_x character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT source_pkey PRIMARY KEY (source_id),
+    CONSTRAINT source_source_id_key UNIQUE (source_id),
+    CONSTRAINT map_id FOREIGN KEY (map_id)
+        REFERENCES public.map (map_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.source
+    OWNER to postgres;
+
+
+
+
+CREATE TABLE public.tool
+(
+    tool_name character varying COLLATE pg_catalog."default" NOT NULL,
+    map_id integer NOT NULL,
+    CONSTRAINT tool_pkey PRIMARY KEY (tool_name),
+    CONSTRAINT tool_map_id_fkey FOREIGN KEY (map_id)
+        REFERENCES public.map (map_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.tool
+    OWNER to postgres;
+
+
+
+
+
+CREATE TABLE public.tool_band
+(
+    band_resolution double precision NOT NULL,
+    tool_name character varying COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT tool_band_pkey PRIMARY KEY (tool_name, band_resolution),
+    CONSTRAINT tool_band_band_resolution_fkey FOREIGN KEY (band_resolution)
+        REFERENCES public.band (resolution) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT tool_band_tool_name_fkey FOREIGN KEY (tool_name)
+        REFERENCES public.tool (tool_name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.tool_band
+    OWNER to postgres;
+
+
+
+
+CREATE TABLE public.tool_satellite
+(
+    tool_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    satellite_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT tool_satellite_pkey PRIMARY KEY (tool_name, satellite_name),
+    CONSTRAINT tool_satellite_satellite_name_fkey FOREIGN KEY (satellite_name)
+        REFERENCES public.satellite (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT tool_satellite_tool_name_fkey FOREIGN KEY (tool_name)
+        REFERENCES public.tool (tool_name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.tool_satellite
+    OWNER to postgres;
+
+
+
+
+CREATE TABLE public.user_milkyway
+(
+    user_id character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    surname character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    is_admin boolean NOT NULL,
+    email character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT user_pkey PRIMARY KEY (user_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.user_milkyway
+    OWNER to postgres;

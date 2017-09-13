@@ -15,7 +15,7 @@ import java.lang.Object;
 
 public class FileImportDao {
 	
-	public boolean importSatellite(String filename) throws ClassNotFoundException, SQLException {
+	public boolean importHigal(String filename) throws ClassNotFoundException, SQLException {
     	
     	Connection connection = null;
 		PreparedStatement statement = null;
