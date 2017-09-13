@@ -4,8 +4,14 @@
 <%@ page import = "org.apache.commons.fileupload.disk.*" %>
 <%@ page import = "org.apache.commons.fileupload.servlet.*" %>
 <%@ page import = "org.apache.commons.io.output.*" %>
+<%@page import="dao.FileImportDao" %>
 
 <%
+	
+	String pageName = (String) request.getSession().getAttribute("pageName");
+
+	System.out.println("UploadFile.jsp: pageName " + pageName);
+
    File file ;
    int maxFileSize = 5000 * 1024;
    int maxMemSize = 5000 * 1024;
@@ -55,11 +61,36 @@
                if( fileName.lastIndexOf("\\") >= 0 ) {
                   file = new File( filePath + 
                   fileName.substring( fileName.lastIndexOf("\\"))) ;
+                                    
                } else {
                   file = new File( filePath + 
                   fileName.substring(fileName.lastIndexOf("\\")+1)) ;
+                                    
                }
                fi.write( file ) ;
+               
+               String path = "" + file;
+               System.out.println("UploadFile.jsp: path " + path);
+               
+               FileImportDao importFile = new FileImportDao();
+               
+               switch (pageName){
+            	   	case "mips.jsp":            	   		
+            	   		importFile.importSource(path);            	   		
+            	   		break;
+            	   	case "higal.jsp":
+            	   		importFile.importHigal(path);
+            	   		break;
+            	   	case "glimpse.jsp":
+            	   		importFile.importGlimpse(path);
+            	   		break;
+            	   	case "higal-info.jsp":
+            	   		importFile.importHigalAdditionalInfo(path);
+            	   		
+               }
+               
+               session.removeAttribute("pageName");
+               
                out.println("Uploaded Filename: " + filePath + 
                fileName + "<br>");
             }
