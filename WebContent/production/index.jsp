@@ -3,6 +3,8 @@
 <%@page import="java.io.*" %>
 
 <%
+
+
     String clumpId = request.getParameter("clump_id");
     if (clumpId != null) {
     		Integer iClumpId = (Integer) Integer.parseInt(clumpId);
@@ -10,6 +12,9 @@
         showClumpInfoBean.setClumpId(iClumpId);
         showClumpInfoBean.importClumpsInfo();
         Vector<String[]> clumpInfo = showClumpInfoBean.getClumpInfo();
+        
+        System.out.println(clumpInfo);
+        
         request.getSession().setAttribute( "clumpInfo", clumpInfo);
     }
         
@@ -29,6 +34,8 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
+
+			<% if(is_admin){ %>
 
             <div class="row">
 
@@ -138,9 +145,8 @@
 
                                 <tbody>
 								<% 
-								int i;
 								
-								for(i = 1; i< clumpInfoParam.size(); i++){ %>
+								for(int i = 1; i < clumpInfoParam.size(); i++){ %>
 								
                                 <tr>
                                     <td>#<%= i %></td>
@@ -155,7 +161,7 @@
                                     
                                 </tr>
                                 
-                                <% } %>
+                                <% }  %>
 
                                 </tbody>
 
@@ -175,6 +181,9 @@
 			request.getSession().removeAttribute("clumpInfo");
 			
 			} %>
+			
+			
+			<% } %>
 
         </div>
         <!-- /page content -->
