@@ -82,7 +82,7 @@ public class ClumpDao {
         ResultSet result = null;
 		v = new Vector<String[]>();
 
-        String query = "SELECT DISTINCT c.clump_id, fc.value, fc.error FROM clump c join flux_clump fc on" +
+        String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on" +
         				" c.clump_id = fc.clump_id join map m on c.map_id = m.map_id WHERE m.name = '" + map + "' "; 
         if(!band.equals(0.0))
         		 query = query + "AND fc.band_resolution = ?";
@@ -107,42 +107,42 @@ public class ClumpDao {
 		    	try {
 		    		if (!band.equals(0.0)) { 
 		    			while(result.next()){
+		    				
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
 		    				s[2] = Double.toString(result.getDouble("g_lon"));
-		    				s[3] = Double.toString(result.getDouble("resolution"));
+		    				s[3] = Double.toString(result.getDouble("band_resolution"));
 		    				s[4] = Double.toString(result.getDouble("value")); 
 		    				s[5] = Double.toString(result.getDouble("error"));
-		    				
 
-		    			//TODO salvare anche posizione spaziale? 
-		    			v.add(s);
+		    				v.add(s);
 		    			}
 		    		}
-		    		else {
-			    			int currId = -1;
-
+		    		else { //TODO check
+			    			int clumpId = -1;
+			    			int temp;
 			    			while(result.next()) {
-			    				if(currId != result.getInt("clump_id")) {
-			    				s[0] = Integer.toString(result.getInt("clump_id"));
-			    				s[1] = Double.toString(result.getDouble("g_lat"));
-			    				s[2] = Double.toString(result.getDouble("g_lon"));
-			    				s[3] = Double.toString(result.getDouble("band_resolution"));
-			    				s[4] = Double.toString(result.getDouble("value"));
-			    				s[5] = Double.toString(result.getDouble("error"));
-			    				v.add(s);
-			    			
+			    				temp = result.getInt("clump_id");
+			    				if(clumpId != temp) {
+				    				s[0] = Integer.toString(temp);
+				    				s[1] = Double.toString(result.getDouble("g_lat"));
+				    				s[2] = Double.toString(result.getDouble("g_lon"));
+				    				s[3] = Double.toString(result.getDouble("band_resolution"));
+				    				s[4] = Double.toString(result.getDouble("value"));
+				    				s[5] = Double.toString(result.getDouble("error"));
+				    				v.add(s);
 			    				}
 			    				
 			    				else {
-			    				s[0] = " "; //il clump è lo stesso, non ristampo questi valori;
-			    				s[1] = " "; //lo stesso vale per le coordinate.
-			    				s[2] = " "; //ricordare di escludere queste righe dal conteggio dei 50 oggetti
-			    				s[3] = Double.toString(result.getDouble("band_resolution"));
-			    				s[4] = Double.toString(result.getDouble("value"));
-			    				s[5] = Double.toString(result.getDouble("error"));
-			    				v.add(s);
+				    				s[0] = " "; //il clump è lo stesso, non ristampo questi valori;
+				    				s[1] = " "; //lo stesso vale per le coordinate.
+				    				s[2] = " "; //ricordare di escludere queste righe dal conteggio dei 50 oggetti
+				    				s[3] = Double.toString(result.getDouble("band_resolution"));
+				    				s[4] = Double.toString(result.getDouble("value"));
+				    				s[5] = Double.toString(result.getDouble("error"));
+				    				v.add(s);
 			    				}
+			    				clumpId = temp;
 			    			} 
 		    			}
 		    		}
@@ -368,7 +368,7 @@ public class ClumpDao {
 		return data;
     }
 	
-	 public static void main(String[] args) {
+	/* public static void main(String[] args) {
 		ClumpDao clumpD = new ClumpDao();
 		Vector<String[]> results = new Vector<String[]>();
 		results = clumpD.showClumpsInArea(0.0,42.7,20.0, false);
@@ -376,6 +376,6 @@ public class ClumpDao {
 			for(String k : v)
 				System.out.println(k);
 		}
-	}
+	}*/
 }
 

@@ -330,7 +330,7 @@ public class SourceDao {
 	        return true;
 	    }
 	 
-	 public static void main(String[] args) {
+	/* public static void main(String[] args) {
 			SourceDao sourceD = new SourceDao();
 			Vector<String[]> results = new Vector<String[]>();
 			results = sourceD.showSourcesInArea(0.0,42.7,2.0, false);
@@ -339,7 +339,7 @@ public class SourceDao {
 					System.out.println(k);
 			}
 	 
-	 }
+	 }*/
 
 /*Trovare tra le sorgenti all’interno della mappa MIPSGAL, 
  * tutte quelle che sono all’interno di uno specifico clump e per una specifica banda. 
@@ -365,7 +365,7 @@ public class SourceDao {
 	     ResultSet result2 = null;
 		 Statement statement2 = null;
 		 DataSource d = new DataSource();
-		 int sourceId;
+		 String sourceCode;
 		 Double sLatitude;
 		 Double sLongitude;
 		 String[] toPass = new String[3];
@@ -393,17 +393,17 @@ public class SourceDao {
      			 return null;
      		 
      		 while(result2.next()) {
-     			 sourceId = result.getInt("source_id");
+     			 sourceCode = result.getString("source_mapcode");
      			 sLatitude = result.getDouble("latitude");
      			 sLongitude = result.getDouble("longitude");
-     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+ Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
-     			     toPass[0] = Integer.toString(sourceId);
+     			 
+     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+
+     				Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
+     			     toPass[0] = sourceCode;
      			     toPass[1] = Double.toString(sLatitude);
      			     toPass[2] = Double.toString(sLongitude);
-     				 sources.add(toPass);
-     				 
-     			 }
-     			 
+     				 sources.add(toPass); 
+     			 }	 
      		 }
 		 }catch(SQLException se) {
 			 se.printStackTrace();
