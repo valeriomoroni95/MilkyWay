@@ -155,8 +155,8 @@ public class ClumpDao {
 	
 	public Vector<String[]> showClumpInfo(int clumpId) {
 		
-    	Vector<String[]> v = null;
-    	Connection connection = null;
+    		Vector<String[]> v = null;
+    		Connection connection = null;
         ResultSet result = null;
         v = new Vector<String[]>();
         
@@ -167,14 +167,15 @@ public class ClumpDao {
 		
     		DataSource d = new DataSource();
         	connection = d.getConnection();
-        	PreparedStatement pStatement = connection.prepareStatement(query);
+        	PreparedStatement pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         	pStatement.setInt(1,clumpId);
         	result = pStatement.executeQuery();
     		}
 			catch (SQLException se) {
 					se.printStackTrace();				
 			}	
-    		catch(Exception e) {
+    	
+    			catch(Exception e) {
     				e.printStackTrace();
       		} 
 		
