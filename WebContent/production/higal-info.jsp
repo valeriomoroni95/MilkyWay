@@ -4,7 +4,7 @@ String uri = request.getRequestURI();
 
 String pageName = uri.substring(uri.lastIndexOf("/")+1);
 
-System.out.println("glimpse.jsp: page name " + pageName);
+System.out.println("higal-info.jsp: page name " + pageName);
 
 request.getSession().setAttribute("pageName" , pageName);
 
@@ -24,7 +24,7 @@ request.getSession().setAttribute("pageName" , pageName);
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Sources import</h3>
+                <h3>Flux and Clump dimension import</h3>
               </div>
 
               <div class="title_right">
@@ -45,7 +45,7 @@ request.getSession().setAttribute("pageName" , pageName);
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Import sources using a .csv file</h2>
+                    <h2>Import flux and clump dimension (additional info) using a .csv file</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
