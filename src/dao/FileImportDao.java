@@ -15,7 +15,7 @@ import java.lang.Object;
 
 public class FileImportDao {
 	
-	public boolean importClump(String filename) throws ClassNotFoundException, SQLException {
+	public boolean importHigal(String filename) throws ClassNotFoundException, SQLException {
     	
     	Connection connection = null;
 		PreparedStatement statement = null;
@@ -456,7 +456,7 @@ public class FileImportDao {
 
 public static void main(String args[]) throws ClassNotFoundException, SQLException {
 	FileImportDao dao = new FileImportDao();
-	dao.importClump("/Users/robertocapannelli/Desktop/higal.csv");
+	dao.importGlimpse("/Users/robertocapannelli/Desktop/r08.csv");
 		
 }
 
