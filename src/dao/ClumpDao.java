@@ -165,7 +165,7 @@ public class ClumpDao {
         ResultSet result = null;
         v = new Vector<String[]>();
         
-        String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on" +
+        String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on " +
         				"c.clump_id = fc.clump_id WHERE c.clump_id = ?;"; 
                 	
     	try { //TODO check || NB: è per il requisito 6
@@ -174,7 +174,7 @@ public class ClumpDao {
         	connection = d.getConnection();
         	PreparedStatement pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         	pStatement.setInt(1,clumpId);
-        	result = pStatement.executeQuery(query);
+        	result = pStatement.executeQuery();
     		}
 			catch (SQLException se) {
 					se.printStackTrace();				
