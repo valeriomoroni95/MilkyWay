@@ -152,17 +152,10 @@ public class SatelliteDao {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
             
-            if (result == null) {
-            	
-                return false;
-                
-            }
-            
-            if(result.first()) {
-            	
+            if(result.first())
             		return false;
             		
-            }else{
+            else{
             	
                 String insert = "INSERT INTO \"satellite\" VALUES ('"+start+"','"+end+"','"+name+"');";
                 statement.executeUpdate(insert);

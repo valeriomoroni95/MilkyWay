@@ -377,9 +377,6 @@ public class SourceDao {
      		 pStatement.setDouble(1, bandRes);
 	         result = pStatement.executeQuery();
      		 
-     		 if(!result.first()){
-     			 return null;
-     		 }
      		 if(result.next()) {
      			 cLatitude = result.getDouble("g_lat");
      			 cLongitude = result.getDouble("g_lon");
@@ -389,9 +386,7 @@ public class SourceDao {
      		 connection2 = d.getConnection();
 			 connection2.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
      		 result2 = statement2.executeQuery(query2);
-     		 if(!result2.first())
-     			 return null;
-     		 
+     		
      		 while(result2.next()) {
      			 sourceCode = result.getString("source_mapcode");
      			 sLatitude = result.getDouble("latitude");
