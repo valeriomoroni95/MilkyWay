@@ -81,9 +81,10 @@ try{
                     
                     <li><a><i class="fa fa-upload"></i> Imports <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="clump-catalogue-import.jsp">Clump catalogue</a></li>
-                            <li><a href="flux-clump-dimension-import.jsp">Flux and clump dimension</a></li>
-                            <li><a href="sources-import.jsp">Sources</a></li>
+                            <li><a href="mips.jsp">Mips</a></li>
+                            <li><a href="higal.jsp">HiGal</a></li>
+                            <li><a href="higal-info.jsp">HiGal info</a></li>
+                            <li><a href="glimpse.jsp">Glimpse</a></li>
                         </ul>
                     </li>
                     
