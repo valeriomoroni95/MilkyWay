@@ -437,62 +437,56 @@ public class FileImportDao {
           		a500 = Double.parseDouble(vect[20]);*/
 
           		
-          		if(cd.isPresent(clumpId)){ //TODO SISTEMARE! I CLUMP SONO GIA' TUTTI PRESENTI!
-          			//String sql1 = "UPDATE clump SET(g_lon, g_lat, k_temp, ratio, surf_dens, c_type) = (?,?,?,?,?,?) WHERE clump_id =?;";
           			String sql1 = "UPDATE flux_clump SET(value, error) = (?,?) where clump_id = ? and band_resolution = ?;";
-          			for(int i=1; i<6; i++) {
-	          			statement = connection.prepareStatement(sql1);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
-	          			statement.setDouble(1, Double.parseDouble(vect[i]));
-	          			statement.setDouble(2, 0.0);
-	          			statement.setInt(3, clumpId);
-	          			statement.setDouble(4, bands[i-1]);
-	          			statement.executeUpdate();
-          			}
-          			String sql2 = "UPDATE ellipse SET(x_axis, y_axis, angle) = VALUES(?,?,?) where clump_id = ? and band_resolution = ?;";
-          			for(int i=6; i<15; i+=2) {
-	          			statement = connection.prepareStatement(sql2);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
-	          			statement.setDouble(1, Double.parseDouble(vect[i]));
-	          			statement.setDouble(2, Double.parseDouble(vect[i+1]));
-	          			statement.setDouble(3, Double.parseDouble(vect[i+10]));
-	          			statement.setInt(4, clumpId);
-	          			statement.setDouble(5, bands[i-1]);
-	          			statement.executeUpdate();
-          			}
-          			
-          		}
-          		else{
-          			//String sql2 = "INSERT INTO clump (clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,?);";
           			String sql3 = "INSERT INTO flux_clump(band_resolution, clump_id, value, error) VALUES (?,?,?,?);";
-          			for(int i=1; i<6; i++) {
-              			statement = connection.prepareStatement(sql3);   
-	          			statement.setDouble(1, bands[i-1]);
-	          			statement.setInt(2, clumpId);
-              			statement.setDouble(3, Double.parseDouble(vect[i]));
-	          			statement.setDouble(4, 0.0);
-	          			statement.executeUpdate();
-          			}     
-          			String sql4 = "INSERT INTO ellipse(band_resolution, clump_id,  x_axis, y_axis, angle)"+
-          							" VALUES (?,?,?,?,?);";
-          			for(int i=6; i<15; i+=2) {
-	          			statement = connection.prepareStatement(sql4);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
-	          			statement.setDouble(3, Double.parseDouble(vect[i]));
-	          			statement.setDouble(4, Double.parseDouble(vect[i+1]));
-	          			statement.setDouble(5, Double.parseDouble(vect[i+10]));
-	          			statement.setInt(2, clumpId);
-	          			statement.setDouble(1, bands[i-1]);
-	          			statement.executeUpdate();
+      				
+          			if(cd.isPresent(clumpId)) {
+
+      					for(int i=1; i<6; i++) {
+	          				if(cd.isFluxPresent(clumpId, bands[i-1])){
+			          			statement = connection.prepareStatement(sql1);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
+			          			statement.setDouble(1, Double.parseDouble(vect[i]));
+			          			statement.setDouble(2, 0.0);
+			          			statement.setInt(3, clumpId);
+			          			statement.setDouble(4, bands[i-1]);
+			          			statement.executeUpdate();
+	          				}
+	          				else {
+	          					statement = connection.prepareStatement(sql3);   
+	    	          			statement.setDouble(1, bands[i-1]);
+	    	          			statement.setInt(2, clumpId);
+	                  			statement.setDouble(3, Double.parseDouble(vect[i]));
+	    	          			statement.setDouble(4, 0.0);
+	    	          			statement.executeUpdate();
+		
+	          				}
+	          				
+	          			}
+	          			String sql4 = "INSERT INTO ellipse(band_resolution, clump_id,  x_axis, y_axis, angle) VALUES (?,?,?,?,?);";
+	          			String sql2 = "UPDATE ellipse SET(x_axis, y_axis, angle) = (?,?,?) where clump_id = ? and band_resolution = ?;";
+	          			
+	          			for(int i=6; i<15; i+=2) {
+	          				if(cd.isEllipsePresent(clumpId, bands[i/2 - 3])) {
+			          			statement = connection.prepareStatement(sql2);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
+			          			statement.setDouble(1, Double.parseDouble(vect[i]));
+			          			statement.setDouble(2, Double.parseDouble(vect[i+1]));
+			          			statement.setDouble(3, Double.parseDouble(vect[i/2+13]));
+			          			statement.setInt(4, clumpId);
+			          			statement.setDouble(5, bands[i/2 - 3]);
+			          			statement.executeUpdate();
+	          				}
+		          			else {
+			          			statement = connection.prepareStatement(sql4);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
+			          			statement.setDouble(3, Double.parseDouble(vect[i]));
+			          			statement.setDouble(4, Double.parseDouble(vect[i+1]));
+			          			statement.setDouble(5, Double.parseDouble(vect[i/2+13]));
+			          			statement.setInt(2, clumpId);
+			          			statement.setDouble(1, bands[i/2-3]);
+			          			statement.executeUpdate();
+		          			}
+	          			}
           			}
-          			
-                    /*statement.setDouble(2, gLon);
-          			statement.setDouble(3, gLat);
-          			statement.setDouble(4, temp);
-          			statement.setDouble(5, ratio);
-          			statement.setDouble(6, surfDens);
-          			statement.setInt(7, cType);
-          			statement.setInt(8,HIGAL);
-          			statement.executeUpdate();*/
           		}
-          	}
           	}
           }	 catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -502,10 +496,9 @@ public class FileImportDao {
       return true;
   }
 
-/*public static void main(String args[]) throws ClassNotFoundException, SQLException {
+public static void main(String args[]) throws ClassNotFoundException, SQLException {
 	FileImportDao dao = new FileImportDao();
-	dao.importGlimpse("/home/luca/Scrivania/r08.csv");
-		
-	}*/
+	dao.importHigalAdditionalInfo("/home/luca/Scrivania/higal_additionalinfo.csv");
+	}
 }
        

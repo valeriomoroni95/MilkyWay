@@ -263,9 +263,108 @@ public class ClumpDao {
         return true;
     }
 		
+	public boolean isFluxPresent(int clumpId, Double band) {
+		Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        	   
+        try {
+       	 	
+        	final String query = "SELECT c.clump_id, fc.band_resolution FROM clump c join flux_clump fc on c.clump_id = fc.clump_id WHERE c.clump_id = ? and band_resolution = ?;";
+        	DataSource d = new DataSource();
+        	System.out.println("ClumpDao: isPresent.java: sopravvissuto al Datasource");
+
+            connection = d.getConnection();
+            
+            PreparedStatement pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pStatement.setInt(1, clumpId);
+            pStatement.setDouble(2, band);
+            result = pStatement.executeQuery();
+            System.out.println("ClumpDao: isPresent.java: ho eseguito la query");
+
+            
+            
+            if(result.first())
+           	 return true;
+          
+            result.close();
+            pStatement.close();
+            connection.close();
+            return false;  
+        } catch (SQLException se) {
+            // Errore durante l'apertura della connessione
+            se.printStackTrace();
+        } catch (Exception e) {
+            // Errore nel loading del driver
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        return true;
+	}
+	
+	public boolean isEllipsePresent(int clumpId, Double band) {
+		Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        	   
+        try {
+       	 	
+        	final String query = "SELECT c.clump_id, e.band_resolution FROM clump c join ellipse e on c.clump_id = e.clump_id WHERE c.clump_id = ? and band_resolution = ?;";
+        	DataSource d = new DataSource();
+        	System.out.println("ClumpDao: isPresent.java: sopravvissuto al Datasource");
+
+            connection = d.getConnection();
+            
+            PreparedStatement pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pStatement.setInt(1, clumpId);
+            pStatement.setDouble(2, band);
+            result = pStatement.executeQuery();            
+            
+            if(result.first())
+           	 return true;
+          
+            result.close();
+            pStatement.close();
+            connection.close();
+            return false;  
+        } catch (SQLException se) {
+            // Errore durante l'apertura della connessione
+            se.printStackTrace();
+        } catch (Exception e) {
+            // Errore nel loading del driver
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            	}
+        }
+        return true;
+	}
+	
+	
+	
 	
 	@SuppressWarnings({ "unchecked", "unused" })
-	public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
+	public Vector<String[]> showClumpsInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){ 
 		
 		//permette di cercare i clump che si trovano in un cerchio o un quadrato centrato in latitude, longitude
 		// e con raggio/cateto di lunghezza lenght. Se cerco in un cerchio isCircle = true, rettangolo false

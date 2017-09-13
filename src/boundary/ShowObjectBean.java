@@ -87,7 +87,7 @@ public class ShowObjectBean {
 				
 	}*/
 	
-	public static void main(String args[]) throws SQLException {
+	/*public static void main(String args[]) throws SQLException {
 		ShowObjectBean bean = new ShowObjectBean();
 		bean.setMapName("MIPS-GAL");
 		//bean.band = (float) 350.0;
@@ -105,6 +105,6 @@ public class ShowObjectBean {
 				System.out.print(k  + " ");
 			System.out.println("         i:" + i);	
 		}
-	}
+	}*/
 
 }
