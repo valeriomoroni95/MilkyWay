@@ -182,6 +182,8 @@ public class ClumpDao {
 		    	try {
 		    			String[] s = {"","",""};
 		    			String[] t = {"","",""};
+		    			if(!result.first())
+		    				return null;
 		    			if(result.next()) {
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
