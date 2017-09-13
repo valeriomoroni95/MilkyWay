@@ -103,11 +103,12 @@ public class ClumpDao {
     				e.printStackTrace();
       		} 
 		
-				String[] s = {"","","","","",""};
+				//String[] s = {"","","","","",""};
 		    	try {
 		    		if (!band.equals(0.0)) { 
 		    			while(result.next()){
-		    				
+		    				String[] s = new String[6];
+
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
 		    				s[2] = Double.toString(result.getDouble("g_lon"));
@@ -124,6 +125,8 @@ public class ClumpDao {
 			    			while(result.next()) {
 			    				temp = result.getInt("clump_id");
 			    				if(clumpId != temp) {
+				    				String[] s = new String[6];
+
 				    				s[0] = Integer.toString(temp);
 				    				s[1] = Double.toString(result.getDouble("g_lat"));
 				    				s[2] = Double.toString(result.getDouble("g_lon"));
@@ -134,6 +137,8 @@ public class ClumpDao {
 			    				}
 			    				
 			    				else {
+				    				String[] s = new String[6];
+
 				    				s[0] = " "; //il clump è lo stesso, non ristampo questi valori;
 				    				s[1] = " "; //lo stesso vale per le coordinate.
 				    				s[2] = " "; //ricordare di escludere queste righe dal conteggio dei 50 oggetti
@@ -160,7 +165,7 @@ public class ClumpDao {
         ResultSet result = null;
         v = new Vector<String[]>();
         
-        String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on " +
+        String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on" +
         				"c.clump_id = fc.clump_id WHERE c.clump_id = ?;"; 
                 	
     	try { //TODO check || NB: è per il requisito 6
@@ -169,7 +174,7 @@ public class ClumpDao {
         	connection = d.getConnection();
         	PreparedStatement pStatement = connection.prepareStatement(query);
         	pStatement.setInt(1,clumpId);
-        	result = pStatement.executeQuery();
+        	result = pStatement.executeQuery(query);
     		}
 			catch (SQLException se) {
 					se.printStackTrace();				
@@ -180,15 +185,17 @@ public class ClumpDao {
 		
 			
 		    	try {
-		    			String[] s = {"","",""};
-		    			String[] t = {"","",""};
+		    			//String[] s = {"","",""};
+		    			//String[] t = {"","",""};
 		    			if(!result.first())
 		    				return null;
 		    			if(result.next()) {
+		    				String[] s = new String[3];
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
 		    				s[2] = Double.toString(result.getDouble("g_lon"));
 		    				v.add(s);
+		    				String[] t = new String[3];
 		    				t[0] = Double.toString(result.getDouble("band_resolution"));
 		    				t[1] = Double.toString(result.getDouble("value"));
 		    				t[2] = Double.toString(result.getDouble("error"));
@@ -198,7 +205,7 @@ public class ClumpDao {
 		    				funge da "Header";*/
 		    			
 		    			while(result.next()){
-		    				
+		    				String[] t = new String[3];
 		    				t[0] = Double.toString(result.getDouble("band_resolution"));
 		    				t[1] = Double.toString(result.getDouble("value"));
 		    				t[2] = Double.toString(result.getDouble("error"));
