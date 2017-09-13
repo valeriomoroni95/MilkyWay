@@ -502,10 +502,10 @@ public class FileImportDao {
       return true;
   }
 
-public static void main(String args[]) throws ClassNotFoundException, SQLException {
+/*public static void main(String args[]) throws ClassNotFoundException, SQLException {
 	FileImportDao dao = new FileImportDao();
 	dao.importGlimpse("/home/luca/Scrivania/r08.csv");
 		
-	}
+	}*/
 }
        
