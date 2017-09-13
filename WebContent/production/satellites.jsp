@@ -97,7 +97,7 @@ Vector<Satellite> satellites = satelliteBean.getSatellites();
                           	<td>
                             		<a><%= satellite.getSatelliteName() %></a>
                             		<br />
-                            		<small>First obervation: <%= satellite.getSatelliteStart() %></small><br>
+                            		<small>First observation: <%= satellite.getSatelliteStart() %></small><br>
                             		
                             		<% 
                             		
