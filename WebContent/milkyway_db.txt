@@ -224,7 +224,7 @@ ALTER TABLE public.satellite
 
 CREATE TABLE public.source
 (
-    source_id integer NOT NULL DEFAULT nextval('source_source_id_seq'::regclass),
+    source_id integer NOT NULL,
     brightness double precision,
     longitude double precision NOT NULL,
     latitude double precision NOT NULL,
