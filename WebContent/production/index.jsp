@@ -10,27 +10,12 @@
         showClumpInfoBean.setClumpId(iClumpId);
         showClumpInfoBean.importClumpsInfo();
         Vector<String[]> clumpInfo = showClumpInfoBean.getClumpInfo();
-        
-        
         request.getSession().setAttribute( "clumpInfo", clumpInfo);
-        
-        if(clumpInfo != null){
-        		
-        		
-        		for(int i = 1; i< clumpInfo.size(); i++){
-        			String[] index = clumpInfo.get(i);
-        			for(int k = 0; k<3; k++){
-        				String element = index[k];
-        				System.out.println(element);
-        			}
-        		}
-		}
     }
         
     Vector<String[]> clumpInfoParam = (Vector<String[]>) request.getSession().getAttribute("clumpInfo");
 
 %>
-
 
 <!DOCTYPE html>
 
