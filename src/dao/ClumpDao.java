@@ -59,7 +59,7 @@ public class ClumpDao {
             
             while(result.next()){
             	Clump clump = new Clump();
-            	clump.setClump_id(result.getInt("id_clump"));
+            	clump.setClump_id(result.getInt("clump_id"));
 				clump.setSurf_dens(result.getDouble("surf_dens"));
 				clump.setG_lat(result.getDouble("g_lat"));
 				clump.setG_lon(result.getDouble("g_lon"));
