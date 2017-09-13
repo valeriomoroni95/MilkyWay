@@ -24,17 +24,14 @@ public class MapDao {
         		connection = d.getConnection();                
         		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         		result = statement.executeQuery(query);
-            
-            while(result.next()){
-            		Map m = new Map(result.getInt("mid"),result.getString("mapname"));
-            		maps.add(m);
-            	
+            if(result.first()) {
+	            do{
+	            		Map m = new Map(result.getInt("mid"),result.getString("mapname"));
+	            		maps.add(m);
+	            	
+	            }while(result.next());
             }
                 
-            if (!result.first()) {
-                  return null;
-            } 
-            
          }catch (Exception e){
         	
         		System.out.println("MapDao.java: catch after try");
@@ -72,17 +69,15 @@ public class MapDao {
         final String query = "SELECT DISTINCT name FROM \"map\";"; //voglio selezionare id mappa e nome mappa per tutte le mappe
             
         try {                
-        		DataSource d = new DataSource();
-        		connection = d.getConnection();                
-        		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            result = statement.executeQuery(query);
-            
-            while(result.next()){
-            		mapNames.add(result.getString("name"));
-            }
-                
-            if (!result.first())
-                  return null; 
+       		DataSource d = new DataSource();
+       		connection = d.getConnection();                
+        	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        	result = statement.executeQuery(query);
+        	if(result.first()) {	
+	            do{
+	            		mapNames.add(result.getString("name"));
+	            }while(result.next());
+        	}
             
          }catch (Exception e){
         	 

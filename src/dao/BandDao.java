@@ -22,10 +22,11 @@ public Vector<Double> showBandResolutions() throws SQLException {
         	connection = d.getConnection();                
         	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
-            
-            while(result.next()){
+            if(result.first()) {
+            do{
             	resolutions.add(result.getDouble("resolution"));
             	
+            }while(result.next());
             }
             
          }catch (Exception e){

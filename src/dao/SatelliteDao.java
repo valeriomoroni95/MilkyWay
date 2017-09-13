@@ -61,8 +61,8 @@ public class SatelliteDao {
 
         			return null;
             }*/
-             
-            while(result.next()) {
+            if(result.first()) { 
+            do {
             			
             			System.out.println(i);
             			temp = result.getString("satellitename");
@@ -109,7 +109,8 @@ public class SatelliteDao {
             				}
            				i = i + "i";
         				
-            	}
+            	} while(result.next());
+            }
 			s = new Satellite(currSatelliteName, start, end, tools, agencies);
     		System.out.println("SatelliteDao.java: new satellite \n" + s.toString());
     		satellites.add(s);

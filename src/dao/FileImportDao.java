@@ -182,7 +182,7 @@ public class FileImportDao {
                     Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                     ResultSet result = statement.executeQuery(idQ);
         			int sNext = 0;
-                    if (result.next())
+                    if (result.first())
         				sNext = result.getInt("source_id")+ 1;
         			pstatement.setInt(1, sNext);
         			pstatement.setDouble(2, Double.NaN);
@@ -325,7 +325,7 @@ public class FileImportDao {
 	        			String idQ = "SELECT source_id from source order by source_id DESC;"; //Questa dovrebbe comunque andarci
 	                    Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 	                    ResultSet result = statement.executeQuery(idQ);
-	        			if (result.next())
+	        			if (result.first())
 	        				sId = result.getInt("source_id")+ 1;
 		        			pstatement.setInt(1, sId);
 		        			pstatement.setDouble(2, Double.NaN); 

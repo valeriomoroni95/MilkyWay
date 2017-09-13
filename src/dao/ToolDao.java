@@ -62,14 +62,12 @@ public Vector<String> showToolNames() throws SQLException {
         		connection = d.getConnection();                
         		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
-            
-            while(result.next()){
+            if(result.first()) {
+            	do{
             		toolNames.add(result.getString("tool_name"));
+            	}while(result.next());
             }
-                
-            if (!result.first()) {
-                  return null;
-            } 
+            
             
          }catch (Exception e){
         	
@@ -118,17 +116,19 @@ public Vector<Tool> showTools() throws SQLException {
         String currMapName = "";
         int currMid = -1;
         Vector<Double> bands = new Vector<Double>();
-        while(result.next()){
-        	temp = result.getString("toolname");
-        	if(!currName.equals(temp) && !currName.equals("")) {
-            	Tool t = new Tool(currName,currMid, currMapName, bands);
-            	tools.add(t);
-            	bands = new Vector<Double>();
-        	}
-        	currName = temp;
-        	currMapName = result.getString("mapname");
-        	currMid = result.getInt("mid");
-        	bands.add(result.getDouble("resolution"));
+        if(result.first()) {
+	        do{
+	        	temp = result.getString("toolname");
+	        	if(!currName.equals(temp) && !currName.equals("")) {
+	            	Tool t = new Tool(currName,currMid, currMapName, bands);
+	            	tools.add(t);
+	            	bands = new Vector<Double>();
+	        	}
+	        	currName = temp;
+	        	currMapName = result.getString("mapname");
+	        	currMid = result.getInt("mid");
+	        	bands.add(result.getDouble("resolution"));
+	        }while(result.next());
         }
         Tool t = new Tool(currName,currMid, currMapName, bands);
     	tools.add(t);

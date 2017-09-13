@@ -57,7 +57,8 @@ public class ClumpDao {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             result = statement.executeQuery(query);
             
-            while(result.next()){
+           if(result.first()) {
+            do{
             	Clump clump = new Clump();
             	clump.setClump_id(result.getInt("clump_id"));
 				clump.setSurf_dens(result.getDouble("surf_dens"));
@@ -68,7 +69,8 @@ public class ClumpDao {
 				clump.setC_type(result.getInt("c_type"));
 				clumps.add(clump);
 
-            }
+            } while(result.next());
+           }
             statement.close();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -81,7 +83,6 @@ public class ClumpDao {
     	Connection connection = null;
         ResultSet result = null;
 		v = new Vector<String[]>();
-
         String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on" +
         				" c.clump_id = fc.clump_id join map m on c.map_id = m.map_id WHERE m.name = '" + map + "' "; 
         if(!band.equals(0.0))
@@ -105,10 +106,12 @@ public class ClumpDao {
 		
 				//String[] s = {"","","","","",""};
 		    	try {
-		    		if (!band.equals(0.0)) { 
-		    			while(result.next()){
+		    		if (!band.equals(0.0)) {
+		    			if(result.first()) {
+		    				
+		    			do{
 		    				String[] s = new String[6];
-
+		    				
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
 		    				s[2] = Double.toString(result.getDouble("g_lon"));
@@ -117,12 +120,15 @@ public class ClumpDao {
 		    				s[5] = Double.toString(result.getDouble("error"));
 
 		    				v.add(s);
+		    			}while(result.next());
 		    			}
 		    		}
 		    		else { //TODO check
 			    			int clumpId = -1;
 			    			int temp;
-			    			while(result.next()) {
+			    			if(result.first()) {
+			    				
+			    			do {
 			    				temp = result.getInt("clump_id");
 			    				if(clumpId != temp) {
 				    				String[] s = new String[6];
@@ -135,6 +141,7 @@ public class ClumpDao {
 				    				s[5] = Double.toString(result.getDouble("error"));
 				    				v.add(s);
 			    				}
+			    			
 			    				
 			    				else {
 				    				String[] s = new String[6];
@@ -148,7 +155,8 @@ public class ClumpDao {
 				    				v.add(s);
 			    				}
 			    				clumpId = temp;
-			    			} 
+			    			}while(result.next());
+			    			}
 		    			}
 		    		}
 		    		catch (SQLException e1) {
@@ -397,7 +405,8 @@ public class ClumpDao {
         	result = pStatement.executeQuery();    
         	int clumpId;
         	Double lat, lon, distance;
-        	while(result.next()) {
+        	if(result.first()) {
+        	do {
         		
         		clumpId = result.getInt("clump_id");
         		lat = result.getDouble("g_lat");
@@ -427,7 +436,8 @@ public class ClumpDao {
         			
         				}
         		}
-        	}
+        	} while(result.next());
+        }
 
 			/*if(isCircle) {
 				condition = "WHERE SQRT((c.g_lat - ?)*(c.g_lat - ?) + " + 

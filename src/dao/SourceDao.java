@@ -55,8 +55,8 @@ public class SourceDao {
 			    	try {
 		    			String currSource = "";
 		    			String tempS = null;
-
-		    			while(result.next()){
+		    			if(result.first()) {
+		    			do{
 
 		    				if (band!=0.0) {
 		    					s = new String[6];
@@ -97,7 +97,8 @@ public class SourceDao {
 					    				v.add(s);
 				    				}
 				    			}
-			    			}
+			    			}while(result.next());
+		    			}
 			    		
 		    			
 			    	}
@@ -131,7 +132,8 @@ public class SourceDao {
 	        	result = pStatement.executeQuery();
 	        	String mapCode;
 	        	Double lat, lon, distance;
-	        	while(result.next()) {
+	        	if(result.first()) {
+	        	do {
 	        		
 	        		mapCode = result.getString("source_mapcode");
 	        		lat = result.getDouble("latitude");
@@ -161,8 +163,8 @@ public class SourceDao {
 	        			
 	        				}
 	        		}
+	        	}while(result.next());
 	        	}
-
 				/*if(isCircle) {
 					condition = "WHERE SQRT((c.g_lat - ?)*(c.g_lat - ?) + " + 
 								"(c.g_lon - ?)*(c.g_lon - ?))  < ?;";
@@ -377,7 +379,7 @@ public class SourceDao {
      		 pStatement.setDouble(1, bandRes);
 	         result = pStatement.executeQuery();
      		 
-     		 if(result.next()) {
+     		 if(result.first()) {
      			 cLatitude = result.getDouble("g_lat");
      			 cLongitude = result.getDouble("g_lon");
      			 x = result.getDouble("x_axis");
@@ -386,19 +388,20 @@ public class SourceDao {
      		 connection2 = d.getConnection();
 			 connection2.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
      		 result2 = statement2.executeQuery(query2);
-     		
-     		 while(result2.next()) {
-     			 sourceCode = result.getString("source_mapcode");
-     			 sLatitude = result.getDouble("latitude");
-     			 sLongitude = result.getDouble("longitude");
-     			 
-     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+
-     				Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
-     			     toPass[0] = sourceCode;
-     			     toPass[1] = Double.toString(sLatitude);
-     			     toPass[2] = Double.toString(sLongitude);
-     				 sources.add(toPass); 
-     			 }	 
+     		 if(result2.first()) {
+	     		 do {
+	     			 sourceCode = result.getString("source_mapcode");
+	     			 sLatitude = result.getDouble("latitude");
+	     			 sLongitude = result.getDouble("longitude");
+	     			 
+	     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+
+	     				Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
+	     			     toPass[0] = sourceCode;
+	     			     toPass[1] = Double.toString(sLatitude);
+	     			     toPass[2] = Double.toString(sLongitude);
+	     				 sources.add(toPass); 
+	     			 }	 
+	     		 }while(result2.next());
      		 }
 		 }catch(SQLException se) {
 			 se.printStackTrace();
