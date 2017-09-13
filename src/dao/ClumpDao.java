@@ -188,9 +188,8 @@ public class ClumpDao {
 		    	try {
 		    			//String[] s = {"","",""};
 		    			//String[] t = {"","",""};
-		    			if(!result.first())
-		    				return null;
-		    			if(result.next()) {
+		    			
+		    			if(result.first()) {
 		    				String[] s = new String[3];
 		    				s[0] = Integer.toString(result.getInt("clump_id"));
 		    				s[1] = Double.toString(result.getDouble("g_lat"));
@@ -204,7 +203,8 @@ public class ClumpDao {
 		    				
 		    			} /* Ho creato un array di stringhe da passare ->controller->bean: 
 		    				funge da "Header";*/
-		    			
+		    			else
+		    				return null;
 		    			while(result.next()){
 		    				String[] t = new String[3];
 		    				t[0] = Double.toString(result.getDouble("band_resolution"));
