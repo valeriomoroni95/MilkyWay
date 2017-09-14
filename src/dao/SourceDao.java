@@ -128,7 +128,7 @@ public class SourceDao {
 				
 				DataSource d = new DataSource();
 	            connection = d.getConnection();
-	        	pStatement = connection.prepareStatement(query);
+	        	pStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 	        	result = pStatement.executeQuery();
 	        	String mapCode;
 	        	Double lat, lon, distance;
