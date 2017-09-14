@@ -67,7 +67,8 @@ try{
                     
                     <li><a><i class="fa fa-map-marker"></i> Objects <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="objects.jsp">All objects</a></li>
+                            <li><a href="objects-map.jsp">Objects in map</a></li>
+                            <li><a href="objects-area.jsp">Objects in area</a></li>
                         </ul>
                     </li>
 
