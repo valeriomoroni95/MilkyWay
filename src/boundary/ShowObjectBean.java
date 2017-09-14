@@ -87,15 +87,16 @@ public class ShowObjectBean {
 				
 	}*/
 	
-	/*public static void main(String args[]) throws SQLException {
+	public static void main(String args[]) throws SQLException {
 		ShowObjectBean bean = new ShowObjectBean();
-		bean.setMapName("MIPS-GAL");
+		bean.setMapName("HIGAL");
 		//bean.band = (float) 350.0;
 		bean.setBand(0.0);
+		bean.importClumpDatas();
 		bean.importSourceDatas();
 		Vector<String[]> z = new Vector<String[]>();
 		
-		z = bean.getSources();
+		z = bean.getClumps();
 		System.out.println(z);
 		
 		
@@ -105,8 +106,8 @@ public class ShowObjectBean {
 				System.out.print(k  + " ");
 			System.out.println("         i:" + i);	
 		}
-	}*/
-	public static void main(String[] args) throws SQLException {
+	}
+	/*public static void main(String[] args) throws SQLException {
 		ShowObjectBean bean = new ShowObjectBean();
 		Vector<String[]> results = new Vector<String[]>();
 		Vector<String[]> results2 = new Vector<String[]>();
@@ -128,5 +129,5 @@ public class ShowObjectBean {
 				System.out.print(k2 + " ");
 			System.out.println(" ");
 		}
-	}
+	}*/
 }
