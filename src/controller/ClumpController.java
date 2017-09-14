@@ -3,7 +3,7 @@ package controller;
 import java.util.Vector;
 
 import boundary.ShowClumpInfoBean;
-import boundary.ShowClumpsInAreaBean;
+import boundary.ShowObjectsInAreaBean;
 import boundary.ShowMassiveStarBean;
 import dao.ClumpDao;
 import entity.Clump;
@@ -13,7 +13,7 @@ public class ClumpController {
 	
 	private static ClumpController instance;
 	
-	  private ClumpController(ShowClumpsInAreaBean sciab){
+	  private ClumpController(ShowObjectsInAreaBean sciab){
 		  
 	  }
 	  
@@ -42,7 +42,7 @@ public class ClumpController {
 		    return instance;
 	  }
 	  
-	  public static synchronized ClumpController getInstance(ShowClumpsInAreaBean sciab) {
+	  public static synchronized ClumpController getInstance(ShowObjectsInAreaBean sciab) {
 		    if(instance == null)
 		      instance = new ClumpController(sciab);
 		    return instance;

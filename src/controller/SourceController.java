@@ -3,7 +3,7 @@ package controller;
 
 import java.util.Vector;
 
-import boundary.ShowClumpsInAreaBean;
+import boundary.ShowObjectsInAreaBean;
 import dao.ClumpDao;
 import dao.SourceDao;
 import entity.Source;
@@ -13,7 +13,7 @@ import entity.Source;
 		
 		private static SourceController instance;
 		
-		  private SourceController(ShowClumpsInAreaBean sciab){
+		  private SourceController(ShowObjectsInAreaBean sciab){
 			  
 		  }
 		  
@@ -24,7 +24,7 @@ import entity.Source;
 		  }
 		  
 		  
-		  public static synchronized SourceController getInstance(ShowClumpsInAreaBean sciab) {
+		  public static synchronized SourceController getInstance(ShowObjectsInAreaBean sciab) {
 			    if(instance == null)
 			      instance = new SourceController(sciab);
 			    return instance;

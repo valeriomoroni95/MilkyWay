@@ -1,4 +1,4 @@
-<%@page import="boundary.ShowClumpsInAreaBean" %>
+<%@page import="boundary.ShowObjectsInAreaBean" %>
 <%@page import="java.util.*" %>
 <%@page import="java.io.*" %>
 
@@ -7,7 +7,8 @@
     String sLon = request.getParameter("longitude");
     String sLenght = request.getParameter("lenght");
     String sIs_circle = request.getParameter("is_circle");
-
+    String sObjects = request.getParameter("objects");
+    
     if (sLat != null && sLon != null && sLenght != null) {
         Double lat = Double.parseDouble(sLat);
         Double lon = Double.parseDouble(sLon);
@@ -19,29 +20,29 @@
             is_circle = Boolean.parseBoolean(sIs_circle);
         }
 
-        ShowClumpsInAreaBean showClumpsInAreaBean = new ShowClumpsInAreaBean();
+        ShowObjectsInAreaBean showClumpsInAreaBean = new ShowObjectsInAreaBean();
 
         showClumpsInAreaBean.setLatitude(lat);
         showClumpsInAreaBean.setLongitude(lon);
         showClumpsInAreaBean.setLenght(lenght);
         showClumpsInAreaBean.setCircle(is_circle);
-        showClumpsInAreaBean.importClumpsInArea();
+        
+        Vector<String[]> objects;
+        
+        if(sIs_circle == "clumps"){
+        		showClumpsInAreaBean.importClumpsInArea();
+        		objects = showClumpsInAreaBean.getClumpsInArea();
+        
+        }else{
+        		showClumpsInAreaBean.importSourcesInArea();
+        		objects = showClumpsInAreaBean.getSourcesInArea();
+        }
 
-        Vector<String[]> clumps = showClumpsInAreaBean.getClumpsInArea();
-
-        request.getSession().setAttribute("clumps", clumps);
-                
-        /*for (String[] clump : clumps) {
-            System.out.println("objects-area.jsp: clump " + clump);
-            for (String i : clump) {
-                System.out.println("objects-area.jsp: i " + i);
-            }
-        }*/
+        request.getSession().setAttribute("objects", objects);
 
     }
 
-    Vector<String[]> clumpsParam = (Vector<String[]>) request.getSession().getAttribute("clumps");
-
+    Vector<String[]> objectsParam = (Vector<String[]>) request.getSession().getAttribute("objects");
 
 %>
 
@@ -89,14 +90,14 @@
 
                                 <div class="form-group">
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
 
                                         <input type="text" name="latitude" class="form-control" required="required"
                                                placeholder="Latitude">
 
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
 
                                         <input type="text" name="longitude" class="form-control" required="required"
                                                placeholder="Longitude">
@@ -120,10 +121,23 @@
                                         </div>
 
                                     </div>
-
-
+                                    
+                                    <div class="col-md-2">
+                                    
+                                    		<div class="radio">
+                            					<label for="clumps">
+                              					<input type="radio" checked="checked" value="clumps" id="clumps" name="objects"> Clumps
+                            					</label>
+                          				</div>
+                          				<div class="radio">
+                            					<label>
+                              					<input type="radio" value="sources" id="sources" name="objects"> Sources
+                            					</label>
+                          				</div>
+                                    
+                                    </div>
+                                 
                                 </div>
-
 
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
@@ -144,7 +158,7 @@
 
             </div>
 
-            <% if (clumpsParam != null) { %>
+            <% if (objectsParam != null) { %>
 
             <div class="row">
 
@@ -182,13 +196,13 @@
 
                                 <% int k = 1; %>
 
-                                <% for (String[] clump : clumpsParam) { %>
+                                <% for (String[] object : objectsParam) { %>
 
                                 <tr>
                                     <td>#<%= k %>
                                     </td>
 
-                                    <% for (String i : clump) { %>
+                                    <% for (String i : object) { %>
 
                                     <td><%= i %>
                                     </td>
@@ -199,8 +213,9 @@
 
                                 <% k++; %>
 
-                                <% }
-                                    request.getSession().removeAttribute("clumps"); %>
+                                <% } %>
+                                
+                                <% request.getSession().removeAttribute("objects"); %>
 
                                 </tbody>
 
