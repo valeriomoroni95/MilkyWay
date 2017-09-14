@@ -18,45 +18,45 @@
 	String end = request.getParameter("satellite_end");
 	String[] agencies = request.getParameterValues("agency");
 	String[] tools = request.getParameterValues("tool");
-	
-	Vector<String> vectorAgencies = new Vector<String>();
-	Vector<String> vectorTools = new Vector<String>();
-	
-	if(agencies != null){
-		for(String agency: agencies){
-			vectorAgencies.addElement(agency);
-		}
-	}
-	
-	if(tools != null){
-		for(String tool: tools){
-			vectorTools.addElement(tool);
-		}
-	}
-	
-	satelliteBean.setName(name);
-	satelliteBean.setStart(start);
-	
-	if(end != ""){
-		satelliteBean.setEnd(end);
-	}else{
-		satelliteBean.setEnd(null);
-	}
-	
-	satelliteBean.setAgencyIds(vectorAgencies);
-	satelliteBean.setTools(vectorTools);
-	
+		
 	boolean success = false;
 	
 	if(name != null && start != null){
+		
+		Vector<String> vectorAgencies = new Vector<String>();
+		Vector<String> vectorTools = new Vector<String>();
+		
+		if(agencies != null){
+			for(String agency: agencies){
+				vectorAgencies.addElement(agency);
+			}
+		}
+		
+		if(tools != null){
+			for(String tool: tools){
+				vectorTools.addElement(tool);
+			}
+		}
+		
+		satelliteBean.setName(name);
+		satelliteBean.setStart(start);
+		
+		if(end != ""){
+			satelliteBean.setEnd(end);
+		}else{
+			satelliteBean.setEnd(null);
+		}
+		
+		satelliteBean.setAgencyIds(vectorAgencies);
+		satelliteBean.setTools(vectorTools);
 
 		if(satelliteBean.validate()){
 			success=true;
-			session.setAttribute("success", success);
 			System.out.println("add_new_satellite.jsp: validate TRUE");
 		}else{
 			System.out.println("add_new_satellite.jsp: validate FALSE");
 		}
+		request.getSession().setAttribute("success", success);
 	}
 
 %>
@@ -184,21 +184,43 @@
 
 <%@include file="parts/scripts.jsp" %>
 
-<%if(success){ %>
-	<script type="text/javascript">
+<%
+    
+    Boolean newSuccess = (Boolean) request.getSession().getAttribute("success");
+                        		    
+    if(newSuccess != null){
+    	
+    		System.out.print("newSuccess " + newSuccess);
+    		
+    		if(newSuccess){ %>
+    		
+    			<script type="text/javascript">
        	
-   		new PNotify({
-   			title: 'Success!',
-   			text: 'A brand new satellite has been sucessfully added to the database',
-    			type: 'success',
-    			styling: 'bootstrap3'
-    		});
-</script>
-<% }
-
-session.removeAttribute("success");
-
-%>
+   			new PNotify({
+   				title: 'Success!',
+   				text: 'A brand new satellite has been sucessfully added to the database',
+    				type: 'success',
+    				styling: 'bootstrap3'
+    			});
+			</script>
+    		
+    		<% }else{ %>
+    		
+    			<script type="text/javascript">
+       	
+   			new PNotify({
+   				title: 'Oh No!',
+   				text: 'New satellite cannot be added to the database. This satellite already exists',
+    				type: 'error',
+    				styling: 'bootstrap3'
+    			});
+			</script>
+    		
+    		<% } %>
+    		
+    <% } %>
+    
+    <% session.removeAttribute("success"); %>
 
 </body>
 </html>
