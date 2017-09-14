@@ -61,56 +61,55 @@ public class MassDao {
 	}
     
    
-    	
-  
-    
-    public String[] statsMass() throws ClassNotFoundException{
+     public String[] statsMass() throws ClassNotFoundException{
     	Connection connection = null;
 		Statement statement = null;
 		ResultSet rs = null;
 		String query;
 		String[] statClump = new String[4];
 		try{
-			String view = "CREATE OR REPLACE VIEW numSorgClump AS "+                  //questa view non deve essere così, ma come quella fatta  
-					  "SELECT c.id_clump,c.ktemp,f.valore,count(*) as numSorg "+	 //nel metodo prima
-					  "FROM sorgente s join clump c on s.id_clump=c.id_clump "+
-					  "join flusso_clump f on s.id_clump=f.id_clump "+
-					  "WHERE f.risoluzione_banda=350 "+
-					  "GROUP BY c.id_clump,c.ktemp,f.valore";
+			String view = "CREATE OR REPLACE VIEW s350 AS "+                   
+					  "SELECT c.clump_id, fc.value, c.k_temp "+        
+					  "FROM clump c join flux_clump fc on fc.clump_id=c.clump_id " +
+					  "WHERE fc.band_resolution=350.0 and c.k_temp <> 0.0 "+
+					  "GROUP BY c.clump_id,c.k_temp,fc.value";
+			System.out.println("Ho creato s350");
 			DataSource d = new DataSource();
 			connection = d.getConnection();
 			statement = connection.createStatement();
-			statement.executeUpdate(view);                                            //questa era la view per vedere le masse
-			String view2 = "CREATE OR REPLACE VIEW MassaClump AS SELECT "+
-					    "id_clump,(numsorg*(0.053*valore*100)*((EXP(41.14/ktemp) - 1))) "+
-						"AS MassaTot FROM numsorgclump;";
-			statement.executeUpdate(view2);			
-			/*SELECT AVG(massatot) AS MEDIA,STDDEV(massatot) AS DEV,MEDIAN(CAST(massatot AS Integer)) AS MEDIANA,    
-	(SELECT  MEDIAN(CAST (ABS(MassaTot - med) AS Integer))															 
-					FROM    (                                                                                                                
-					SELECT  MassaTot, MEDIAN(CAST(massatot AS Integer)) OVER() AS med                       
-					FROM    MassaClump
-					) AS c AS DEVIAZIONE_MEDIA_ASSOLUTA)                                                       
-FROM MassaClump*/
-			String assDev = "SELECT MEDIAN(CAST (ABS(MassaTot - med) AS Integer)) "+
+			statement.executeUpdate(view);
+			
+			String view2 = "CREATE OR REPLACE VIEW mass_data AS SELECT clump_id,  (0.053*value*100)*((EXP(41.14/k_temp) - 1)) "+ 
+					   	"AS mass FROM s350;";
+			statement.executeUpdate(view2);
+			System.out.println("Ho eseguito la query view2");
+			
+			/*String assDev = "SELECT MEDIAN(CAST (ABS(mass - med) AS Integer)) "+
 						 "FROM    ( "+
 					
-					     "( SELECT  MassaTot, MEDIAN(CAST(MassaTot AS Integer)) OVER() AS med "+
-					      "FROM    MassaClump "+
-					      ") AS c";
-			query = "SELECT AVG(MassaTot) AS MEDIA,STDDEV(MassaTot) AS DEVIAZIONE_STANDARD,MEDIAN(CAST(MassaTot as Integer)) AS "+
-					 "MEDIANA,(SELECT MEDIAN(CAST (ABS(MassaTot - med) AS Integer)) FROM "+
-					 "( SELECT  MassaTot, MEDIAN(CAST(MassaTot AS Integer)) OVER() AS med FROM    MassaClump ) AS c) AS "+
-					 "DEVIAZIONE_MEDIA_ASSOLUTA FROM MassaClump;";
+					     "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med "+
+					      "FROM    mass "+
+<<<<<<< HEAD
+					      ") AS c";*/
+			query = /*"SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
+					 "MEDIAN,(SELECT MEDIAN(CAST (ABS(mass - med) AS Integer)) FROM "+
+					 "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med FROM mass ) AS c) AS "+
+					 "MEDIAN_ABSOLUTE_DEVIATION FROM mass_data;";*/
+					"(SELECT MAX(mass) FROM (SELECT TOP 50 PERCENT mass FROM mass_data ORDER BY mass) AS BottomHalf)" +
+					"(SELECT MIN(mass) FROM  (SELECT TOP 50 PERCENT mass FROM mass_data ORDER BY mass DESC) AS TopHalf))/2 AS Median;";
+			/*query = "SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
+					 "MEDIAN,(SELECT MEDIAN(CAST (ABS(mass - med) AS Integer)) FROM "+
+					 "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med FROM    mass ) AS c) AS "+
+					 "MEDIAN_ABSOLUTE_DEVIATION FROM mass;";*/
 
 			System.out.println("print query: " + query);
-			rs = statement.executeQuery(query);											//questa me sa che era la roba che me diceva claudio
+			rs = statement.executeQuery(query);											
 			if(!rs.next())
 				return null;
-			statClump[0] = rs.getString("MEDIA");
-			statClump[1] = rs.getString("DEVIAZIONE_STANDARD");
-			statClump[2] = rs.getString("MEDIANA");
-			statClump[3] = rs.getString("DEVIAZIONE_MEDIA_ASSOLUTA");
+			statClump[0] = rs.getString("MEAN");
+			statClump[1] = rs.getString("STANDARD_DEVIATION");
+			statClump[2] = rs.getString("MEDIAN");
+			statClump[3] = rs.getString("MEDIAN_ABSOLUTE_DEVIATION");
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -118,12 +117,12 @@ FROM MassaClump*/
 		}
     	return statClump;	
 			
-					
+		}
     
-    
-		
-		
-		
+    public static void main(String[] args) throws ClassNotFoundException{
+    	MassDao md = new MassDao();
+    	md.statsMass();
+    	System.out.println(md);
     }
 
 
