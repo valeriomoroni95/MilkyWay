@@ -1,7 +1,6 @@
 <%@page import="boundary.SignUpBean" %>
 
 <jsp:useBean id="registrationBean" scope="session" class="boundary.SignUpBean" />
-
 <jsp:setProperty name="registrationBean" property="*" />
 
 <%
@@ -23,13 +22,16 @@ if(name!=null){
 	signUpBean.setUsername(username);
 	signUpBean.setEmail(email);
 	signUpBean.setPassword(password);
-
+	
+	boolean success = false;
+	
 	if(signUpBean.validate()){
+		success = true;
 		System.out.println("add-new-user.jsp: signup.validate() is TRUE, you are signed up");
-	}
-	else{
+	}else{
 		System.out.println("add-new-user.jsp: signup.validate() is FALSE, you're not signed up");
-	}
+	}	
+	request.getSession().setAttribute("success", success);
 }
 
 %>
@@ -58,7 +60,7 @@ if(name!=null){
                   </div>
                   <div class="x_content">
                     <br />
-                    <form method="post" action="" id="demo-form2" class="form-horizontal form-label-left" novalidate>
+                    <form method="post" action="" id="demo-form2" class="form-horizontal register-form form-label-left">
                     
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Name <span class="required">*</span>
@@ -136,6 +138,44 @@ if(name!=null){
     </div>
 
     <%@include file="parts/scripts.jsp"%>
+    
+    <%
+    
+    Boolean newSuccess = (Boolean) request.getSession().getAttribute("success");
+                        		    
+    if(newSuccess != null){
+    	
+    		System.out.print("newSuccess " + newSuccess);
+    		
+    		if(newSuccess){ %>
+    		
+    			<script type="text/javascript">
+       	
+   			new PNotify({
+   				title: 'Success!',
+   				text: 'New user has been sucessfully added to the database',
+    				type: 'success',
+    				styling: 'bootstrap3'
+    			});
+			</script>
+    		
+    		<% }else{ %>
+    		
+    			<script type="text/javascript">
+       	
+   			new PNotify({
+   				title: 'Oh No!',
+   				text: 'New user cannot be added to the database. This username already exists',
+    				type: 'error',
+    				styling: 'bootstrap3'
+    			});
+			</script>
+    		
+    		<% } %>
+    		
+    <% } %>
+    
+    <% session.removeAttribute("success"); %>
 	
   </body>
 </html>
