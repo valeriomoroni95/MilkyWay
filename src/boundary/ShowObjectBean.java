@@ -68,13 +68,13 @@ public class ShowObjectBean {
 	public void importClumpDatas() throws SQLException {
 		
 		ShowObjectController controller = ShowObjectController.getInstance(this);
-		this.clumps = controller.getClumps(mapName, band);
+		this.clumps = controller.getClumps(this.mapName, this.band);
 
 	}
 	public void importSourceDatas() throws SQLException {
 		
 		ShowObjectController controller = ShowObjectController.getInstance(this);
-		this.sources = controller.getSources(mapName, band);
+		this.sources = controller.getSources(this.mapName, this.band);
 		
 	}
 	
@@ -106,5 +106,27 @@ public class ShowObjectBean {
 			System.out.println("         i:" + i);	
 		}
 	}*/
+	public static void main(String[] args) throws SQLException {
+		ShowObjectBean bean = new ShowObjectBean();
+		Vector<String[]> results = new Vector<String[]>();
+		Vector<String[]> results2 = new Vector<String[]>();
 
+		
+		bean.setMapName("Glimpse");
+		bean.setBand(3.6);
+		bean.importClumpDatas();
+		bean.importSourceDatas();
+		results = bean.getSources();
+		results2 = bean.getClumps();
+		for(String[] v : results) {
+			for(String k : v)
+				System.out.print(k + " ");
+			System.out.println(" ");
+		}
+		for(String[] v2 : results2) {
+			for(String k2 : v2)
+				System.out.print(k2 + " ");
+			System.out.println(" ");
+		}
+	}
 }

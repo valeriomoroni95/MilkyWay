@@ -83,19 +83,20 @@ public class ClumpDao {
     	Connection connection = null;
         ResultSet result = null;
 		v = new Vector<String[]>();
-        String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on" +
+        String query = "SELECT  c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on" +
         				" c.clump_id = fc.clump_id join map m on c.map_id = m.map_id WHERE m.name = '" + map + "' "; 
         if(!band.equals(0.0))
         		 query = query + "AND fc.band_resolution = ?";
         			        
-        	query = query + " order by c.clump_id;";
-        	        	
+        query = query + " order by c.clump_id;";
+        System.out.println(query); 	        	
     	try { //TODO check || NB: è per il requisito 5
 		
     		DataSource d = new DataSource();
         	connection = d.getConnection();
         	PreparedStatement pStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-        	pStatement.setDouble(1,band);
+        	if(!band.equals(0.0))
+        		pStatement.setDouble(1,band);
         	result = pStatement.executeQuery();
     		}
 				catch (SQLException se) {
@@ -126,6 +127,8 @@ public class ClumpDao {
 		    		else { //TODO check
 			    			int clumpId = -1;
 			    			int temp;
+			    			if(result.wasNull())
+			    				return null;
 			    			if(result.first()) {
 			    				
 			    			do {
@@ -490,7 +493,7 @@ public class ClumpDao {
 	/* public static void main(String[] args) {
 		ClumpDao clumpD = new ClumpDao();
 		Vector<String[]> results = new Vector<String[]>();
-		results = clumpD.showClumpsInArea(0.0,42.7,20.0, false);
+		results = clumpD.findClumpsInMap("HIGAL", 0.0);
 		for(String[] v : results) {
 			for(String k : v)
 				System.out.println(k);
