@@ -3,44 +3,43 @@
 <%@page import="java.util.*" %>
 
 <%
+		
+	String name = request.getParameter("name");
+	String mapId = request.getParameter("map");
+	String[] bands = request.getParameterValues("band");
 
 	ToolBean toolBean = new ToolBean();
 	toolBean.importMaps();
-
 	Vector<Map> maps = toolBean.getMaps();
-	
-	String name = request.getParameter("name");
-	String mapId = request.getParameter("map");
-	
-	String[] bands = request.getParameterValues("band");
 		
-	Vector<Double> vectorBands = new Vector<Double>();
-	
-	if(bands != null){
-		for(String band : bands){
-			
-			System.out.println("band" + band);
-			
-			Double doubleBand = Double.parseDouble(band);
-			
-			vectorBands.addElement(doubleBand);
-		}
-	}
-	
-	toolBean.setName(name);
-	if(mapId != null){
-		toolBean.setMapId(Integer.parseInt(mapId));
-	}
-	
-	toolBean.setBands(vectorBands);
-	
 	if(name != null){
+		
+		toolBean.setName(name);
+		
+		Vector<Double> vectorBands = new Vector<Double>();
+		if(bands != null){
+			for(String band : bands){
+				Double doubleBand = Double.parseDouble(band);
+				vectorBands.addElement(doubleBand);
+			}
+		}
+		toolBean.setBands(vectorBands);
+		
+		if(mapId != null){
+			toolBean.setMapId(Integer.parseInt(mapId));
+		}
+		
+		boolean success = false;
+		
 		if(toolBean.validate()){
+			success = true;
 			System.out.println("add_new_tool.jsp: validate TRUE");
 		}else{
 			System.out.println("add_new_tool.jsp: validate FALSE");
-
 		}
+		
+		request.getSession().setAttribute("success", success);
+		
 	}
 	
 %>
@@ -186,6 +185,46 @@
     </div>
 
     <%@include file="parts/scripts.jsp"%>
+    
+    
+    <%
+    
+    Boolean newSuccess = (Boolean) request.getSession().getAttribute("success");
+                        		    
+    if(newSuccess != null){
+    	
+    		System.out.print("newSuccess " + newSuccess);
+    		
+    		if(newSuccess){ %>
+    		
+    			<script type="text/javascript">
+       	
+   			new PNotify({
+   				title: 'Success!',
+   				text: 'New tool has been sucessfully added to the database',
+    				type: 'success',
+    				styling: 'bootstrap3'
+    			});
+			</script>
+    		
+    		<% }else{ %>
+    		
+    			<script type="text/javascript">
+       	
+   			new PNotify({
+   				title: 'Oh No!',
+   				text: 'New tool cannot be added to the database. This tool already exists',
+    				type: 'error',
+    				styling: 'bootstrap3'
+    			});
+			</script>
+    		
+    		<% } %>
+    		
+    <% } %>
+    
+    <% session.removeAttribute("success"); %>
+    
 	
   </body>
 </html>
