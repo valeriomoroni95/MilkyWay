@@ -6,12 +6,14 @@
 
 ShowObjectBean showObjectBean = new ShowObjectBean();
 
+showObjectBean.setBand(0.0);
+showObjectBean.setMapName("HiGal");
+
 showObjectBean.importMapNames();
-showObjectBean.importClumpDatas();
-showObjectBean.importSourceDatas();
+//showObjectBean.importClumpDatas();
+//showObjectBean.importSourceDatas();
 
 Vector<String> maps = showObjectBean.getMapNames();
-
 
 %>
 
@@ -115,16 +117,6 @@ Vector<String> maps = showObjectBean.getMapNames();
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
                     </ul>
@@ -137,7 +129,7 @@ Vector<String> maps = showObjectBean.getMapNames();
                       <thead>
                       <tr>
                         <th style="width: 1%">#</th>
-                        <th style="width: 20%">Map name</th>
+                        <th style="width: 20%">Object</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -145,19 +137,13 @@ Vector<String> maps = showObjectBean.getMapNames();
                       </tr>
                       </thead>
 
-                      <% if (maps != null) { %>
-
                       <tbody>
-                      
-                      	<% int i = 1; %>
-                      
-                      	<% for (String map : maps) { %>
 
                       	<tr>
 
-                        		<td>#<%= i %></td>
+                        		<td>#</td>
                         		
-                        		<td><a><%= map %></a></td>
+                        		<td><a></a></td>
 
                         		<td></td>
 
@@ -176,14 +162,7 @@ Vector<String> maps = showObjectBean.getMapNames();
 
                       	</tr>
 
-                      	<% i++; %>
-
-                      <% } %>
-
-
                       </tbody>
-
-                      <% } %>
 
                     </table>
                     <!-- end project list -->
