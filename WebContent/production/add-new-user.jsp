@@ -1,8 +1,5 @@
 <%@page import="boundary.SignUpBean" %>
 
-<jsp:useBean id="registrationBean" scope="session" class="boundary.SignUpBean" />
-<jsp:setProperty name="registrationBean" property="*" />
-
 <%
 
 String name = request.getParameter("name");
