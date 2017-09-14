@@ -81,7 +81,7 @@ public class MassDao {
 			statement = connection.createStatement();
 			statement.executeUpdate(view);
 			
-			String view2 = "SELECT clump_id,(0.053*value*100)*((EXP(41.14/k_temp) - 1)) "+ 
+			String view2 = "CREATE OR REPLACE VIEW mass_data AS SELECT clump_id,(0.053*value*100)*((EXP(41.14/k_temp) - 1)) "+ 
 					   "AS mass FROM s350;";
 			statement.executeQuery(view2);
 			System.out.println("Ho eseguito la query");
@@ -92,10 +92,12 @@ public class MassDao {
 					     "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med "+
 					      "FROM    mass "+
 					      ") AS c";
-			query = "SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
+			query = /*"SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
 					 "MEDIAN,(SELECT MEDIAN(CAST (ABS(mass - med) AS Integer)) FROM "+
-					 "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med FROM    mass ) AS c) AS "+
-					 "MEDIAN_ABSOLUTE_DEVIATION FROM mass;";
+					 "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med FROM mass ) AS c) AS "+
+					 "MEDIAN_ABSOLUTE_DEVIATION FROM mass_data;";*/
+					"(SELECT MAX(mass) FROM (SELECT TOP 50 PERCENT mass_data FROM s350 ORDER BY mass) AS BottomHalf)" +
+					"(SELECT MIN(mass) FROM  (SELECT TOP 50 PERCENT mass_data FROM s350 ORDER BY mass DESC) AS TopHalf))/2 AS Median;";
 
 			System.out.println("print query: " + query);
 			rs = statement.executeQuery(query);											
