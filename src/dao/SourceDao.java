@@ -165,42 +165,6 @@ public class SourceDao {
 	        		}
 	        	}while(result.next());
 	        	}
-				/*if(isCircle) {
-					condition = "WHERE SQRT((c.g_lat - ?)*(c.g_lat - ?) + " + 
-								"(c.g_lon - ?)*(c.g_lon - ?))  < ?;";
-					query = query + condition;
-		        	pStatement = connection.prepareStatement(query);
-
-					pStatement.setDouble(1, latitude);
-					pStatement.setDouble(2, latitude);
-					pStatement.setDouble(3, longitude);
-					pStatement.setDouble(4, longitude);
-					pStatement.setDouble(5, lenght);
-				}
-				else {
-					condition = "WHERE c.g_lat < ? AND c.g_lat > ? AND c.g_lon < ? AND c.g_lon > ?;";
-					query = query + condition;
-		        	pStatement = connection.prepareStatement(query);
-
-					pStatement.setDouble(1, latitude);
-					pStatement.setDouble(2, longitude);
-					pStatement.setDouble(3, latitude + lenght/2);
-					pStatement.setDouble(4, latitude - lenght/2);
-					pStatement.setDouble(5, longitude + lenght/2);
-					pStatement.setDouble(6, longitude - lenght/2);		
-				}*/
-	        
-	        	/*result = pStatement.executeQuery();
-
-				while(result.next()){
-					
-					String toPass[] = { Integer.toString(result.getInt("clump_id")),
-										Double.toString(result.getDouble("g_lat")),
-										Double.toString(result.getDouble("g_lon")),
-										Double.toString(result.getDouble("distance"))
-										};
-					data.add(toPass);
-				}*/
 				
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
@@ -211,74 +175,6 @@ public class SourceDao {
 			Collections.sort(data, new DistanceComparator());
 			return data;
 	    }
-	/* public Vector<String[]> showSourcesInArea(Double latitude,Double longitude, Double lenght, boolean isCircle){
-			
-			// permette di cercare le sorgenti che si trovano in un cerchio o un quadrato centrato in latitude, longitude
-			// e con raggio/cateto di lunghezza lenght. Se cerco in un cerchio isCircle = true, rettangolo false
-		 	// l'array di stringhe ritornato nel vettore ha il formato [id, latitudine, longitudine, distanza]
-		 	// castate a String (vanno solo stampate). L'id stampato è quello contenuto nei file
-			Vector<String[]> data = new Vector<String[]>();
-			String query, condition;
-	    	Connection connection = null;
-			PreparedStatement pStatement = null;
-			ResultSet result;		
-			
-			try {
-				
-				query = "SELECT s.source_mapcode, s.latitude, s.longitude, SQRT(POW((s.latitude - ?),2)+" + 
-						"POW((s.longitude - ?),2)) as distance FROM  flux_source f JOIN "  + 
-						"source s on s.source_id = f.source_id ";
-				
-				DataSource d = new DataSource();
-	            connection = d.getConnection();
-	        	
-	        	if(isCircle) {
-					condition = "WHERE distance < ? order by distance;";
-		        	query = query + condition; 
-					pStatement = connection.prepareStatement(query);
-
-					pStatement.setDouble(1, latitude);
-					pStatement.setDouble(2, longitude);
-					pStatement.setDouble(3, lenght);
-	        	}
-	        	
-				else {
-					
-					condition = "WHERE g_lat < ? AND g_lat > ? AND g_lon < ? AND g_lon > ?" +
-								"order by distance;";
-					query = query + condition; 
-					pStatement = connection.prepareStatement(query);
-					pStatement.setDouble(1, latitude);
-					pStatement.setDouble(2, longitude);
-					pStatement.setDouble(3, latitude + lenght/2);
-					pStatement.setDouble(4, latitude - lenght/2);
-					pStatement.setDouble(5, longitude + lenght/2);
-					pStatement.setDouble(6, longitude - lenght/2);		
-				
-				}
-	        	
-				query = query + condition;
-	        	
-	        	result = pStatement.executeQuery(query);
-
-				while(result.next()){
-					
-					String toPass[] = { result.getString("source_mapcode"),
-										Double.toString(result.getDouble("latitude")),
-										Double.toString(result.getDouble("longitude")),
-										Double.toString(result.getDouble("distance"))
-										};
-					data.add(toPass);
-				}
-				
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return data;
-	    } */
 	 
 	 public boolean isPresent(String source_mapcode) {
 			Connection connection = null;
@@ -396,7 +292,8 @@ public class SourceDao {
 	     			 
 	     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+
 	     				Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
-	     			     toPass[0] = sourceCode;
+	     			     toPass = new String[3];
+	     				 toPass[0] = sourceCode;
 	     			     toPass[1] = Double.toString(sLatitude);
 	     			     toPass[2] = Double.toString(sLongitude);
 	     				 sources.add(toPass); 
