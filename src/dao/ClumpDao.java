@@ -89,12 +89,12 @@ public class ClumpDao {
         		 query = query + "AND fc.band_resolution = ?";
         			        
         	query = query + " order by c.clump_id;";
-        	
+        	        	
     	try { //TODO check || NB: è per il requisito 5
 		
     		DataSource d = new DataSource();
         	connection = d.getConnection();
-        	PreparedStatement pStatement = connection.prepareStatement(query);
+        	PreparedStatement pStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         	pStatement.setDouble(1,band);
         	result = pStatement.executeQuery();
     		}
