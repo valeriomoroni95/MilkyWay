@@ -91,13 +91,17 @@ public class MassDao {
 					      "FROM    mass "+
 <<<<<<< HEAD
 					      ") AS c";*/
-			query = /*"SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
+			query = "SELECT CASE WHEN c % 2 = 0 AND c > 1 THEN (a[1]+a[2])/2 ELSE a[1] END "+
+					"FROM (SELECT ARRAY(SELECT mass FROM mass_data ORDER BY mass OFFSET (c-1)/2 LIMIT 2) AS a, c "+
+					   "FROM (SELECT count(*) AS c FROM mass_data where mass is not null) AS count OFFSET 0 ) AS midrows;";
+					
+					/*"SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
 					 "MEDIAN,(SELECT MEDIAN(CAST (ABS(mass - med) AS Integer)) FROM "+
 					 "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med FROM mass ) AS c) AS "+
-					 "MEDIAN_ABSOLUTE_DEVIATION FROM mass_data;";*/
+					 "MEDIAN_ABSOLUTE_DEVIATION FROM mass_data;";
 					"(SELECT MAX(mass) FROM (SELECT TOP 50 PERCENT mass FROM mass_data ORDER BY mass) AS BottomHalf)" +
 					"(SELECT MIN(mass) FROM  (SELECT TOP 50 PERCENT mass FROM mass_data ORDER BY mass DESC) AS TopHalf))/2 AS Median;";
-			/*query = "SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
+			query = "SELECT AVG(mass) AS MEAN,STDDEV(mass) AS STANDARD_DEVIATION ,MEDIAN(CAST(mass as Integer)) AS "+
 					 "MEDIAN,(SELECT MEDIAN(CAST (ABS(mass - med) AS Integer)) FROM "+
 					 "( SELECT  mass, MEDIAN(CAST(mass AS Integer)) OVER() AS med FROM    mass ) AS c) AS "+
 					 "MEDIAN_ABSOLUTE_DEVIATION FROM mass;";*/
@@ -106,10 +110,10 @@ public class MassDao {
 			rs = statement.executeQuery(query);											
 			if(!rs.next())
 				return null;
-			statClump[0] = rs.getString("MEAN");
-			statClump[1] = rs.getString("STANDARD_DEVIATION");
-			statClump[2] = rs.getString("MEDIAN");
-			statClump[3] = rs.getString("MEDIAN_ABSOLUTE_DEVIATION");
+			statClump[0] = rs.getString("midrows");
+			//statClump[1] = rs.getString("STANDARD_DEVIATION");
+			//statClump[2] = rs.getString("MEDIAN");
+			//statClump[3] = rs.getString("MEDIAN_ABSOLUTE_DEVIATION");
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
