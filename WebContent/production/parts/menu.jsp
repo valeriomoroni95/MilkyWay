@@ -74,7 +74,7 @@ try{
 
 					<li><a><i class="fa fa-star"></i> Clumps <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="clumps.jsp">All clumps</a></li>
+                            <li><a href="clumps.jsp">Clumps can host massive stars</a></li>
                         </ul>
                     </li>
                     

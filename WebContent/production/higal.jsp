@@ -24,18 +24,7 @@ request.getSession().setAttribute("pageName" , pageName);
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Flux and Clump dimension import</h3>
-              </div>
-
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
+                <h3>Higal import</h3>
               </div>
             </div>
 
@@ -45,7 +34,7 @@ request.getSession().setAttribute("pageName" , pageName);
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Import flux and clump dimension (additional info) using a .csv file</h2>
+                    <h2>Import Higal using a .csv file</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -56,7 +45,7 @@ request.getSession().setAttribute("pageName" , pageName);
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <p>Drag multiple files to the box below for multi upload or click to select files. This is for demonstration purposes only, the files are not uploaded to any server.</p>
+                    <p>Drag multiple files to the box below for multi upload or click to select files.</p>
                     <form  class="dropzone" action="UploadFile.jsp" method="post" enctype="multipart/form-data"></form>
                     <br />
                     <br />

@@ -24,18 +24,7 @@ request.getSession().setAttribute("pageName" , pageName);
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Clumps import</h3>
-              </div>
-
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
+                <h3>Mips import</h3>
               </div>
             </div>
 
@@ -56,7 +45,7 @@ request.getSession().setAttribute("pageName" , pageName);
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <p>Drag multiple files to the box below for multi upload or click to select files. This is for demonstration purposes only, the files are not uploaded to any server.</p>
+                    <p>Drag multiple files to the box below for multi upload or click to select files.</p>
                     <form  class="dropzone" action="UploadFile.jsp" method="post" enctype="multipart/form-data"></form>
                     
                     <!--  <form method="post" action="UploadFile.jsp" enctype="multipart/form-data">

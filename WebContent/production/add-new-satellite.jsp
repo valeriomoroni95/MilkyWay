@@ -1,14 +1,8 @@
 <%@page import="boundary.SatelliteBean" %>
-<%@page import="controller.SatelliteController" %>
 <%@page import="boundary.ToolBean" %>
 <%@page import="entity.Agency" %>
 <%@page import="java.util.*" %>
 <%@page import="java.io.*" %>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-<!DOCTYPE html>
 
 <%
 
@@ -67,6 +61,10 @@
 
 %>
 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
 <html lang="en">
 <%@include file="parts/head.jsp" %>
 <body class="nav-md">
@@ -82,16 +80,6 @@
                     <h2>Add new satellite</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                            </ul>
                         </li>
                         <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
