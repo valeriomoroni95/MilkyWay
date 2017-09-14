@@ -401,7 +401,7 @@ public class ClumpDao {
 			
 			DataSource d = new DataSource();
             connection = d.getConnection();
-        	pStatement = connection.prepareStatement(query);
+        	pStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         	result = pStatement.executeQuery();    
         	int clumpId;
         	Double lat, lon, distance;
