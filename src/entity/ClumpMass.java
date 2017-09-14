@@ -6,8 +6,8 @@ public class ClumpMass {
 	private double totalMass;
 	
 	public ClumpMass(int clumpId, double totalMass){
-		this.setClumpId(clumpId);
-		this.setTotalMass(totalMass);
+		this.clumpId =clumpId;
+		this.totalMass = totalMass;
 		
 	}
 
