@@ -280,7 +280,7 @@ public class FileImportDao {
 		        			System.out.println("Sono prima dell'update");
 		        			pstatement.executeUpdate();
 		        			System.out.println("Sono dopo l'update");
-		        			
+		        			//TODO controllo sul flusso! se non c'è devo fare un insert, non update!
 		        			if(f3_6 != -1.0) {
 			        			pstatement2 = connection.prepareStatement(sqlu2);
 			        			pstatement2.setDouble(2, 3.6);

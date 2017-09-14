@@ -3,19 +3,27 @@ package boundary;
 import java.sql.SQLException;
 import java.util.Vector;
 import controller.ClumpController;
+import controller.SourceController;
 
 public class ShowClumpsInAreaBean {
 	
-	private Double latitude;
-	private Double longitude; 
+	private Double cLatitude;
+	private Double cLongitude; 
+	private Double sLatitude;
+	private Double sLongitude;
 	private Double lenght;
 	private boolean isCircle;
 	private Vector<String[]> clumpsInArea;
+	private Vector<String[]> sourcesInArea;
 	
 	public void importClumpsInArea() throws SQLException {
 		ClumpController controller = ClumpController.getInstance(this);
-		this.setClumpsInArea(controller.getClumpsInArea(this.getLatitude(), this.getLongitude(), this.getLenght(), this.isCircle()));
-
+		this.setClumpsInArea(controller.getClumpsInArea(this.getcLatitude(), this.getcLongitude(), this.getLenght(), this.isCircle()));
+	}
+	
+	public void importSourcesInArea() throws SQLException {
+		SourceController controller = SourceController.getInstance(this);
+		this.setSourcesInArea(controller.getSourcesInArea(this.getsLatitude(), this.getsLongitude(), this.getLenght(), this.isCircle()));
 	}
 
 	public Vector<String[]> getClumpsInArea() {
@@ -26,20 +34,44 @@ public class ShowClumpsInAreaBean {
 		this.clumpsInArea = clumpsInArea;
 	}
 
-	public Double getLatitude() {
-		return latitude;
+	public Double getsLatitude() {
+		return sLatitude;
+	}
+
+	public void setsLatitude(Double sLatitude) {
+		this.sLatitude = sLatitude;
+	}
+
+	public Double getsLongitude() {
+		return sLongitude;
+	}
+
+	public void setsLongitude(Double sLongitude) {
+		this.sLongitude = sLongitude;
+	}
+
+	public Vector<String[]> getSourcesInArea() {
+		return sourcesInArea;
+	}
+
+	public void setSourcesInArea(Vector<String[]> sourcesInArea) {
+		this.sourcesInArea = sourcesInArea;
+	}
+
+	public Double getcLatitude() {
+		return cLatitude;
 	}
 
 	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
+		this.cLatitude = latitude;
 	}
 
-	public Double getLongitude() {
-		return longitude;
+	public Double getcLongitude() {
+		return cLongitude;
 	}
 
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
+	public void setcLongitude(Double longitude) {
+		this.cLongitude = longitude;
 	}
 
 	public Double getLenght() {
