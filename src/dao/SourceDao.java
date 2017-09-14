@@ -23,16 +23,16 @@ public class SourceDao {
 	        				" s.source_id = fs.source_id join map m on m.map_id = s.map_id WHERE m.name = '"+map+"' ";
 	      
 	        if(band != 0.0)
-	        		 query = query + "AND sf.band_resolution = ?"; //da inserire, è un double
+	        		 query = query + "AND fs.band_resolution = ?"; //da inserire, è un double
 	        			        
 	        	query = query + "order by s.source_id;";
-	        	
+	        System.out.println(query);
 	    	try { //TODO check || NB: è per il requisito 5
 			
 	    		DataSource d = new DataSource();
 	        	connection = d.getConnection();
 	        	if(band!=0.0) {
-		        	pStatement = connection.prepareStatement(query);
+		        	pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 	        		pStatement.setDouble(1,band);
 	        		result = pStatement.executeQuery(); 
 	        	}
