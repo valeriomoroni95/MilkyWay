@@ -281,14 +281,14 @@ public class FileImportDao {
 		        			pstatement.executeUpdate();
 		        			System.out.println("Sono dopo l'update");
 		        			//TODO controllo sul flusso! se non c'è devo fare un insert, non update!
-		        			if(f3_6 != -1.0) {
+		        			if(sd.isFluxPresent(sourceId,3.6) && f3_6 != -1.0) {
 			        			pstatement2 = connection.prepareStatement(sqlu2);
 			        			pstatement2.setDouble(2, 3.6);
 			        			pstatement2.setInt(3, sId);
 			        			pstatement2.setDouble(1, f3_6);
 			        			pstatement2.executeUpdate();
 		        			}
-		        			if(f4_5 != -1.0) {
+		        			if(sd.isFluxPresent(sourceId,4.5) && f4_5 != -1.0) {
 			        			pstatement3 = connection.prepareStatement(sqlu2);
 			        			pstatement3.setDouble(2, 4.5);
 			        			pstatement3.setInt(3, sId);
@@ -296,7 +296,7 @@ public class FileImportDao {
 			        			pstatement3.executeUpdate();
 
 		        			}
-		        			if(f5_8 != -1.0) {
+		        			if(sd.isFluxPresent(sourceId,5.8) && f5_8 != -1.0) {
 			        			pstatement4 = connection.prepareStatement(sqlu2);
 			        			pstatement4.setDouble(2, 5.8);
 			        			pstatement4.setInt(3, sId);
@@ -304,7 +304,7 @@ public class FileImportDao {
 			        			pstatement4.executeUpdate();
 
 		        			}
-		        			if(f8 != -1.0) {
+		        			if(sd.isFluxPresent(sourceId,8.0) && f8 != -1.0) {
 			        			pstatement5 = connection.prepareStatement(sqlu2);
 			        			pstatement5.setDouble(2, 8.0);
 			        			pstatement5.setInt(3, sId);
