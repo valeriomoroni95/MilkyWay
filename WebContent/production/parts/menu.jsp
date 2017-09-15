@@ -48,7 +48,6 @@ try{
                             	<li><a href="add-new-user.jsp">Add new</a></li>
                             	
                             	<% } %>
-                            <li><a href="profile.jsp">Your profile</a></li>
                         </ul>
                     </li>
                     
@@ -65,6 +64,18 @@ try{
                         </ul>
                     </li>
                     
+                    <li><a><i class="fa fa-wrench"></i> Tools <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="tools.jsp">All tools</a></li>
+                            
+                            <% if( is_admin == true) { %>
+                            <li><a href="add-new-tool.jsp">Add new tool</a></li>
+                            <% } %>
+                            
+                        </ul>
+                    </li>
+                    
+                    
                     <li><a><i class="fa fa-map-marker"></i> Objects <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="objects-map.jsp">Objects in map</a></li>
@@ -75,11 +86,13 @@ try{
 					<li><a><i class="fa fa-star"></i> Clumps <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                         
-                            <li><a href="clumps.jsp">Clumps can host massive stars</a></li>
+                            <li><a href="clumps-massive-star.jsp">Clumps can host massive stars</a></li>
                             
                             <li><a href="sources-clump.jsp">Sources in MIPSGAL that belong to specific clump</a></li>
                             
                             <li><a href="young-sources.jsp">Young Sources in MIPSGAL that belong to specific clump</a></li>
+                            
+                             <li><a href="clumps-mass.jsp">Clumps masses</a></li>
                             
                         </ul>
                     </li>
@@ -96,41 +109,11 @@ try{
                     </li>
                     
                     <% } %>
-                    
-                    <li><a><i class="fa fa-wrench"></i> Tools <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="tools.jsp">All tools</a></li>
-                            
-                            <% if( is_admin == true) { %>
-                            <li><a href="add-new-tool.jsp">Add new tool</a></li>
-                            <% } %>
-                            
-                        </ul>
-                    </li>
-                    
-                    
-                    
+                                        
                 </ul>
             </div>
           
         </div>
         <!-- /sidebar menu -->
-
-        <!-- /menu footer buttons -->
-        <div class="sidebar-footer hidden-small">
-            <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
-        </div>
-        <!-- /menu footer buttons -->
     </div>
 </div>
