@@ -6,13 +6,12 @@ import controller.SourceController;
 
 public class YoungSourceObjectBean {
 	
-	int clumpId;
-	Vector<String[]> yso;
+	private int clumpId;
+	private Vector<String[]> yso;
 	
 	public void importYoungSourceObjectBean() {
 		SourceController controller = SourceController.getInstance(this);
-		controller.getYoungSourceObject(this.getClumpId());
-		this.setClumpId(clumpId);
+		this.yso = controller.getYoungSourceObject(this.getClumpId());
 	}
 
 	public int getClumpId() {
