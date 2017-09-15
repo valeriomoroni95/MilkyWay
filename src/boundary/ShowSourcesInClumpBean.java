@@ -13,9 +13,7 @@ public class ShowSourcesInClumpBean {
 	
 	public void importSourcesInClump() throws SQLException {
 		SourceController controller = SourceController.getInstance(this);
-		controller.getSourcesInClump(this.getClumpId(), this.getBandRes());
-		this.setBandRes(bandRes);
-		this.setClumpId(clumpId);
+		this.sourcesInClump=controller.getSourcesInClump(this.getClumpId(), this.getBandRes());	
 	}
 
 	public Vector<String[]> getSourcesInClump(){
