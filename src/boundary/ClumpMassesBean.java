@@ -11,6 +11,7 @@ import entity.ClumpMass;
 public class ClumpMassesBean {
 		
 		private Vector<ClumpMass> masses;
+		private String[] stats;
 		
 		
 		
@@ -30,6 +31,23 @@ public class ClumpMassesBean {
 
 		public void setMasses(Vector<ClumpMass> masses) {
 			this.masses = masses;
+		}
+		
+		public void importStats() throws SQLException, ClassNotFoundException {
+			ClumpMassesController controller = ClumpMassesController.getInstance(this);
+			this.setStats(controller.getStats());
+		}
+
+
+
+		public String[] getStats() {
+			return stats;
+		}
+
+
+
+		public void setStats(String[] stats) {
+			this.stats = stats;
 		}
 
 }
