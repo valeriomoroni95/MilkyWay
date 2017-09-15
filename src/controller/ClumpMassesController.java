@@ -25,7 +25,7 @@ public class ClumpMassesController {
     return instance;
 	}
 	
-public Vector<ClumpMass> getMasses() throws SQLException, ClassNotFoundException{ 
+	public Vector<ClumpMass> getMasses() throws SQLException, ClassNotFoundException{ 
 		
 		Vector<ClumpMass> masses = new Vector<ClumpMass>();
     
@@ -33,5 +33,16 @@ public Vector<ClumpMass> getMasses() throws SQLException, ClassNotFoundException
    		masses = massDao.loadMasses();
    		return masses;
 	
-   }
+    }
+	
+	public String[] getStats() throws ClassNotFoundException{
+		
+		String[] list = new String[4];
+		MassDao md = new MassDao();
+		list = md.statsMass();
+		return list;
+		
+	}
+	
+
 }
