@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import boundary.ShowObjectsInAreaBean;
 import boundary.ShowSourcesInClumpBean;
+import boundary.YoungSourceObjectBean;
 import dao.AgencyDao;
 import dao.ClumpDao;
 import dao.SourceDao;
@@ -25,11 +26,23 @@ import entity.Source;
 			  
 		  }
 		  
+		  private SourceController(YoungSourceObjectBean ysob){
+			  
+		  }
+		  
 		  
 		  
 		  private SourceController() {
 			  
 		  }
+		  
+		  public static synchronized SourceController getInstance(YoungSourceObjectBean ysob){
+			  if(instance == null)
+			      instance = new SourceController(ysob);
+			    return instance;
+		  }
+		  
+		  
 		  public static synchronized SourceController getInstance(ShowSourcesInClumpBean ssicb){
 			  if(instance == null)
 			      instance = new SourceController(ssicb);
@@ -60,5 +73,13 @@ import entity.Source;
 			    
 			    return sources;
 			    
+		  }
+		  
+		  public Vector<String[]> getYoungSourceObject(int clumpId){
+			  
+			  Vector<String[]> yso = new Vector<String[]>();
+			  SourceDao sd = new SourceDao();
+			  yso = sd.findYoungSourceObject(clumpId);
+			  return yso;
 		  }
 }
