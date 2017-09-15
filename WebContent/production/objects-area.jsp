@@ -9,6 +9,8 @@
     String sIs_circle = request.getParameter("is_circle");
     String sObjects = request.getParameter("objects");
     
+    System.out.println("objects-area.jsp: sLat " + sLat + " sLon " + sLon + " sLenght " +  sLenght + " sIs_circle " + sIs_circle + " sObjects " + sObjects);
+    
     if (sLat != null && sLon != null && sLenght != null) {
         Double lat = Double.parseDouble(sLat);
         Double lon = Double.parseDouble(sLon);
@@ -29,20 +31,29 @@
         
         Vector<String[]> objects;
         
-        if(sIs_circle == "clumps"){
+        if(sObjects.equals("clumps")){
+        	
         		showClumpsInAreaBean.importClumpsInArea();
         		objects = showClumpsInAreaBean.getClumpsInArea();
         
-        }else{
+        } else if(sObjects.equals("sources")){
+        	
         		showClumpsInAreaBean.importSourcesInArea();
         		objects = showClumpsInAreaBean.getSourcesInArea();
+        		
+        }else{
+        		objects = null;
         }
 
+        System.out.println("objects-area.jsp: objects " + objects);
+        
         request.getSession().setAttribute("objects", objects);
 
     }
 
     Vector<String[]> objectsParam = (Vector<String[]>) request.getSession().getAttribute("objects");
+    
+    System.out.println("objects-area.jsp: objectsParam " + objectsParam);
 
 %>
 
@@ -126,12 +137,12 @@
                                     
                                     		<div class="radio">
                             					<label for="clumps">
-                              					<input type="radio" checked="checked" value="clumps" id="clumps" name="objects"> Clumps
+                              					<input type="radio" id="clumps" checked="" value="clumps"  name="objects"> Clumps
                             					</label>
                           				</div>
                           				<div class="radio">
-                            					<label>
-                              					<input type="radio" value="sources" id="sources" name="objects"> Sources
+                            					<label for="sources">
+                              					<input type="radio" id="sources" value="sources" name="objects"> Sources
                             					</label>
                           				</div>
                                     
