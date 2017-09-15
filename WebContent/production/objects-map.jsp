@@ -75,8 +75,6 @@
 		
 	int currentPage;
 	
-	
-	
 	String mapNameParam = (String) request.getSession().getAttribute("mapName");
 	String bandParam = (String) request.getSession().getAttribute("band");
 
