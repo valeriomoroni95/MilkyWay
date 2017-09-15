@@ -421,9 +421,9 @@ public boolean isInClump(int clumpId, int sourceId, Double bandRes){
 		 Connection connection = null;
 		 Statement statement = null;
 		 ResultSet result = null;
-		 Double[] bands = {70.0, 160.0, 250.0, 350.0, 500.0};
+	//	 Double[] bands = {70.0, 160.0, 250.0, 350.0, 500.0};
 		 SourceDao sd = new SourceDao();
-		 Vector<String[]> sources = new Vector<String[]>();
+		 //Vector<String[]> sources = new Vector<String[]>();
 		 Vector<String[]> yso = new Vector<String[]>();
 
 		/* for(Double b : bands) {
