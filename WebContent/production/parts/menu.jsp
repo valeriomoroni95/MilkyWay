@@ -74,9 +74,12 @@ try{
 
 					<li><a><i class="fa fa-star"></i> Clumps <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
+                        
                             <li><a href="clumps.jsp">Clumps can host massive stars</a></li>
                             
                             <li><a href="sources-clump.jsp">Sources in MIPSGAL that belong to specific clump</a></li>
+                            
+                            <li><a href="young-sources.jsp">Young Sources in MIPSGAL that belong to specific clump</a></li>
                             
                         </ul>
                     </li>
