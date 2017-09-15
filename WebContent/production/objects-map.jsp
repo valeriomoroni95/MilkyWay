@@ -16,27 +16,66 @@
 
 	if(sMap != null && sBand != null){
 		
+		//Set session parameter to display the search header
 		request.getSession().setAttribute("mapName", sMap);
 		request.getSession().setAttribute("band", sBand);
 		
-		Double band = Double.parseDouble(sBand);
-		
-		showObjectBean.setBand(band);
+		//Set paramtere in object
+		showObjectBean.setBand(Double.parseDouble(sBand));
 	    showObjectBean.setMapName(sMap);
 		
+	    //Import datas from bean
 	    showObjectBean.importClumpDatas();
 	    showObjectBean.importSourceDatas();
 	    
+	    //Get data vectors
 	    Vector<String[]> clumps = showObjectBean.getClumps();
 	    Vector<String[]> sources = showObjectBean.getSources();
 		
+	    //Set session to display list of object
 	    request.getSession().setAttribute("clumps", clumps);
 	    request.getSession().setAttribute("sources", sources);
 	    
 	}
 	
+	//Get objects data from session
 	Vector<String[]> clumpsParam = (Vector<String[]>) request.getSession().getAttribute("clumps");
 	Vector<String[]> sourcesParam = (Vector<String[]>) request.getSession().getAttribute("sources");
+	
+	//Creat new vector for merging the two above
+	Vector<String[]> objects = new Vector<String[]>();
+	
+	if(clumpsParam != null){
+		for(String[] clump : clumpsParam){
+			objects.addElement(clump);
+		}
+	}
+	
+	if(sourcesParam != null){
+		for(String[] source : sourcesParam){
+			objects.addElement(source);
+		}
+	}
+	
+	//Vector size
+	int size = objects.size();
+	System.out.println("Vector size: " + size);
+	
+	//Init pages variable
+	int pages;
+	
+	//Check if divisble by 50
+	if(size % 50 == 0){
+		pages = size / 50;
+	}else{
+		pages = (size + 1) / 50;
+	}
+	
+	System.out.println("Pages: " + pages);
+		
+	int currentPage;
+	
+	
 	
 	String mapNameParam = (String) request.getSession().getAttribute("mapName");
 	String bandParam = (String) request.getSession().getAttribute("band");
