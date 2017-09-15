@@ -17,7 +17,7 @@ public class ClumpMassesBean {
 		
 		public void importClumpMasses() throws SQLException, ClassNotFoundException {
 			ClumpMassesController controller = ClumpMassesController.getInstance(this);
-			this.setMasses(controller.getMasses());
+			masses = controller.getMasses();
 
 		}
 
@@ -35,7 +35,7 @@ public class ClumpMassesBean {
 		
 		public void importStats() throws SQLException, ClassNotFoundException {
 			ClumpMassesController controller = ClumpMassesController.getInstance(this);
-			this.setStats(controller.getStats());
+			this.stats =controller.getStats();
 		}
 
 
