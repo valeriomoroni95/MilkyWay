@@ -16,6 +16,9 @@
 
 	if(sMap != null && sBand != null){
 		
+		request.getSession().setAttribute("mapName", sMap);
+		request.getSession().setAttribute("band", sBand);
+		
 		Double band = Double.parseDouble(sBand);
 		
 		showObjectBean.setBand(band);
@@ -34,6 +37,9 @@
 	
 	Vector<String[]> clumpsParam = (Vector<String[]>) request.getSession().getAttribute("clumps");
 	Vector<String[]> sourcesParam = (Vector<String[]>) request.getSession().getAttribute("sources");
+	
+	String mapNameParam = (String) request.getSession().getAttribute("mapName");
+	String bandParam = (String) request.getSession().getAttribute("band");
 
 %>
 
@@ -157,7 +163,15 @@
                     <div class="x_panel">
 
                         <div class="x_title">
-                            <h2>Objects list</h2>
+                            <h2>Objects list in map <%= mapNameParam %> for band <% if(bandParam.equals("0.0")) { %> all <% }else{ %> <%= bandParam %> <% } %> </h2>
+                            
+                            <% 
+                            
+                            request.getSession().removeAttribute("mapName");
+                            request.getSession().removeAttribute("band");
+                            		
+                            	%>
+                            
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
