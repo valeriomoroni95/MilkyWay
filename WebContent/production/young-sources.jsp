@@ -12,6 +12,8 @@
 		
 		System.out.println("young-sources.jsp: sClump != null " + sClump);
 		
+		request.getSession().setAttribute("clumpId", sClump);
+		
 		YoungSourceObjectBean bean = new YoungSourceObjectBean();
 		
 		bean.setClumpId(Integer.parseInt(sClump));
@@ -22,11 +24,13 @@
 		
 		System.out.println("young-sources.jsp: vector sources " + sources);
 		
-		request.getSession().setAttribute("sources", sources);
+		request.getSession().setAttribute("young_sources", sources);
 		
 	}
 	
-    Vector<String[]> sourcesParam = (Vector<String[]>) request.getSession().getAttribute("sources");
+    Vector<String[]> sourcesParam = (Vector<String[]>) request.getSession().getAttribute("young_sources");
+    
+    String clumpIdParam = (String) request.getSession().getAttribute("clumpId");
 
 %>
 
@@ -112,7 +116,10 @@
                     <div class="x_panel">
 
                         <div class="x_title">
-                            <h2>Sources list</h2>
+                            <h2>Sources list for clump <%= clumpIdParam %></h2>
+                            
+                            <% request.getSession().removeAttribute("clumpId"); %>
+                            
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -157,7 +164,7 @@
 								
 								<% } %>
 								
-								<% request.getSession().removeAttribute("objects"); %>
+								<% request.getSession().removeAttribute("young_sources"); %>
 
                                 </tbody>
 

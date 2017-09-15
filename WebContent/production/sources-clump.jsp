@@ -9,6 +9,9 @@
 	
 	if(sClump != null){
 		
+		request.getSession().setAttribute("clumpId", sClump);
+		request.getSession().setAttribute("band", sBands);
+		
 		ShowSourcesInClumpBean bean = new ShowSourcesInClumpBean();
 		
 		bean.setClumpId(Integer.parseInt(sClump));
@@ -20,11 +23,14 @@
 		
 		System.out.println("sources-clump.jsp: sources " + sources);
 		
-		request.getSession().setAttribute("sources", sources);
+		request.getSession().setAttribute("sources_clump", sources);
 		
 	}
 	
-    Vector<String[]> sourcesParam = (Vector<String[]>) request.getSession().getAttribute("sources");
+    Vector<String[]> sourcesParam = (Vector<String[]>) request.getSession().getAttribute("sources_clump");
+    
+    String clumpIdParam = (String) request.getSession().getAttribute("clumpId");
+    String bandParam = (String) request.getSession().getAttribute("band");
 
 %>
 
@@ -177,7 +183,15 @@
                     <div class="x_panel">
 
                         <div class="x_title">
-                            <h2>Sources list</h2>
+                            <h2>Sources list in clump <strong><%= clumpIdParam %></strong> for band <strong><%= bandParam %></strong></h2>
+                            
+                            <% 
+                            
+                            request.getSession().removeAttribute("clumpId");
+                            request.getSession().removeAttribute("band");
+                            		
+                            	%>
+                            
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -222,7 +236,7 @@
 								
 								<% } %>
 								
-								<% request.getSession().removeAttribute("sources"); %>
+								<% request.getSession().removeAttribute("sources_clump"); %>
 
                                 </tbody>
 
