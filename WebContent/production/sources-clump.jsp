@@ -221,6 +221,8 @@
 								<% i++; %>
 								
 								<% } %>
+								
+								<% request.getSession().removeAttribute("sources"); %>
 
                                 </tbody>
 

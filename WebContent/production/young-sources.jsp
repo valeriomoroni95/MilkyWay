@@ -6,15 +6,21 @@
 
 	String sClump = request.getParameter("clump");
 	
+	System.out.println("young-sources.jsp: sClump " + sClump);
+	
 	if(sClump != null){
+		
+		System.out.println("young-sources.jsp: sClump != null " + sClump);
 		
 		YoungSourceObjectBean bean = new YoungSourceObjectBean();
 		
 		bean.setClumpId(Integer.parseInt(sClump));
 		
+		bean.importYoungSourceObjectBean();
+		
 		Vector<String[]> sources = bean.getYoungSources();
 		
-		System.out.println("young-sources.jsp: sources " + sources);
+		System.out.println("young-sources.jsp: vector sources " + sources);
 		
 		request.getSession().setAttribute("sources", sources);
 		
@@ -150,6 +156,8 @@
 								<% i++; %>
 								
 								<% } %>
+								
+								<% request.getSession().removeAttribute("objects"); %>
 
                                 </tbody>
 
