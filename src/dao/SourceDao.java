@@ -244,7 +244,7 @@ public class SourceDao {
  * Un oggetto si dice che appartiene a un clump se la distanza tra la posizione della sorgente  
  * e quella del clump è minore dell’asse maggiore dell’ellisse per la banda selezionata. */
 
-	 public Vector<String[]> findSourcesInClump(int clumpId, Double bandRes){
+	 public  Vector<String[]> findSourcesInClump(int clumpId, Double bandRes){
 		 
 		 Vector<String[]> sources = new Vector<String[]>();
 		 String query = "SELECT c.g_lat, c.g_lon, e.x_axis, e.y_axis FROM clump c join ellipse e on c.clump_id " +
@@ -282,13 +282,13 @@ public class SourceDao {
      			 y = result.getDouble("y_axis");
      		 }
      		 connection2 = d.getConnection();
-			 connection2.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			 statement2 = connection2.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
      		 result2 = statement2.executeQuery(query2);
      		 if(result2.first()) {
 	     		 do {
-	     			 sourceCode = result.getString("source_mapcode");
-	     			 sLatitude = result.getDouble("latitude");
-	     			 sLongitude = result.getDouble("longitude");
+	     			 sourceCode = result2.getString("source_mapcode");
+	     			 sLatitude = result2.getDouble("latitude");
+	     			 sLongitude = result2.getDouble("longitude");
 	     			 
 	     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+
 	     				Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
@@ -308,7 +308,64 @@ public class SourceDao {
 
 		 return sources;
 	 }
+	 
+public boolean isInClump(int clumpId, int sourceId, Double bandRes){
+		 
+		 Vector<String[]> sources = new Vector<String[]>();
+		 String query = "SELECT c.g_lat, c.g_lon, e.x_axis, e.y_axis FROM clump c join ellipse e on c.clump_id " +
+				 		"=e.clump_id AND e.band_resolution = ?";
+		 String query2 = "SELECT s.source_mapcode, s.latitude, s.longitude FROM source s join map m on s.map_id " +
+				 "= m.map_id where m.name = 'MIPS-GAL' OR m.name = 'MIPSGAL' OR m.name = 'mipsgal' OR m.name = 'mips-gal'"+
+				 "OR m.name = 'Mipsgal' AND s.source_id = "+sourceId+";";
+		 Double cLatitude = 0.0;
+		 Double cLongitude= 0.0;
+		 Double x = 0.0;
+		 Double y= 0.0;
+		 Connection connection = null;
+	     ResultSet result = null;
+		 PreparedStatement pStatement = null;
+		 Connection connection2 = null;
+	     ResultSet result2 = null;
+		 Statement statement2 = null;
+		 DataSource d = new DataSource();
+		 Double sLatitude;
+		 Double sLongitude;
+		 boolean check = false;
+		 
+		 try {
+			 
+	         connection = d.getConnection();
+	         pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+     		 pStatement.setDouble(1, bandRes);
+	         result = pStatement.executeQuery();
+     		 
+     		 if(result.first()) {
+     			 cLatitude = result.getDouble("g_lat");
+     			 cLongitude = result.getDouble("g_lon");
+     			 x = result.getDouble("x_axis");
+     			 y = result.getDouble("y_axis");
+     		 }
+     		 connection2 = d.getConnection();
+			 statement2 = connection2.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+     		 result2 = statement2.executeQuery(query2);
+     		 if(result2.first()) {
+	     			 sLatitude = result2.getDouble("latitude");
+	     			 sLongitude = result2.getDouble("longitude");
 
+	     			 if(Math.sqrt(Math.pow(sLatitude - cLatitude, 2)+
+	     				Math.pow(sLongitude - cLongitude, 2)) < Math.max(2*x, 2*y)) {
+	     			     check = true;
+	     			 }	
+	     			 connection.close();
+
+     		 }
+		 }catch(SQLException se) {
+			 se.printStackTrace();
+		 } catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 return check;
+	 }
 	 public boolean isFluxPresent(int sourceId, Double band) {
 			Connection connection = null;
 	        PreparedStatement statement = null;
@@ -359,8 +416,108 @@ public class SourceDao {
 	        return true;
 		}
 	 
-	 
-	 
-}
+	 public Vector<String[]> findYoungSourceObject(int clumpId){
+		 
+		 Connection connection = null;
+		 Statement statement = null;
+		 ResultSet result = null;
+		 Double[] bands = {70.0, 160.0, 250.0, 350.0, 500.0};
+		 SourceDao sd = new SourceDao();
+		 Vector<String[]> sources = new Vector<String[]>();
+		 Vector<String[]> yso = new Vector<String[]>();
 
+		/* for(Double b : bands) {
+			 Vector<String[]> s1 = new Vector<String[]>();
+			 s1 = sd.findSourcesInClump(clumpId, b);
+			 for(String[] s : s1) {
+				 if(!sources.contains(s)) {
+					 sources.add(s);
+				 }
+			 }
+		 }*/
+		 
+		 //ATTENZIONE: LE MAPPE IN MIPSGAL NON HANNO MISURAZIONI A QUELLA BANDA, devo prendere quelle collegate
+		 
+			 try{
+				 DataSource d = new DataSource();
+				 connection = d.getConnection();
+				 statement = connection.createStatement();
+				 String view45 = "CREATE OR REPLACE VIEW f4_5 AS "
+			 		+ "SELECT s1.source_mapcode, s1.source_id, fs.value from source s1 join source s2 "
+			 		+ "on s2.source_mapcode = s1.source_x join flux_source fs "
+			 		+ "on s2.source_id = fs.source_id "
+			 		+ "WHERE fs.band_resolution = 4.5;";
+				 statement.executeUpdate(view45);
+				 String view58 = "CREATE OR REPLACE VIEW f5_8 AS "
+						 + "SELECT s1.source_mapcode, s1.source_id, fs.value from source s1 join source s2 "
+					 		+ "on s2.source_mapcode = s1.source_x join flux_source fs "
+					 		+ "on s2.source_id = fs.source_id "
+					 		+ "WHERE fs.band_resolution = 5.8;";
+				 statement.executeUpdate(view58);
+				 String view36 = "CREATE OR REPLACE VIEW f3_6 AS "
+						 + "SELECT s1.source_mapcode, s1.source_id, fs.value from source s1 join source s2 "
+					 		+ "on s2.source_mapcode = s1.source_x join flux_source fs "
+					 		+ "on s2.source_id = fs.source_id "
+					 		+ "WHERE fs.band_resolution = 3.6;";
+				 
+				 statement.executeUpdate(view36);
+					 
+			 String query = "SELECT s.source_id, s.source_mapcode, s.latitude, s.longitude FROM "
+			 		+ "source s join f3_6 as f1 on s.source_id = f1.source_id join f4_5 as f2 on f1.source_id = f2.source_id "
+					 + "join f5_8 as f3 on f3.source_id = f1.source_id "
+					 + "WHERE (f2.value - f3.value) > 0.7 AND (f1.value - f2.value) > 0.7 "
+					 + "AND (f1.value - f2.value) > (1.4*(f2.value - f3.value - 0.7) + 0.15);";
+			 
+			 
+			 statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+     		 result = statement.executeQuery(query);
+     		 if(result.first()) {
+     			 do {
+     					 int sourceId = result.getInt("source_id");
+     					 String[] srcs = new String[3];
+     					 if(sd.isInClump(clumpId, sourceId, 70.0) ||
+     						sd.isInClump(clumpId, sourceId, 160.0)||	 
+     						sd.isInClump(clumpId, sourceId, 250.0)||
+     						sd.isInClump(clumpId, sourceId, 350.0)||
+     						sd.isInClump(clumpId, sourceId, 500.0)){
+		     				 	
+     						 	 srcs[0] = result.getString("source_mapcode");
+		     					 srcs[1] =  Double.toString(result.getDouble("latitude"));
+		     					 srcs[2] =  Double.toString(result.getDouble("longitude"));
+		     					 
+		     					 yso.add(srcs);
+     					 }
+     			 
+     			 } while(result.next());
+     		 }
+     		 
+			 //cambio strategia, prendo queste sorgentie se sono in un clump a una banda le aggiungo.
+			 	
+	 } catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally{
+		 
+	
+	}
+		 return yso;
+	 }
+	 
+	
+
+
+public static void main(String[] args) {
+	SourceDao sd = new SourceDao();
+	
+	Vector<String[]> sorc = sd.findYoungSourceObject(182182);
+	int i=0;
+	for(String[]s : sorc) {
+		for(String k : s)
+			System.out.print(k + "    ");
+		System.out.println(i);
+		i++;
+	}
+}
+}
 
