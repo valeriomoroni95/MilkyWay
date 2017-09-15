@@ -4,14 +4,22 @@ package controller;
 import java.util.Vector;
 
 import boundary.ShowObjectsInAreaBean;
+import boundary.ShowSourcesInClumpBean;
+import dao.AgencyDao;
 import dao.ClumpDao;
 import dao.SourceDao;
+import entity.Agency;
 import entity.Source;
 
 
 	public class SourceController {
 		
 		private static SourceController instance;
+		
+		
+		  private SourceController(ShowSourcesInClumpBean ssicb) {
+			  
+		  }
 		
 		  private SourceController(ShowObjectsInAreaBean sciab){
 			  
@@ -21,6 +29,11 @@ import entity.Source;
 		  
 		  private SourceController() {
 			  
+		  }
+		  public static synchronized SourceController getInstance(ShowSourcesInClumpBean ssicb){
+			  if(instance == null)
+			      instance = new SourceController(ssicb);
+			    return instance;
 		  }
 		  
 		  
@@ -37,5 +50,15 @@ import entity.Source;
 			  sources = sourceDao.showSourcesInArea(latitude, longitude, lenght, isCircle);
 			    
 			  return sources;
+		  }
+		  
+		  public Vector<String[]> getSourcesInClump(int clumpId, Double bandRes) {
+			  	
+			  	Vector<String[]> sources = new Vector<String[]>();
+			    SourceDao sd = new SourceDao();
+			    sources = sd.findSourcesInClump(clumpId, bandRes);
+			    
+			    return sources;
+			    
 		  }
 }
