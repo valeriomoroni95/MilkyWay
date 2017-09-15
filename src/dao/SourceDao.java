@@ -132,8 +132,12 @@ public class SourceDao {
 	        	result = pStatement.executeQuery();
 	        	String mapCode;
 	        	Double lat, lon, distance;
+	        	if(result == null) {
+	        		return data;
+	        		}
 	        	if(result.first()) {
-	        	do {
+	        	
+	        		do {
 	        		
 	        		mapCode = result.getString("source_mapcode");
 	        		lat = result.getDouble("latitude");
