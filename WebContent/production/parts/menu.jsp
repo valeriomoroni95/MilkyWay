@@ -48,7 +48,6 @@ try{
                             	<li><a href="add-new-user.jsp">Add new</a></li>
                             	
                             	<% } %>
-                            <li><a href="profile.jsp">Your profile</a></li>
                         </ul>
                     </li>
                     
