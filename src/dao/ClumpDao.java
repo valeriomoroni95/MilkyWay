@@ -78,7 +78,7 @@ public class ClumpDao {
 		return clumps;
 	}
 	
-	public Vector<String[]> findClumpsInMap (String map,Double band){ 
+	public Vector<String[]> findClumpsInMap (String map,Double band){ // Requisito #5
     	Vector<String[]> v = null;
     	Connection connection = null;
         ResultSet result = null;
@@ -90,7 +90,7 @@ public class ClumpDao {
         			        
         query = query + " order by c.clump_id;";
         System.out.println(query); 	        	
-    	try { //TODO check || NB: è per il requisito 5
+    	try {
 		
     		DataSource d = new DataSource();
         	connection = d.getConnection();
@@ -105,7 +105,6 @@ public class ClumpDao {
     				e.printStackTrace();
       		} 
 		
-				//String[] s = {"","","","","",""};
 		    	try {
 		    		if (!band.equals(0.0)) {
 		    			if(result.first()) {
@@ -124,7 +123,7 @@ public class ClumpDao {
 		    			}while(result.next());
 		    			}
 		    		}
-		    		else { //TODO check
+		    		else { 
 			    			int clumpId = -1;
 			    			int temp;
 			    			if(result.wasNull())
@@ -149,9 +148,9 @@ public class ClumpDao {
 			    				else {
 				    				String[] s = new String[6];
 
-				    				s[0] = " "; //il clump è lo stesso, non ristampo questi valori;
-				    				s[1] = " "; //lo stesso vale per le coordinate.
-				    				s[2] = " "; //ricordare di escludere queste righe dal conteggio dei 50 oggetti
+				    				s[0] = " "; 	//clump isn't changed, just leave blank space;
+				    				s[1] = " ";	 	//same for coordinates.
+				    				s[2] = " "; 
 				    				s[3] = Double.toString(result.getDouble("band_resolution"));
 				    				s[4] = Double.toString(result.getDouble("value"));
 				    				s[5] = Double.toString(result.getDouble("error"));
@@ -169,7 +168,7 @@ public class ClumpDao {
 	}
 	
 	
-	public Vector<String[]> showClumpInfo(int clumpId) {
+	public Vector<String[]> showClumpInfo(int clumpId) { //Requisito #6
 		
     		Vector<String[]> v = null;
     		Connection connection = null;
@@ -179,7 +178,7 @@ public class ClumpDao {
         String query = "SELECT DISTINCT c.clump_id, c.g_lat, c.g_lon, fc.band_resolution, fc.value, fc.error FROM clump c join flux_clump fc on " +
         				"c.clump_id = fc.clump_id WHERE c.clump_id = ?;"; 
                 	
-    	try { //TODO check || NB: è per il requisito 6
+    	try { 
 		
     		DataSource d = new DataSource();
         	connection = d.getConnection();
@@ -197,8 +196,6 @@ public class ClumpDao {
 		
 			
 		    	try {
-		    			//String[] s = {"","",""};
-		    			//String[] t = {"","",""};
 		    			
 		    			if(result.first()) {
 		    				String[] s = new String[3];
@@ -212,8 +209,7 @@ public class ClumpDao {
 		    				t[2] = Double.toString(result.getDouble("error"));
 		    				v.add(t);
 		    				
-		    			} /* Ho creato un array di stringhe da passare ->controller->bean: 
-		    				funge da "Header";*/
+		    			}  
 		    			else
 		    				return null;
 		    			while(result.next()){
@@ -223,8 +219,7 @@ public class ClumpDao {
 		    				t[2] = Double.toString(result.getDouble("error"));
 
 		    				v.add(t);
-		    			} /* Dopo l'header ci sono array di stringhe con banda, valore ed errore
-		    			 	 per le diverse bande     */
+		    			} 
 		    		}
 		    	catch (SQLException e1) {
 		    		e1.printStackTrace();
@@ -263,10 +258,8 @@ public class ClumpDao {
             connection.close();
             return false;  
         } catch (SQLException se) {
-            // Errore durante l'apertura della connessione
             se.printStackTrace();
         } catch (Exception e) {
-            // Errore nel loading del driver
             e.printStackTrace();
         } finally {
             try {
@@ -311,10 +304,8 @@ public class ClumpDao {
             connection.close();
             return false;  
         } catch (SQLException se) {
-            // Errore durante l'apertura della connessione
             se.printStackTrace();
         } catch (Exception e) {
-            // Errore nel loading del driver
             e.printStackTrace();
         } finally {
             try {
@@ -358,10 +349,8 @@ public class ClumpDao {
             connection.close();
             return false;  
         } catch (SQLException se) {
-            // Errore durante l'apertura della connessione
             se.printStackTrace();
         } catch (Exception e) {
-            // Errore nel loading del driver
             e.printStackTrace();
         } finally {
             try {
@@ -407,78 +396,40 @@ public class ClumpDao {
         	int clumpId;
         	Double lat, lon, distance;
         	if(result.first()) {
-        	do {
-        		
-        		clumpId = result.getInt("clump_id");
-        		lat = result.getDouble("g_lat");
-        		lon = result.getDouble("g_lon");
-        		
-        		if(isCircle) {
-        			distance = Math.sqrt(Math.pow(latitude - lat, 2)+Math.pow(longitude - lon,2));
-        			if(distance < lenght) {
-        				String toPass[] = { Integer.toString(clumpId),
-        									Double.toString(lat),
-        									Double.toString(lon),
-        									Double.toString(distance)
-											};
-        				data.add(toPass);
-        			}
-        		}
-        		else {
-        			if(lat < latitude + lenght/2 && lat > latitude - lenght/2 &&
-        				lon < longitude + lenght/2 && lon > longitude - lenght/2) {
-        					distance = Math.sqrt(Math.pow(latitude - lat, 2)+Math.pow(longitude -lon,2));
-        					String toPass[] = { Integer.toString(clumpId),
-        							Double.toString(lat),
-        							Double.toString(lon),
-        							Double.toString(distance)
-        							};
-                			data.add(toPass);
-        			
-        				}
-        		}
-        	} while(result.next());
-        }
-
-			/*if(isCircle) {
-				condition = "WHERE SQRT((c.g_lat - ?)*(c.g_lat - ?) + " + 
-							"(c.g_lon - ?)*(c.g_lon - ?))  < ?;";
-				query = query + condition;
-	        	pStatement = connection.prepareStatement(query);
-
-				pStatement.setDouble(1, latitude);
-				pStatement.setDouble(2, latitude);
-				pStatement.setDouble(3, longitude);
-				pStatement.setDouble(4, longitude);
-				pStatement.setDouble(5, lenght);
-			}
-			else {
-				condition = "WHERE c.g_lat < ? AND c.g_lat > ? AND c.g_lon < ? AND c.g_lon > ?;";
-				query = query + condition;
-	        	pStatement = connection.prepareStatement(query);
-
-				pStatement.setDouble(1, latitude);
-				pStatement.setDouble(2, longitude);
-				pStatement.setDouble(3, latitude + lenght/2);
-				pStatement.setDouble(4, latitude - lenght/2);
-				pStatement.setDouble(5, longitude + lenght/2);
-				pStatement.setDouble(6, longitude - lenght/2);		
-			}*/
-        
-        	/*result = pStatement.executeQuery();
-
-			while(result.next()){
-				
-				String toPass[] = { Integer.toString(result.getInt("clump_id")),
-									Double.toString(result.getDouble("g_lat")),
-									Double.toString(result.getDouble("g_lon")),
-									Double.toString(result.getDouble("distance"))
-									};
-				data.add(toPass);
-			}*/
-			
+	        	do {
+	        		
+	        		clumpId = result.getInt("clump_id");
+	        		lat = result.getDouble("g_lat");
+	        		lon = result.getDouble("g_lon");
+	        		
+	        		if(isCircle) {
+	        			distance = Math.sqrt(Math.pow(latitude - lat, 2)+Math.pow(longitude - lon,2));
+	        			if(distance < lenght) {
+	        				String toPass[] = { Integer.toString(clumpId),
+	        									Double.toString(lat),
+	        									Double.toString(lon),
+	        									Double.toString(distance)
+												};
+	        				data.add(toPass);
+	        			}
+	        		}
+	        		else {
+	        			if(lat < latitude + lenght/2 && lat > latitude - lenght/2 &&
+	        				lon < longitude + lenght/2 && lon > longitude - lenght/2) {
+	        					distance = Math.sqrt(Math.pow(latitude - lat, 2)+Math.pow(longitude -lon,2));
+	        					String toPass[] = { Integer.toString(clumpId),
+	        							Double.toString(lat),
+	        							Double.toString(lon),
+	        							Double.toString(distance)
+	        							};
+	                			data.add(toPass);
+	        			
+	        				}
+	        		}
+	        	} while(result.next());
+	        }
+	
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -488,14 +439,5 @@ public class ClumpDao {
 		return data;
     }
 	
-	/* public static void main(String[] args) {
-		ClumpDao clumpD = new ClumpDao();
-		Vector<String[]> results = new Vector<String[]>();
-		results = clumpD.findClumpsInMap("HIGAL", 0.0);
-		for(String[] v : results) {
-			for(String k : v)
-				System.out.println(k);
-		}
-	}*/
 }
 

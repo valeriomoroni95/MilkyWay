@@ -17,7 +17,7 @@ public class MapDao {
         Vector<Map> maps = new Vector<Map>();    
         ResultSet result = null;
          
-        final String query = "SELECT m.map_id as mid, m.name as mapname FROM \"map\" m;"; //voglio selezionare id mappa e nome mappa per tutte le mappe
+        final String query = "SELECT m.map_id as mid, m.name as mapname FROM \"map\" m;"; 
             
         try {                
         		DataSource d = new DataSource();
@@ -58,15 +58,14 @@ public class MapDao {
             return maps;
       }
 
- public Vector<String> showMapNames() throws SQLException { //per checkbox con nomemappa, quando non serve inserire
-	 														//nulla a posteriori nel db (nomemappa != idmappa)
+ public Vector<String> showMapNames() throws SQLException { 
       
         Connection connection = null;
         Statement statement = null;
         Vector<String> mapNames = new Vector<String>();    
         ResultSet result = null;
          
-        final String query = "SELECT DISTINCT name FROM \"map\";"; //voglio selezionare id mappa e nome mappa per tutte le mappe
+        final String query = "SELECT DISTINCT name FROM \"map\";"; 
             
         try {                
        		DataSource d = new DataSource();
@@ -120,7 +119,7 @@ public class MapDao {
             if(result.first())
            	 return false;
             
-            else { //TODO fix!
+            else {
                 String sql1 = "INSERT INTO \"map\"(map_id, name) VALUES ('"+mapId+"','"+mapName+"');";
                 System.out.println("ho fatto la insert " + sql1);
                 statement.executeUpdate(sql1);
@@ -130,10 +129,8 @@ public class MapDao {
             connection.close();
             
         } catch (SQLException se) {
-            // Errore durante l'apertura della connessione
             se.printStackTrace();
         } catch (Exception e) {
-            // Errore nel loading del driver
             e.printStackTrace();
         } finally {
             try {

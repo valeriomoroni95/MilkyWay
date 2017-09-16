@@ -16,9 +16,6 @@ public class ShowObjectBean {
 	private Vector<String> mapNames; //nomi delle mappe caricati dal db, da far scegliere per la ricerca
 	Double band; // deve essere un float per essere confrontato a null nel DAO, poi viene sistemato
 	private String mapName; //la query viene fatta col nome, no prob
-	/* NOT NEEDED, riciclare per REQ. 8
-	 * private boolean isClump; //l'utente deve scegliere tra ricerca di clump e ricerca di sorgenti nella mappa
-	 */
 	
 	public Vector<String[]> getClumps() {
 		return clumps;
@@ -30,12 +27,6 @@ public class ShowObjectBean {
 		return sources;
 	}
 	
-	/*public boolean isClump() {
-		return isClump;
-	}
-	public void setClump(boolean isClump) {
-		this.isClump = isClump;
-	}*/
 	public void setSources(Vector<String[]> sources) {
 		this.sources = sources;
 	}
@@ -59,7 +50,7 @@ public class ShowObjectBean {
 		this.mapNames = mapNames;
 	}
 	
-	public void importMapNames() throws SQLException { //serve per far scegliere tra i nomi delle varie mappe
+	public void importMapNames() throws SQLException {
 		ShowObjectController controller = ShowObjectController.getInstance(this);
 		this.mapNames = controller.getMapNames();
 	}
@@ -78,19 +69,9 @@ public class ShowObjectBean {
 		
 	}
 	
-	
-	/*public static void main(String args[]) throws SQLException {
-		ShowObjectBean bean = new ShowObjectBean();
-		bean.importMapNames();
-		Vector<String> mapNames = bean.getMapNames();
-		System.out.println(mapNames);
-				
-	}*/
-	
 	public static void main(String args[]) throws SQLException {
 		ShowObjectBean bean = new ShowObjectBean();
 		bean.setMapName("HIGAL");
-		//bean.band = (float) 350.0;
 		bean.setBand(0.0);
 		bean.importClumpDatas();
 		bean.importSourceDatas();
@@ -107,27 +88,4 @@ public class ShowObjectBean {
 			System.out.println("         i:" + i);	
 		}
 	}
-	/*public static void main(String[] args) throws SQLException {
-		ShowObjectBean bean = new ShowObjectBean();
-		Vector<String[]> results = new Vector<String[]>();
-		Vector<String[]> results2 = new Vector<String[]>();
-
-		
-		bean.setMapName("Glimpse");
-		bean.setBand(3.6);
-		bean.importClumpDatas();
-		bean.importSourceDatas();
-		results = bean.getSources();
-		results2 = bean.getClumps();
-		for(String[] v : results) {
-			for(String k : v)
-				System.out.print(k + " ");
-			System.out.println(" ");
-		}
-		for(String[] v2 : results2) {
-			for(String k2 : v2)
-				System.out.print(k2 + " ");
-			System.out.println(" ");
-		}
-	}*/
 }

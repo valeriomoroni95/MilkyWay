@@ -2,19 +2,15 @@ package controller;
 
 import java.sql.SQLException;
 import java.util.Vector;
-
-//import javax.xml.transform.Source;
-
 import boundary.ShowObjectBean;
 import dao.ClumpDao;
 import dao.MapDao;
 import dao.SourceDao;
-//import entity.Clump;
 
 public class ShowObjectController {
 	
 	private static ShowObjectController instance;
-	//private Clump c; 
+
 	private ShowObjectController(ShowObjectBean ob) {
     
 	}
@@ -29,7 +25,7 @@ public class ShowObjectController {
     return instance;
 	}
 
-	public Vector<String> getMapNames() throws SQLException{ //prende dal Dao lista dei nomi delle mappe correnti
+	public Vector<String> getMapNames() throws SQLException{ 
 		
 		Vector<String> mapNames = new Vector<String>();
         
@@ -48,11 +44,6 @@ public class ShowObjectController {
 		clumps = clumpDao.findClumpsInMap(mapName, band);
 		return clumps;
 		
-		/*Vector<String[]> clumps = new Vector<String[]>();
-		ClumpDao clumpDao = new ClumpDao();
-		clumps = clumpDao.showClumpInfo(this.c.getClump_id());  //Il clump passato è quello dell'istanza corrente (dovrebbe essere giusto, controllare)
-		return clumps; //è sbagliato! RICICLARE? */ 
-		
 	}
 	
 	public Vector<String[]> getSources(String mapName, Double band){
@@ -61,11 +52,7 @@ public class ShowObjectController {
 		SourceDao sourceDao = new SourceDao();
 		sources = sourceDao.findSourcesInMap(mapName, band);
 		return sources;
-		/*
-		Vector<String[]> sources = new Vector<String[]>();
-		SourceDao sourceDao = new SourceDao();
-		sources = SourceDao.showSourceInfo(this.s.getSource_id());  
-		return sources; //non c'entra niente */
+		
 	}
 
 	

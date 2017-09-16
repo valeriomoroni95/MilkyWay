@@ -2,12 +2,9 @@ package entity;
 
 import java.util.Vector;
 import entity.Agency;
-//import java.sql.Date;
 
 public class Satellite {
 	private String satelliteName;
-	//private Date satelliteStart;
-	//private Date satelliteEnd;
 	private String satelliteStart;
 	private String satelliteEnd;
 	private Vector<String> tools;
@@ -91,9 +88,8 @@ public class Satellite {
 		years = days/365;
 		months = (days-years*365)/30;
 		days = days - years*365 - months*30;
-		String k = Integer.toString(years) + 
-				" years, " + Integer.toString(months) + " months and " + Integer.toString(days) + " days.";
-		//System.out.println(k);
+		String k = Integer.toString(years) + " years, " + Integer.toString(months)
+				 + " months and " + Integer.toString(days) + " days.";
 		return k;
 	}
 

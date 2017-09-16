@@ -102,8 +102,6 @@ public class FileImportDao {
     	
     	DataSource d = new DataSource();
         connection = d.getConnection();
-        //final String query = "INSERT INTO source(source_id ,brightness, longitude, latitude, map_id, source_mapcode, source_x) VALUES (?,?,?,?,4,?,?);";
-        //pstatement = connection.prepareStatement(query);
         System.out.println("importSource: ho fatto la query");
         double longitude;
         double latitude;
@@ -233,7 +231,7 @@ public class FileImportDao {
 	        String source_mapcode;
 	        int sourceId;
 	        int sId = 0;
-	        Double f3_6 = -1.0; //se una riga è vuota, il valore rimane a -1 (che non è una banda accettabile!)
+	        Double f3_6 = -1.0; 
 	        Double f4_5 = -1.0;
 	        Double f5_8 = -1.0;
 	        Double f8 = -1.0;
@@ -255,9 +253,9 @@ public class FileImportDao {
 
 	        		longitude = Double.parseDouble(vect[1]);
 	        		latitude = Double.parseDouble(vect[2]);
-	        		source_mapcode = vect[0]; //il mapcode qui è solo di Glimpse
+	        		source_mapcode = vect[0]; 
 	        		
-	        		if(sd.isPresent(source_mapcode)){   //se il mapcode è già presente nel db, prendi il suo id e fai l'update dopo
+	        		if(sd.isPresent(source_mapcode)){   
 	        			String sql = "SELECT source_id FROM source WHERE source_mapcode = '"+source_mapcode+"';";
 	        			statement1 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);                 			     ResultSet rs = statement1.executeQuery(sql);
 	        			
@@ -272,10 +270,8 @@ public class FileImportDao {
 		        			pstatement.setDouble(2, latitude);
 		        			pstatement.setString(3, source_mapcode);
 		        			pstatement.setString(4, source_x);
-		        			System.out.println("Sono prima dell'update");
 		        			pstatement.executeUpdate();
-		        			System.out.println("Sono dopo l'update");
-		        			//TODO controllo sul flusso! se non c'è devo fare un insert, non update!
+
 		        			if(sd.isFluxPresent(sourceId,3.6) && f3_6 != -1.0) {
 			        			pstatement2 = connection.prepareStatement(sqlu2);
 			        			pstatement2.setDouble(2, 3.6);
@@ -388,20 +384,12 @@ public class FileImportDao {
 		Double[] bands = {70.0, 160.0, 250.0, 350.0, 500.0};
 
 		int rowIndex = 0;
-		int HIGAL = 1;  //dipende dall'id che abbiamo nel db per HIGAL
-		double f70,f160,f250,f350,f500,e70M,e70m,e160M,e160m,e250M,e250m,e350M,e350m,e500M,e500m,a70,a160,a250,a350,a500;
-      try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+		int HIGAL = 1;  
+		try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
       	
       	  DataSource d = new DataSource();
           connection = d.getConnection();
-          //final String query = "INSERT INTO \"clump\"(clump_id ,g_lon, g_lat, k_temp, ratio, surf_dens, c_type, map_id) VALUES (?,?,?,?,?,?,?,?)";
-          int clumpId;                                     //a 70, 160 e 250, 350 e 500. Sono 5 colonne ogni misurazione. Bisogna anche prendere 
-          /*double gLon;                                     //l'angolo dell'ellisse a 70, 160, 250, 300 e 500 microns.
-          double gLat;
-          double temp;  //presumo non ci serviranno queste informazioni, dato che il clump è sempre lo stesso
-          double ratio;
-          double surfDens;
-          int cType;*/
+          int clumpId;                         
           
           while ((line = br.readLine()) != null) {
 
@@ -410,27 +398,6 @@ public class FileImportDao {
           		String[] vect = line.split(csvSplitBy);
           		
           		clumpId = Integer.parseInt(vect[0]);
-          		/*f70 = Double.parseDouble(vect[1]);
-          		f160 = Double.parseDouble(vect[2]);
-          		f250 = Double.parseDouble(vect[3]);
-          		f350 = Double.parseDouble(vect[4]);
-          		f500 = Double.parseDouble(vect[5]);
-          		e70M = Double.parseDouble(vect[6]);
-          		e70m = Double.parseDouble(vect[7]);
-          		e160M = Double.parseDouble(vect[8]);
-          		e160m = Double.parseDouble(vect[9]);
-          		e250M = Double.parseDouble(vect[10]);
-          		e250m = Double.parseDouble(vect[11]);
-          		e350M = Double.parseDouble(vect[12]);
-          		e350m = Double.parseDouble(vect[13]);
-          		e500M = Double.parseDouble(vect[14]);
-          		e500m = Double.parseDouble(vect[15]);
-          		a70 = Double.parseDouble(vect[16]);
-          		a160 = Double.parseDouble(vect[17]);
-          		a250 = Double.parseDouble(vect[18]);
-          		a350 = Double.parseDouble(vect[19]);
-          		a500 = Double.parseDouble(vect[20]);*/
-
           		
           			String sql1 = "UPDATE flux_clump SET(value, error) = (?,?) where clump_id = ? and band_resolution = ?;";
           			String sql3 = "INSERT INTO flux_clump(band_resolution, clump_id, value, error) VALUES (?,?,?,?);";
@@ -439,7 +406,7 @@ public class FileImportDao {
 
       					for(int i=1; i<6; i++) {
 	          				if(cd.isFluxPresent(clumpId, bands[i-1])){
-			          			statement = connection.prepareStatement(sql1);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
+			          			statement = connection.prepareStatement(sql1);    
 			          			statement.setDouble(1, Double.parseDouble(vect[i]));
 			          			statement.setDouble(2, 0.0);
 			          			statement.setInt(3, clumpId);
@@ -462,7 +429,7 @@ public class FileImportDao {
 	          			
 	          			for(int i=6; i<15; i+=2) {
 	          				if(cd.isEllipsePresent(clumpId, bands[i/2 - 3])) {
-			          			statement = connection.prepareStatement(sql2);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
+			          			statement = connection.prepareStatement(sql2);    
 			          			statement.setDouble(1, Double.parseDouble(vect[i]));
 			          			statement.setDouble(2, Double.parseDouble(vect[i+1]));
 			          			statement.setDouble(3, Double.parseDouble(vect[i/2+13]));
@@ -471,7 +438,7 @@ public class FileImportDao {
 			          			statement.executeUpdate();
 	          				}
 		          			else {
-			          			statement = connection.prepareStatement(sql4);   //l'update sarà basato sulle varie misurazioni. Contemporaneamente 
+			          			statement = connection.prepareStatement(sql4);  
 			          			statement.setDouble(3, Double.parseDouble(vect[i]));
 			          			statement.setDouble(4, Double.parseDouble(vect[i+1]));
 			          			statement.setDouble(5, Double.parseDouble(vect[i/2+13]));
@@ -491,9 +458,5 @@ public class FileImportDao {
       return true;
   }
 
-public static void main(String args[]) throws ClassNotFoundException, SQLException {
-	FileImportDao dao = new FileImportDao();
-	dao.importHigalAdditionalInfo("/home/luca/Scrivania/higal_additionalinfo.csv");
-	}
 }
        

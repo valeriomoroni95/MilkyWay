@@ -48,17 +48,6 @@ public class ClumpController {
 		    return instance;
 	  }
 	  
-	  /*public Vector<Clump> getClumpList() throws SQLException{  //TODO va creato il metodo showClumps nel clump dao
-		    Vector<Clump> clump = new Vector<Clump>();            
-		        
-		    ClumpDao clumpDao = new ClumpDao();
-		    
-		    clump = clumpDao.showClumps();
-		    
-			return clump;
-			
-		  }*/
-	  
 	  public Vector<Clump> getMassiveStars() {
 		 
 		  Vector<Clump> clump = new Vector<Clump>();           

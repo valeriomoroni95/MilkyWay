@@ -7,7 +7,7 @@ public class SignUpController {
 	
 	private static SignUpController instance;
 	
-	@SuppressWarnings("unused")     //mai vero che la signup bean non è usata
+	@SuppressWarnings("unused")
 	private SignUpBean sb;
 	
 	private boolean bool;

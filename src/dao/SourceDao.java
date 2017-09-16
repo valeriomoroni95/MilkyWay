@@ -289,9 +289,10 @@ public class SourceDao {
                     sourceCode = result2.getString("source_mapcode");
                     sLatitude = result2.getDouble("latitude");
                     sLongitude = result2.getDouble("longitude");
-
+                    System.out.println("Sono arrivato dentro al do");
                     if (Math.sqrt(Math.pow(sLatitude - cLatitude, 2) +
                             Math.pow(sLongitude - cLongitude, 2)) < Math.max(2 * x, 2 * y)) {
+                    	System.out.println("Sono nell'if!");
                         toPass = new String[3];
                         toPass[0] = sourceCode;
                         toPass[1] = Double.toString(sLatitude);
@@ -351,7 +352,7 @@ public class SourceDao {
             if (result2.first()) {
                 sLatitude = result2.getDouble("latitude");
                 sLongitude = result2.getDouble("longitude");
-
+                
                 if (Math.sqrt(Math.pow(sLatitude - cLatitude, 2) +
                         Math.pow(sLongitude - cLongitude, 2)) < Math.max(2 * x, 2 * y)) {
                     check = true;
@@ -508,12 +509,12 @@ public class SourceDao {
     public static void main(String[] args) {
         SourceDao sd = new SourceDao();
 
-        Vector<String[]> sorc = sd.findYoungSourceObject(182182);
+        Vector<String[]> sorc = sd.findSourcesInClump(182182,350.0);
         int i = 0;
         for (String[] s : sorc) {
             for (String k : s)
-                System.out.print(k + "    ");
-            System.out.println(i);
+                //System.out.print(k + "    ");
+           // System.out.println(i);
             i++;
         }
     }

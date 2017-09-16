@@ -55,17 +55,17 @@ public class ToolBean {
 	}
 	
 	
-	public void importTools() throws SQLException { //serve per visualizzare tutti gli strumenti
+	public void importTools() throws SQLException { 
 		ToolController controller = ToolController.getInstance(this);
 		this.tools = controller.getToolsList();
 		}
 	
-	public void importBands() throws SQLException { //importa tutte le risoluzioni di bande presenti nel db
+	public void importBands() throws SQLException { 
 		ToolController controller = ToolController.getInstance(this);
 		this.bands = controller.getBandResolutions();
 	}
 	
-	public void importMaps() throws SQLException { //serve per visualizzare tutti gli strumenti
+	public void importMaps() throws SQLException { 
 		ToolController controller = ToolController.getInstance(this);
 		this.maps = controller.getMapsList();
 		}
