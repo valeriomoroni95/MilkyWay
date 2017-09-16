@@ -34,8 +34,6 @@
         <!-- page content -->
         <div class="right_col" role="main">
 
-			<% if(is_admin){ %>
-
             <div class="row">
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -181,9 +179,6 @@
 			
 			} %>
 			
-			
-			<% } %>
-
         </div>
         <!-- /page content -->
 

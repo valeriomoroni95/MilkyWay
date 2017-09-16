@@ -39,17 +39,16 @@ try{
                 <h3>General</h3>
                 <ul class="nav side-menu">
                 
+                <% if( is_admin == true) { %>
                     <li><a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="users.jsp">All users</a></li>
-                            
-                            <% if( is_admin == true) { %>
                                                      
-                            	<li><a href="add-new-user.jsp">Add new</a></li>
+                            <li><a href="add-new-user.jsp">Add new</a></li>
                             	
-                            	<% } %>
                         </ul>
                     </li>
+                    
+                    <% } %>
                     
                     <li><a><i class="fa fa-space-shuttle"></i> Satellites <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
