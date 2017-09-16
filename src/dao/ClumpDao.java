@@ -293,8 +293,6 @@ public class ClumpDao {
        	 	
         	final String query = "SELECT c.clump_id, fc.band_resolution FROM clump c join flux_clump fc on c.clump_id = fc.clump_id WHERE c.clump_id = ? and band_resolution = ?;";
         	DataSource d = new DataSource();
-        	System.out.println("ClumpDao: isPresent.java: sopravvissuto al Datasource");
-
             connection = d.getConnection();
             
             PreparedStatement pStatement = connection.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);

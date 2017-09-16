@@ -129,12 +129,9 @@ public class FileImportDao {
         			source_x = null;
         		
         		if(sd.isPresent(source_mapcode)){
-        			System.out.println("importSource: sto nell'if");
         			String sql = "SELECT source_id FROM source WHERE source_mapcode = '"+source_mapcode+"';";
         			statement1 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);        			
-        			System.out.println("ho fatto connection.prepareStatement()");
         			ResultSet rs = statement1.executeQuery(sql);
-        			System.out.println("ho fatto la query con mapcode");
         			
         			if(rs.first()){
         				System.out.println("Sto nel secondo if");
@@ -176,8 +173,6 @@ public class FileImportDao {
         			System.out.println("sto dopo prepare");
 
         			
-        			System.out.println("sto dopo l'update dopo la insert");
-
         			String idQ = "SELECT source_id from source order by source_id DESC;";
                     Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                     ResultSet result = statement.executeQuery(idQ);

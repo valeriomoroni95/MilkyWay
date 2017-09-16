@@ -3,7 +3,22 @@
 <%@page import="java.util.*" %>
 
 <%
-		
+
+boolean check_is_admin = false;
+
+try{
+	check_is_admin = (boolean) request.getSession().getAttribute("is_admin");
+}catch(Exception e ){
+	e.printStackTrace();
+}
+
+if(!check_is_admin){
+	response.sendRedirect("index.jsp");
+}
+
+%>
+
+<%
 	String name = request.getParameter("name");
 	String mapId = request.getParameter("map");
 	String[] bands = request.getParameterValues("band");
