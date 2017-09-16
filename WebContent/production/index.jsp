@@ -11,11 +11,10 @@
     		ShowClumpInfoBean showClumpInfoBean = new ShowClumpInfoBean();
         showClumpInfoBean.setClumpId(iClumpId);
         showClumpInfoBean.importClumpsInfo();
-        Vector<String[]> clumpInfo = showClumpInfoBean.getClumpInfo();
-        
-        System.out.println(clumpInfo);
-        
+        Vector<String[]> clumpInfo = showClumpInfoBean.getClumpInfo();        
         request.getSession().setAttribute( "clumpInfo", clumpInfo);
+    }else{
+    	
     }
         
     Vector<String[]> clumpInfoParam = (Vector<String[]>) request.getSession().getAttribute("clumpInfo");
@@ -63,7 +62,7 @@
 
                         <div class="x_content">
 
-                            <form class="form-horizontal form-label-left" method="POST" action="">
+                            <form class="clump-search form-horizontal form-label-left" method="POST" action="">
 
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="clump_id">Clump id

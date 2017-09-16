@@ -73,7 +73,7 @@
 
                         <div class="x_content">
 
-                            <form class="form-horizontal" method="POST" action="">
+                            <form class="form-horizontal young-sources" method="POST" action="">
 
                                 <div class="form-group">
 

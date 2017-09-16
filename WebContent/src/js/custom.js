@@ -5093,6 +5093,61 @@ if (typeof NProgress != 'undefined') {
 		    		}
 		    });
 		    
+		    $('.clump-search').validate({
+		    		rules: {
+		    			clump_id :{
+		    				required: true,
+		    				digits: true
+		    			}
+		    		}
+		    });
+		    
+		    $('.new-tool').validate({
+		    		rules: {
+		    			name: {
+		    				required: true
+		    			}
+		    		}
+		    });
+		    
+		    $('.objects-area').validate({
+		    		rules: {
+		    			latitude: {
+		    				required: true,
+		    				number: true
+		    			},
+		    			longitude: {
+		    				required: true,
+		    				number: true
+		    			},
+		    			lenght: {
+		    				required: true,
+		    				number: true
+		    			}
+		    		}
+		    });
+		    
+		    $('.sources-clump').validate({
+		    		rules: {
+		    			clump:{
+		    				required: true,
+		    				digits: true
+		    			},
+		    			band:{
+		    				required: true
+		    			}
+		    		}
+		    });
+		    
+		    $('.young-sources').validate({
+		    		rules: {
+		    			clump: {
+		    				required: true,
+		    				digits: true
+		    			}
+		    		}
+		    	
+		    });
 		    
 		});
 	   
