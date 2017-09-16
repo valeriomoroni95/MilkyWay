@@ -8,55 +8,61 @@ import java.util.Vector;
 import entity.Agency;
 
 public class AgencyDao {
-	
+
+	/**
+	 * Retrieve a list of agencies
+	 * @return Vector<Agency>
+	 * @throws SQLException
+	 */
+
 	public Vector<Agency> showAgencies() throws SQLException {
-	    
-	    Connection connection = null;
-	    Statement statement = null;
-	    Vector<Agency> agencies = new Vector<Agency>();    
-	    ResultSet result = null;
-	     
-	    final String query = "SELECT * FROM \"agency\";"; 
-	    
-	    try {                
-	    	DataSource d = new DataSource();
-	    	connection = d.getConnection();                
-	    	statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-	        result = statement.executeQuery(query);
-	        
-	        while(result.next()){
-	        	Agency a = new Agency(result.getInt("id"), result.getString("name"));
-	        	agencies.add(a);
-	        	
-	        }
-	            
-	        if (!result.first()) {
-	              return null;
-	        } 
-	        
-	     }catch (Exception e){
-	    	
-	    		System.out.println("ToolDao.java: catch after try");
 
-	        e.printStackTrace();
+		Connection connection = null;
+		Statement statement = null;
+		Vector<Agency> agencies = new Vector<Agency>();    
+		ResultSet result = null;
 
-	    } finally {
-	    	
-	    		System.out.println("ToolDao.java: finally");
+		final String query = "SELECT * FROM \"agency\";"; 
 
-	        if (result != null) {
-	            result.close();
-	        }
+		try {                
+			DataSource d = new DataSource();
+			connection = d.getConnection();                
+			statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			result = statement.executeQuery(query);
 
-	        if (statement != null) {
-	            statement.close();
-	        }
+			while(result.next()){
+				Agency a = new Agency(result.getInt("id"), result.getString("name"));
+				agencies.add(a);
 
-	        if (connection != null) {
-	            connection.close();
-	        }
-	    }
-	        
-	        return agencies;
+			}
+
+			if (!result.first()) {
+				return null;
+			} 
+
+		}catch (Exception e){
+
+			System.out.println("ToolDao.java: catch after try");
+
+			e.printStackTrace();
+
+		} finally {
+
+			System.out.println("ToolDao.java: finally");
+
+			if (result != null) {
+				result.close();
+			}
+
+			if (statement != null) {
+				statement.close();
+			}
+
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+		return agencies;
 	}
 }
