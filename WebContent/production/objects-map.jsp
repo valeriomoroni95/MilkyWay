@@ -235,17 +235,45 @@
 
                                 <tbody>
 
-								<% if(clumpsParam != null){ %>
+								<% if(objects != null){ %>
 									
 									<% int i = 1; %>
 									
-									<% for(String[] clump : clumpsParam){ %>
+									<% for(String[] object : objects){ %>
 									
 									<tr>
 									
-                                    		<td>#<%= i %></td>
+										<% if((mapNameParam.equals("HiGal") && bandParam.equals("0.0"))) { %>
+											
+											<% if((i-1) % 5 == 0){ %>
 
-										<% for(String k : clump){ %>
+												<td>#<%= (i-1)/5 + 1 %></td>
+
+											<% }else{ %>
+											
+												<td></td>
+											
+											<% } %>
+											
+										<% }else if(mapNameParam.equals("Glimpse") && bandParam.equals("0.0")){ %>
+									
+											<% if((i-1) % 4 == 0){ %>
+
+												<td>#<%= (i-1)/4 + 1 %></td>
+
+											<% }else{ %>
+											
+												<td></td>
+											
+											<% } %>
+									
+                                    		<% }else{ %>
+                                    		
+                                    			<td>#<%= i %></td>
+                                    		
+                                    		<% } %>
+                                    		
+										<% for(String k : object){ %>
 
                                     		<td><%= k %></td>
                                     		
@@ -255,32 +283,8 @@
                                     		
                                     		</tr>
                                     		
-                                    <% } request.getSession().removeAttribute("clumps"); %>
+                                    <% } request.getSession().removeAttribute("clumps"); request.getSession().removeAttribute("sources"); %>
 
-                                <% } %>
-                                
-                                <% if(sourcesParam != null){ %>
-                                
-                                		<% int j = 0; %>
-                                		
-                                		<% for(String[] source : sourcesParam){ %>
-                                
-                                		<tr>
-                                		
-                                			<td>#<%= j %></td>
-                                			
-                                			<% for(String z : source){ %>
-                                			
-                                			<td><%= z %></td>
-                                			
-                                			<% } %>
-                                		                                		
-                                		</tr>
-                                		
-                                		<% j++; %>
-                                		
-                                		<% } request.getSession().removeAttribute("sources"); %>
-                                
                                 <% } %>
                                 
                                 </tbody>
